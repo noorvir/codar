@@ -17,6 +17,8 @@ import { Icon } from 'react-native-elements';
 import OnboardingOne from "./one";
 import OnboardingTwo from "./two";
 import OnboardingThree from "./three";
+import OnboardingDone from "./done";
+
 import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
 
@@ -34,16 +36,42 @@ export default function Onboarding () {
         <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <NavigationContainer>
-                <Stack.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+                <Stack.Navigator
+                    initialRouteName={INITIAL_ROUTE_NAME}
+
+                >
                     <Stack.Screen
                         name={ "OnboardingOne" }
                         component={ OnboardingOne }
                         options={{
-                            title: 'ChainBreaker'
+                            title: 'ChainBreaker',
+                            headerLeft: null
                         }}
                     />
-                    <Stack.Screen name={ "OnboardingTwo" } component={ OnboardingOne } />
-                    <Stack.Screen name={ "OnboardingThree" } component={ OnboardingOne } />
+                    <Stack.Screen
+                        name={ "OnboardingTwo" }
+                        component={ OnboardingTwo }
+                        options={{
+                            title: 'ChainBreaker',
+                            headerLeft: null
+                        }}
+                    />
+                    <Stack.Screen
+                        name={ "OnboardingThree" }
+                        component={ OnboardingThree }
+                        options={{
+                            title: 'ChainBreaker',
+                            headerLeft: null
+                        }}
+                    />
+                    <Stack.Screen
+                        name={ "OnboardingDone" }
+                        component={ OnboardingDone }
+                        options={{
+                            title: 'ChainBreaker',
+                            headerLeft: null
+                        }}
+                    />
                 </Stack.Navigator>
             </NavigationContainer>
         </View>
