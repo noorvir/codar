@@ -15,7 +15,12 @@ export default function OnboardingOne({ navigation }) {
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
                 <View style={ styles.welcomeContainer }>
                     <Text style={ styles.getStartedText }>
-                        App is not Initialized!
+                        Schalte dein Bluetooth ein, wenn du rausgehst.
+                    </Text>
+                    <Text/>
+                    <Text style={ styles.getStartedText }>
+                        Wenn du dich länger nah einer Person aufhältst, wird ihre anonyme
+                        ID auf deinem Handy gespeichert.
                     </Text>
                 </View>
             </ScrollView>
@@ -25,7 +30,7 @@ export default function OnboardingOne({ navigation }) {
 
                     <View style={navstyle.leftContainer}/>
 
-                    <View><Dots length={4} active={1}/></View>
+                    <View><Dots length={4} active={0}/></View>
 
                     <View style={navstyle.rightContainer}>
                         <TouchableOpacity onPress= {() => navigation.navigate('OnboardingTwo')}>

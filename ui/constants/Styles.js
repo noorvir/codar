@@ -17,6 +17,9 @@ const styles =  StyleSheet.create({
     },
     welcomeContainer: {
         alignItems: 'center',
+        width: '80%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         marginTop: 10,
         marginBottom: 20,
     },
@@ -29,7 +32,8 @@ const styles =  StyleSheet.create({
     },
     getStartedContainer: {
         alignItems: 'center',
-        marginHorizontal: 50,
+        marginHorizontal: '15%',
+        padding: 30
     },
     homeScreenFilename: {
         marginVertical: 7,
@@ -43,9 +47,9 @@ const styles =  StyleSheet.create({
         paddingHorizontal: 4,
     },
     getStartedText: {
-        fontSize: 17,
+        fontSize: 24,
         color: 'rgba(96,100,109, 1)',
-        lineHeight: 24,
+        lineHeight: 30,
         textAlign: 'center',
     },
     tabBarInfoContainer: {

@@ -15,7 +15,8 @@ export default function OnboardingThree({ navigation }) {
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
                 <View style={ styles.welcomeContainer }>
                     <Text style={ styles.getStartedText }>
-                        App is not Initialized!
+                        Wir benachrichtigen dich, wenn eine Person, die du
+                        getroffen hast, positiv getestet wurde.
                     </Text>
                 </View>
             </ScrollView>
@@ -27,12 +28,12 @@ export default function OnboardingThree({ navigation }) {
                         <TouchableOpacity onPress= {() => navigation.navigate('OnboardingTwo')}>
                             <View style={ navstyle.rightNavigate }>
                                 <Icon name="chevron-left" type="feather"/>
-                                <Text> Zuruck </Text>
+                                <Text> Zurück </Text>
                             </View>
                         </TouchableOpacity>
                     </View>
 
-                    <View><Dots length={4} active={1}/></View>
+                    <View><Dots length={4} active={2}/></View>
 
                     <View style={navstyle.rightContainer}>
                         <TouchableOpacity onPress= {() => navigation.navigate('OnboardingDone')}>
