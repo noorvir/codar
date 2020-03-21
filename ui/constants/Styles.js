@@ -57,7 +57,7 @@ const styles =  StyleSheet.create({
             ios: {
                 shadowColor: 'black',
                 shadowOffset: { width: 0, height: -3 },
-                shadowOpacity: 0.1,
+                shadowOpacity: 0.0,
                 shadowRadius: 3,
             },
             android: {
@@ -65,8 +65,8 @@ const styles =  StyleSheet.create({
             },
         }),
         alignItems: 'center',
-        backgroundColor: '#fbfbfb',
-        paddingVertical: 20,
+        backgroundColor: '#fdfdfd',
+        paddingVertical: 40,
     },
     tabBarInfoText: {
         fontSize: 17,

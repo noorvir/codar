@@ -11,8 +11,12 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
+import Dots from "react-native-dots-pagination";
+import { Icon } from 'react-native-elements';
 
 import OnboardingOne from "./one";
+// import OnboardingTwo from "./two";
+import OnboardingThree from "./three";
 import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
 
@@ -21,6 +25,11 @@ const INITIAL_ROUTE_NAME = 'OnboardingOne';
 const TITLE = 'ChainBreaker';
 
 export default function Onboarding () {
+
+    function log () {
+        console.log("click")
+    }
+
     return (
         <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -38,11 +47,15 @@ export default function Onboarding () {
                 </Stack.Navigator>
             </NavigationContainer>
             <View style={styles.tabBarInfoContainer}>
-                <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
 
-                <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-                    <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
+                <View style={ {flexDirection: 'row'} }>
+                    <Icon name="chevron-left" type="feather" onPress={log}/>
+                    <View style={ {width: "80%"} }>
+                        <Dots length={4} active={1}/>
+                    </View>
+                    <Icon name="chevron-right" type="feather" onPress={log}/>
                 </View>
+
             </View>
         </View>
     );
