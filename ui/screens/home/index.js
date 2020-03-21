@@ -12,45 +12,66 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import Dots from "react-native-dots-pagination";
-import { Icon } from 'react-native-elements';
+import { Icon, Card } from 'react-native-elements';
 
 
 import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
 
-const Stack = createStackNavigator();
-const INITIAL_ROUTE_NAME = 'OnboardingOne';
-const TITLE = 'ChainBreaker';
 
 export default function HoneScreen () {
 
-    let peopleCrossed = 0;
-    let potentialInfections = 0;
-    let positiveInfections = 0;
+    let peopleCrossed = 10;
+    let potentialInfections = 2;
+    let positiveInfections = 1;
 
     return (
         <View style={styles.container}>
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-                <View style={styles.welcomeContainer}>
-                    <Text>Card 1</Text>
-                    <Icon name='heartbeat' type='font-awesome'/>
-                </View>
 
-                <View style={styles.getStartedContainer}>
-                    <Text>Card 2</Text>
-                </View>
+                <Card containerStyle={cardStyle.card}>
+                    <View style={cardStyle.container}>
+                        <View style={cardStyle.textContainer}>
+                            <Text style={cardStyle.text}>Begegnete  Personen</Text>
+                        </View>
+                        <View style={cardStyle.numberContainer}>
+                            <Text style={cardStyle.number}>{ peopleCrossed }</Text>
+                        </View>
+                    </View>
+                </Card>
 
                 {
-                    peopleCrossed === 0 ?
-                    <View style={styles.helpContainer}>
-                        <Text>Card 3</Text>
-                    </View>:
-                    null
+                    potentialInfections !== 0 ?
+                        <Card containerStyle={cardStyle.card}>
+                            <View style={cardStyle.container}>
+                                <View style={cardStyle.textContainer}>
+                                    <Text style={cardStyle.text}>Potenziell infizierte Personen</Text>
+                                </View>
+                                <View style={cardStyle.numberContainer}>
+                                    <Text style={cardStyle.number}>{ potentialInfections }</Text>
+                                </View>
+                            </View>
+                        </Card>
+                        :
+                        null
                 }
-                <View style={styles.helpContainer}>
-                    <Text>Card 3</Text>
-                </View>
+
+                {
+                    positiveInfections !== 0 ?
+                        <Card containerStyle={cardStyle.card}>
+                            <View style={cardStyle.container}>
+                                <View style={cardStyle.textContainer}>
+                                    <Text style={cardStyle.text}>Positiv getestete Personen</Text>
+                                </View>
+                                <View style={cardStyle.numberContainer}>
+                                    <Text style={cardStyle.number}>{ positiveInfections }</Text>
+                                </View>
+                            </View>
+                        </Card>
+                        :
+                        null
+                }
 
             </ScrollView>
 
@@ -64,3 +85,35 @@ export default function HoneScreen () {
         </View>
     );
 }
+
+const cardStyle = StyleSheet.create({
+    card: {
+        padding: 0, borderRadius: 5
+    },
+    container: {
+        width: '90%',
+        flexDirection: 'row',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    textContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    text: {
+        fontSize: 25
+    },
+    numberContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+    },
+    number: {
+        fontSize: 70
+    }
+});
