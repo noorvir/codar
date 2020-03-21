@@ -21,6 +21,7 @@ import OnboardingDone from "./done";
 
 import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
+import BottomTabNavigator from "../../navigation/BottomTabNavigator";
 
 const Stack = createStackNavigator();
 const INITIAL_ROUTE_NAME = 'OnboardingOne';
@@ -71,6 +72,10 @@ export default function Onboarding () {
                             title: 'ChainBreaker',
                             headerLeft: null
                         }}
+                    />
+                    <Stack.Screen
+                        name="Root"
+                        component={BottomTabNavigator}
                     />
                 </Stack.Navigator>
             </NavigationContainer>

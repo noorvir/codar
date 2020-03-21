@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/home';
+import MeldungScreen from '../screens/sick';
+import MapScreen from '../screens/map';
+import InfoScreen from '../screens/info';
 import LinksScreen from '../screens/LinksScreen';
 
 const BottomTab = createBottomTabNavigator();
@@ -14,23 +17,42 @@ export default function BottomTabNavigator({ navigation, route }) {
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
   return (
-    <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
-      <BottomTab.Screen
-        name="Home"
-        component={HomeScreen}
+        <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
+          <BottomTab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+                tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="home" />,
+                tabBarLabel: () => { return null}
+            }}
+        />
+        <BottomTab.Screen
+        name="Meldung"
+        component={MeldungScreen}
         options={{
-          title: 'Get Started',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="heartbeat" />,
+            tabBarLabel: () => { return null}
+
         }}
-      />
-      <BottomTab.Screen
-        name="Links"
-        component={LinksScreen}
-        options={{
-          title: 'Resources',
-          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
-        }}
-      />
+        />
+        <BottomTab.Screen
+            name="Map"
+            component={MeldungScreen}
+            options={{
+                tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="map" />,
+                tabBarLabel: () => { return null}
+
+            }}
+        />
+        <BottomTab.Screen
+            name="Info"
+            component={InfoScreen}
+            options={{
+                tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="question-circle" />,
+                tabBarLabel: () => { return null}
+
+            }}
+        />
     </BottomTab.Navigator>
   );
 }
