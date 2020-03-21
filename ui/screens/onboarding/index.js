@@ -15,7 +15,7 @@ import Dots from "react-native-dots-pagination";
 import { Icon } from 'react-native-elements';
 
 import OnboardingOne from "./one";
-// import OnboardingTwo from "./two";
+import OnboardingTwo from "./two";
 import OnboardingThree from "./three";
 import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
@@ -46,17 +46,6 @@ export default function Onboarding () {
                     <Stack.Screen name={ "OnboardingThree" } component={ OnboardingOne } />
                 </Stack.Navigator>
             </NavigationContainer>
-            <View style={styles.tabBarInfoContainer}>
-
-                <View style={ {flexDirection: 'row'} }>
-                    <Icon name="chevron-left" type="feather" onPress={log}/>
-                    <View style={ {width: "80%"} }>
-                        <Dots length={4} active={1}/>
-                    </View>
-                    <Icon name="chevron-right" type="feather" onPress={log}/>
-                </View>
-
-            </View>
         </View>
     );
 }
