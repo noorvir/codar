@@ -68,6 +68,6 @@ function getHeaderTitle(route) {
     case 'Map':
         return 'Map';
     case 'Info':
-        return 'Info';
+        return 'FAQ';
   }
 }
