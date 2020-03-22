@@ -26,20 +26,58 @@ function OptionButton({ icon, label, onPress, isLastOption }) {
 }
 
 const SECTIONS = [
+    // {
+    //     title: 'How does it work?',
+    //     content: 'Magic!',
+    //     icon: 'ios-construct',
+    // },
+    // {
+    //     title: 'Is my data stored in the cloud?',
+    //     content: 'No no no no!!',
+    //     icon: 'ios-cloud'
+    // },
     {
-        title: 'How does it work?',
-        content: 'Magic!',
-        icon: 'ios-construct',
-    },
-    {
-        title: 'Is my data stored in the cloud?',
-        content: 'No no no no!!',
-        icon: 'ios-cloud'
-    },
-    {
-        title: 'Who has access to my data?',
-        content: 'Nobawdy :D',
+        title:
+            'Welche Daten werden mit anderen geteilt, wenn ich Symptome melde?',
+        content:
+            'Niemand außer dir kann deine Person direkt mit deinen ' +
+            'Symptomen verknüpft, da alle deine Daten lokal gehalten werden ' +
+            'und du die Symptome lediglich an ein Pseudonym knüpfst. Lediglich ' +
+            'wenn du einer Person an einem Ort oder Uhrzeit begegnest, bei der ' +
+            'man eindeutig auf Dich schließen könnte, ist es theoretisch möglich ' +
+            'bei einer Meldung auf dich zurückzuschließen. Du kannst aber ' +
+            'entsprechende Kontakte bei der Meldung auch aus der Meldung ausschließen.',
         icon: 'ios-lock'
+    },
+    {
+        title:
+            'Kann ich ausschließen, infiziert zu sein, wenn mir keine ' +
+            'infizierten Kontakte angezeigt wurden?',
+        content:
+            'Nein, die ChainBreaker App unterstützt Dich nur dabei, über ' +
+            'Kontaktpersonen Bescheid zu wissen. Es gibt viele weitere ' +
+            'Möglichkeiten sich zu infizieren bzw. durch das Berühren der ' +
+            'gleichen Oberflächen als Infizierte. Darüber hinaus wirst du nur ' +
+            'von anderen ChainBreaker-Teilnehmern gewarnt. Also Spread the word!',
+        icon: 'ios-git-compare'
+    },
+    {
+        title:
+            'Wie kann ich sicher gehen, dass die App ordnungsgemäß funktioniert?',
+        content:
+            'Wenn du eine Benachrichtigung siehst, ist die App ordnungsgemäß ' +
+            'eingerichtet und funktionstüchtig. Die App verifiziert selbstständig, ' +
+            'dass Nachrichten gesendet und empfangen werden können. Darüber hinaus ' +
+            'wirst du gewarnt, wenn dein Bluetooth beispielsweise ausgeschaltet ist?',
+        icon: 'ios-checkmark'
+    },
+    {
+        title:
+            'Verringert die App meine Akkulaufzeit?',
+        content:
+            'Ja, aber nur ein bisschen. Bluetooth Low Energy heisst der ' +
+            'Übertragungsstandard, den die App nutzt. Das "Low Energy" ist Programm.',
+        icon: 'ios-battery-full'
     },
 ];
 
@@ -110,7 +148,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     optionTextContainer: {
-
+        width: '85%'
     },
     option: {
         backgroundColor: '#fdfdfd',

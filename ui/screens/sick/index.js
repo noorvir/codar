@@ -116,8 +116,8 @@ export default function SickScreen() {
                                                         fontSize: 25
 
                                                     }}>
-                                                        { date.getDate() } /
-                                                        { date.getMonth() } /
+                                                        { date.getDate() - 1} /
+                                                        { date.getMonth() + 1} /
                                                         { date.getFullYear() }
                                                     </Text>
                                                 </View>
