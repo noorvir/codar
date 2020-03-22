@@ -10,7 +10,12 @@ export default function InfoScreen() {
 
     return (
         <View style={styles.container}>
-            <Text>Info Screen</Text>
+            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+                <View style={styles.welcomeContainer}>
+
+                    <Text>Info Screen</Text>
+                </View>
+            </ScrollView>
         </View>
     );
 }

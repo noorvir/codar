@@ -10,7 +10,12 @@ export default function MapScreen() {
 
     return (
         <View style={styles.container}>
-            <Text>Map Screen</Text>
+            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+                <View style={styles.welcomeContainer}>
+
+                <Text>Map Screen</Text>
+                </View>
+            </ScrollView>
         </View>
     );
 }
