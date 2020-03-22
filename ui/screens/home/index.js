@@ -47,7 +47,6 @@ export default function HoneScreen () {
                 style={pageStyle.scrollContainer}
                 contentContainerStyle={pageStyle.scrollContentContainer}>
 
-
                 <Card containerStyle={cardStyle.card}>
                     <View style={cardStyle.container}>
                         <View style={cardStyle.textContainer}>
