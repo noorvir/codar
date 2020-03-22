@@ -18,7 +18,7 @@ import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
 
 
-export default function HoneScreen () {
+export default function HoneScreen ( navigation ) {
 
     const [peopleCrossed, setPeopleCrossed] = useState(10);
     const [potentialInfections, setPotentialInfections] = useState(0);

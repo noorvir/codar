@@ -9,7 +9,7 @@ import {
     View
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import ConfirmedScreen from "./confirmed";
 
 import DateSelectorScreen from "./DateSelector";
 
@@ -24,8 +24,9 @@ import {
 import styles from "../../constants/Styles";
 
 
-export default function SickScreen() {
+export default function MeldungScreen( { navigation } ) {
 
+    const [meldung, setMeldung] = useState(false);
     const [date, setDate] = useState(new Date(1598051730000));
     const [showDate, setShowDate] = useState(false);
 
@@ -40,128 +41,138 @@ export default function SickScreen() {
         setShowDate(true);
     };
 
-    return (
-        <View style={styles.container}>
-            {
-                showDate ?
-                    <DateSelectorScreen
-                        date={date}
-                        onChange={onChange}
-                        setShowDate={setShowDate}/>
-                    :
-                    <ScrollView
-                        style={pageStyle.scrollContainer}
-                        contentContainerStyle={pageStyle.scrollContentContainer}>
+    const updateMeldung = () => {
+        setMeldung(!meldung);
+    };
 
-                        <Card containerStyle={cardStyle.card}>
+    if ( showDate ) {
+        return (
+            <DateSelectorScreen
+                date={date}
+                onChange={onChange}
+                setShowDate={setShowDate}
+            />
+        )
+    } else if ( meldung ){
+        return (
+            <ConfirmedScreen/>
+        )
+    } else {
+        return (
+            <View style={styles.container}>
+                <ScrollView
+                    style={pageStyle.scrollContainer}
+                    contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                            <View style={cardStyle.container}>
-                                <View style={cardStyle.checkBoxContainer}>
-                                    <CheckBox checked={false}/>
-                                </View>
-                                <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}> Ich habe
-                                        Stymptome </Text>
-                                </View>
+                    <Card containerStyle={cardStyle.card}>
+
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.checkBoxContainer}>
+                                <CheckBox checked={false}/>
                             </View>
-
-                            <View style={cardStyle.container}>
-                                <View style={cardStyle.checkBoxContainer}>
-                                    <CheckBox
-                                        checked={false}
-                                        checkedIcon='dot-circle-o'
-                                        uncheckedIcon='circle-o'
-                                    />
-                                </View>
-                                <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}> Ich wurde
-                                        positiv getestet </Text>
-                                </View>
+                            <View style={cardStyle.textContainer}>
+                                <Text style={cardStyle.text}> Ich habe
+                                    Stymptome </Text>
                             </View>
-                            <View style={cardStyle.container}>
-                                <View style={cardStyle.checkBoxContainer}>
-
-                                </View>
-                                <View style={cardStyle.inputContainer}>
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'flex-start',
-                                    }}>
-                                        <Text>wannn:</Text>
-                                    </View>
-                                    <View style={{
-                                        height: 50,
-                                        flexDirection: 'row'
-                                    }}>
-                                        <View style={{width: '15%'}}/>
-                                        <View style={{
-                                            width: '85%',
-                                            paddingRight: '15%'
-                                        }}>
-                                            <TouchableOpacity
-                                                onPress={showDatepicker}>
-                                                <View style={{
-                                                    flexDirection: 'column',
-                                                    height: '100%',
-                                                    borderBottomColor: 'black',
-                                                    borderBottomWidth: 0.5,
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center'
-
-                                                }}>
-                                                    <Text style={{
-                                                        flexGrow: 1,
-                                                        height: '100%',
-                                                        justifyContent: 'flex-end',
-                                                        fontSize: 25
-
-                                                    }}>
-                                                        { date.getDate() - 1} /
-                                                        { date.getMonth() + 1} /
-                                                        { date.getFullYear() }
-                                                    </Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-
-                                </View>
-                            </View>
-
-                            <View style={cardStyle.container}>
-                                <View style={cardStyle.checkBoxContainer}>
-                                    <CheckBox
-                                        checked={false}
-                                        checkedIcon='dot-circle-o'
-                                        uncheckedIcon='circle-o'
-                                    />
-                                </View>
-                                <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}> Ich wurde
-                                        negativ getestet </Text>
-                                </View>
-                            </View>
-
-                        </Card>
-
-                        <View style={buttonStyle.buttonContainer}>
-                            <Button
-                                containerViewStyle={{width: '100%'}}
-                                title="Meldung abschicken"
-                                backgroundColor="black"
-                                onPress={() => {
-                                    navigation.navigate('OnboardingOne')
-                                }}
-                            />
                         </View>
 
-                    </ScrollView>
-            }
-        </View>
-    );
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.checkBoxContainer}>
+                                <CheckBox
+                                    checked={false}
+                                    checkedIcon='dot-circle-o'
+                                    uncheckedIcon='circle-o'
+                                />
+                            </View>
+                            <View style={cardStyle.textContainer}>
+                                <Text style={cardStyle.text}> Ich wurde
+                                    positiv getestet </Text>
+                            </View>
+                        </View>
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.checkBoxContainer}>
+
+                            </View>
+                            <View style={cardStyle.inputContainer}>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-start',
+                                }}>
+                                    <Text>wannn:</Text>
+                                </View>
+                                <View style={{
+                                    height: 50,
+                                    flexDirection: 'row'
+                                }}>
+                                    <View style={{width: '15%'}}/>
+                                    <View style={{
+                                        width: '85%',
+                                        paddingRight: '15%'
+                                    }}>
+                                        <TouchableOpacity
+                                            onPress={showDatepicker}>
+                                            <View style={{
+                                                flexDirection: 'column',
+                                                height: '100%',
+                                                borderBottomColor: 'black',
+                                                borderBottomWidth: 0.5,
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+
+                                            }}>
+                                                <Text style={{
+                                                    flexGrow: 1,
+                                                    height: '100%',
+                                                    justifyContent: 'flex-end',
+                                                    fontSize: 25
+
+                                                }}>
+                                                    { date.getDate() - 1} /
+                                                    { date.getMonth() + 1} /
+                                                    { date.getFullYear() }
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                            </View>
+                        </View>
+
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.checkBoxContainer}>
+                                <CheckBox
+                                    checked={false}
+                                    checkedIcon='dot-circle-o'
+                                    uncheckedIcon='circle-o'
+                                />
+                            </View>
+                            <View style={cardStyle.textContainer}>
+                                <Text style={cardStyle.text}> Ich wurde
+                                    negativ getestet </Text>
+                            </View>
+                        </View>
+
+                    </Card>
+
+                    <View style={buttonStyle.buttonContainer}>
+                        <Button
+                            containerViewStyle={{width: '100%'}}
+                            title="Meldung abschicken"
+                            backgroundColor="black"
+                            onPress={ updateMeldung }
+
+                        />
+                    </View>
+
+                </ScrollView>
+
+            </View>
+        )
+    }
 }
 
-SickScreen.navigationOptions = {
+MeldungScreen.navigationOptions = {
     header: null,
 };
 

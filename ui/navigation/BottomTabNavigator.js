@@ -16,6 +16,7 @@ export default function BottomTabNavigator({ navigation, route }) {
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({ headerTitle: getHeaderTitle(route) });
 
+
   return (
         <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
           <BottomTab.Screen
@@ -27,9 +28,9 @@ export default function BottomTabNavigator({ navigation, route }) {
             }}
         />
         <BottomTab.Screen
-        name="Meldung"
-        component={MeldungScreen}
-        options={{
+            name="Meldung"
+            component={MeldungScreen}
+            options={{
             tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="heartbeat" />,
             tabBarLabel: () => { return null}
 
