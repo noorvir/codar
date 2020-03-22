@@ -1,8 +1,12 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { SplashScreen } from 'expo';
-import * as Font from 'expo-font';
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  AppRegistry
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,6 +14,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import Onboarding from "./screens/onboarding";
+
 
 const Stack = createStackNavigator();
 let initialized = true;
@@ -77,3 +82,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+AppRegistry.registerComponent('wirvsvirus', App);

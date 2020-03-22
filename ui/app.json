@@ -26,6 +26,9 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
-  }
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "Tab Navigation Template",
+  "name": "wirvsvirus"
 }
