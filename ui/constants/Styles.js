@@ -17,11 +17,11 @@ const styles =  StyleSheet.create({
     },
     welcomeContainer: {
         alignItems: 'center',
-        width: '80%',
+        width: '95%',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 10,
-        marginBottom: 20,
+        marginBottom: 10,
     },
     welcomeImage: {
         width: 100,
@@ -47,7 +47,7 @@ const styles =  StyleSheet.create({
         paddingHorizontal: 4,
     },
     getStartedText: {
-        fontSize: 24,
+        fontSize: 17,
         color: 'rgba(96,100,109, 1)',
         lineHeight: 30,
         textAlign: 'center',
@@ -70,7 +70,7 @@ const styles =  StyleSheet.create({
         }),
         alignItems: 'center',
         backgroundColor: '#fdfdfd',
-        paddingVertical: 40,
+        paddingVertical: 15,
     },
     tabBarInfoText: {
         fontSize: 17,

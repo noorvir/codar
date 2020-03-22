@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -11,9 +11,8 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
-import Dots from "react-native-dots-pagination";
 import { Icon, Card } from 'react-native-elements';
-
+import { Ionicons } from '@expo/vector-icons';
 
 import styles from "../../constants/Styles";
 import {MonoText} from "../../components/StyledText";
@@ -21,19 +20,38 @@ import {MonoText} from "../../components/StyledText";
 
 export default function HoneScreen () {
 
-    let peopleCrossed = 10;
-    let potentialInfections = 2;
-    let positiveInfections = 1;
+    const [peopleCrossed, setPeopleCrossed] = useState(10);
+    const [potentialInfections, setPotentialInfections] = useState(0);
+    const [positiveInfections, setPositiveInfections] = useState(0);
+
+    function counterGut() {
+        setPeopleCrossed(10);
+        setPotentialInfections(0);
+        setPositiveInfections(0);
+    }
+
+    let counterWarn = function () {
+        setPeopleCrossed(20);
+        setPotentialInfections(6);
+    };
+
+    function counterAlert() {
+        setPeopleCrossed(26);
+        setPotentialInfections(7);
+        setPositiveInfections(1);
+    }
 
     return (
         <View style={styles.container}>
-            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <ScrollView
+                style={pageStyle.scrollContainer}
+                contentContainerStyle={pageStyle.scrollContentContainer}>
 
 
                 <Card containerStyle={cardStyle.card}>
                     <View style={cardStyle.container}>
                         <View style={cardStyle.textContainer}>
-                            <Text style={cardStyle.text}>Begegnete  Personen</Text>
+                            <Text style={cardStyle.text}>Begegnete</Text>
                         </View>
                         <View style={cardStyle.numberContainer}>
                             <Text style={cardStyle.number}>{ peopleCrossed }</Text>
@@ -46,7 +64,7 @@ export default function HoneScreen () {
                         <Card containerStyle={cardStyle.card}>
                             <View style={cardStyle.container}>
                                 <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}>Potenziell infizierte Personen</Text>
+                                    <Text style={cardStyle.text}>Potenziell infizierte</Text>
                                 </View>
                                 <View style={cardStyle.numberContainer}>
                                     <Text style={cardStyle.number}>{ potentialInfections }</Text>
@@ -62,7 +80,7 @@ export default function HoneScreen () {
                         <Card containerStyle={cardStyle.card}>
                             <View style={cardStyle.container}>
                                 <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}>Positiv getestete Personen</Text>
+                                    <Text style={cardStyle.text}>Positiv getestete</Text>
                                 </View>
                                 <View style={cardStyle.numberContainer}>
                                     <Text style={cardStyle.number}>{ positiveInfections }</Text>
@@ -73,30 +91,111 @@ export default function HoneScreen () {
                         null
                 }
 
+
+                {
+                    potentialInfections === 0 && positiveInfections === 0 ?
+                        <View style={notice.container}>
+                            <Text style={notice.infoText}>
+                                Alles gut!
+                            </Text>
+                            <Text/>
+                            <Text style={notice.infoText}>
+                                Du bist bisher noch keiner Person begegnet,
+                                die ein Risiko für deine Gesundheit darstellt.
+                            </Text>
+                            <Text/>
+                            <TouchableOpacity onPress={ counterWarn }>
+                                <Ionicons name='ios-checkmark-circle-outline' size={50} color='#30c60c'/>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        null
+                }
+
+                {
+                    potentialInfections !== 0 && positiveInfections === 0 ?
+                        <View style={notice.container}>
+                            <Text style={notice.infoText}>
+                                Achtung!
+                            </Text>
+                            <Text/>
+                            <Text style={notice.infoText}>
+                                Du bist in letzter Zeit Personen begegnet, die
+                                Symptome gemeldet haben.
+                            </Text>
+                            <Text/>
+                            <Text style={notice.infoText}>
+                                Es besteht die Möglichkeit, dass
+                                sie den Virus auf dich übertragen haben. Bleibe in nächster
+                                Zeit lieber zu Hause und achte auf Symptome.
+                            </Text>
+                            <Text/>
+                            <TouchableOpacity onPress={ counterAlert }>
+                                <Ionicons name='ios-warning' size={50} color='#fdd004'/>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        null
+                }
+
+                {
+                    potentialInfections !== 0 && positiveInfections !== 0 ?
+                        <View style={notice.container}>
+                            <Text style={notice.infoText}>
+                                Achtung!
+                            </Text>
+                            <Text/>
+                            <Text style={notice.infoText}>
+                                Du bist in letzter Zeit einer Person begegnet, die
+                                positiv getestet wurden.  Es ist sehr wahrscheinlich, dass
+                                du dich angesteckt hast.
+                            </Text>
+                            <Text/>
+                            <Text style={notice.infoText}>
+                                Du solltest dich ab heute in eine zweiwöchige
+                                Selbstquarantäne begeben und aufkommende Symptome melden.
+                            </Text>
+                            <Text/>
+                            <TouchableOpacity onPress={ counterGut }>
+                                <Ionicons name='ios-alert' size={50} color='#ed4e44f0'/>
+                            </TouchableOpacity>
+                        </View>
+                        :
+                        null
+                }
+
             </ScrollView>
 
-            <View style={styles.tabBarInfoContainer}>
-                <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-                <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-                    <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
-                </View>
-            </View>
         </View>
     );
 }
 
+const pageStyle = StyleSheet.create({
+    scrollContainer: {
+        flexGrow: 1,
+        flexDirection: 'column',
+    },
+    scrollContentContainer: {
+        paddingTop: 30,
+        flexGrow: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+    },
+});
+
 const cardStyle = StyleSheet.create({
     card: {
-        padding: 0, borderRadius: 5
+        padding: 0,
+        borderRadius: 10,
+        marginTop: 5
     },
     container: {
         width: '90%',
         flexDirection: 'row',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: 10,
-        marginBottom: 20,
+        marginTop: 5,
+        marginBottom: 5,
     },
     textContainer: {
         flex: 1,
@@ -105,7 +204,7 @@ const cardStyle = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        fontSize: 25
+        fontSize: 20
     },
     numberContainer: {
         flex: 1,
@@ -114,6 +213,26 @@ const cardStyle = StyleSheet.create({
         alignItems: 'center'
     },
     number: {
-        fontSize: 70
-    }
+        fontSize: 50
+    },
+});
+
+const notice = StyleSheet.create({
+    container: {
+        // position: 'absolute',
+        marginTop: 'auto',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        paddingVertical: 30,
+        paddingHorizontal: 10
+    },
+    infoText: {
+        fontSize: 15,
+        fontStyle: 'italic',
+        color: 'rgba(96,100,109, 1)',
+        textAlign: 'center',
+    },
 });

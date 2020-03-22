@@ -12,7 +12,7 @@ import useLinking from './navigation/useLinking';
 import Onboarding from "./screens/onboarding";
 
 const Stack = createStackNavigator();
-let initialized = false;
+let initialized = true;
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);

@@ -37,7 +37,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         />
         <BottomTab.Screen
             name="Map"
-            component={MeldungScreen}
+            component={MapScreen}
             options={{
                 tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="map" />,
                 tabBarLabel: () => { return null}
@@ -62,8 +62,12 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'Home';
-    case 'Links':
-      return 'Links to learn more';
+      return 'People Interactions';
+    case 'Meldung':
+      return 'Meldung';
+    case 'Map':
+        return 'Map';
+    case 'Info':
+        return 'Info';
   }
 }
