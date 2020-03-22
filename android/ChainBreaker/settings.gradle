@@ -1,0 +1,2 @@
+rootProject.name='ChainBreaker'
+include ':app'
