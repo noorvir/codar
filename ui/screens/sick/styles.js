@@ -1,4 +1,5 @@
 import {StyleSheet} from "react-native";
+import Colors from "../../constants/Colors";
 
 const disabledTextColor = 'rgba(204, 204, 204, 0.5)';
 
@@ -24,7 +25,9 @@ export const cardStyle = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         marginTop: 5,
-        paddingBottom: 25
+        paddingBottom: 25,
+        shadowColor: Colors.allGoodGreen,
+        shadowRadius: 5
     },
     container: {
         width: '95%',

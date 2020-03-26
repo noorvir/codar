@@ -15,6 +15,7 @@ import { Icon, Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from "../../constants/Styles";
+import Colors from "../../constants/Colors";
 import {MonoText} from "../../components/StyledText";
 
 
@@ -47,7 +48,7 @@ export default function HoneScreen ( navigation ) {
                 style={pageStyle.scrollContainer}
                 contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                <Card containerStyle={cardStyle.card}>
+                <Card containerStyle={cardStyle.neutralCard}>
                     <View style={cardStyle.container}>
                         <View style={cardStyle.textContainer}>
                             <Text style={cardStyle.text}>Begegnete</Text>
@@ -60,7 +61,7 @@ export default function HoneScreen ( navigation ) {
 
                 {
                     potentialInfections !== 0 ?
-                        <Card containerStyle={cardStyle.card}>
+                        <Card containerStyle={cardStyle.warningCard}>
                             <View style={cardStyle.container}>
                                 <View style={cardStyle.textContainer}>
                                     <Text style={cardStyle.text}>Potenziell infizierte</Text>
@@ -76,7 +77,7 @@ export default function HoneScreen ( navigation ) {
 
                 {
                     positiveInfections !== 0 ?
-                        <Card containerStyle={cardStyle.card}>
+                        <Card containerStyle={cardStyle.alertCard}>
                             <View style={cardStyle.container}>
                                 <View style={cardStyle.textContainer}>
                                     <Text style={cardStyle.text}>Positiv getestete</Text>
@@ -104,7 +105,7 @@ export default function HoneScreen ( navigation ) {
                             </Text>
                             <Text/>
                             <TouchableOpacity onPress={ counterWarn }>
-                                <Ionicons name='ios-checkmark-circle-outline' size={50} color='#30c60c'/>
+                                <Ionicons name='ios-checkmark-circle-outline' size={50} color={Colors.allGoodGreen}/>
                             </TouchableOpacity>
                         </View>
                         :
@@ -183,10 +184,23 @@ const pageStyle = StyleSheet.create({
 });
 
 const cardStyle = StyleSheet.create({
-    card: {
+    neutralCard: {
         padding: 0,
         borderRadius: 10,
-        marginTop: 5
+        marginTop: 5,
+        backgroundColor: Colors.neutralBlue
+    },
+    warningCard: {
+        padding: 0,
+        borderRadius: 10,
+        marginTop: 5,
+        backgroundColor: Colors.warningYellow
+    },
+    alertCard: {
+        padding: 0,
+        borderRadius: 10,
+        marginTop: 5,
+        backgroundColor: Colors.alertRed
     },
     container: {
         width: '90%',
@@ -203,7 +217,8 @@ const cardStyle = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        fontSize: 20
+        fontSize: 20,
+        color: '#fff'
     },
     numberContainer: {
         flex: 1,
@@ -212,7 +227,8 @@ const cardStyle = StyleSheet.create({
         alignItems: 'center'
     },
     number: {
-        fontSize: 50
+        fontSize: 50,
+        color: '#fff'
     },
 });
 
