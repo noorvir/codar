@@ -40,10 +40,9 @@ export default function TestDate ( { isActive, date, showDatepicker} ){
                     flexDirection: 'row'
                 }}>
                     <View style={{width: '15%'}}/>
-                    <View style={{
-                        width: '85%',
-                        paddingRight: '15%'
-                    }}>
+                    <View
+                        style={{ width: '85%', paddingRight: '15%'}}
+                        pointerEvents={ isActive ? 'auto' : "none" }>
                         <TouchableOpacity
                             onPress={showDatepicker}>
                             <View style={dateContainerStyle(isActive? null: disabledTextColor)}>
