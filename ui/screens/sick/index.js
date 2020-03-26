@@ -20,7 +20,7 @@ import { DateSelectorScreen } from "./DateSelector";
 
 
 import styles from "../../constants/Styles";
-import { cardStyle, pageStyle, buttonStyle } from './styles'
+import {cardStyle, pageStyle, buttonStyle, disabledTextColor} from './styles'
 
 import SymptomsOption from "./symptoms";
 
@@ -46,11 +46,14 @@ export default function MeldungScreen( { navigation } ) {
     };
 
     const onSymptomChange = () => {
+
         setHasSymptoms( !hasSymptoms );
         setPositiveTestSectionVisible( !positiveTestSectionVisible );
         setNegativeTestSectionVisible( !negativeTestSectionVisible );
 
-        if ( !hasSymptoms ) {
+        // hasSymptoms state isn't updated yet - so this is opposite of what
+        // you'd expect
+        if ( hasSymptoms ) {
             setPositiveTest(false);
             setNegativeTest(false);
         }
@@ -76,11 +79,13 @@ export default function MeldungScreen( { navigation } ) {
 
     if ( showDate ) {
         return (
-            <DateSelectorScreen
-                date={date}
-                onChange={onChange}
-                setShowDate={setShowDate}
-            />
+            <View style={styles.container}>
+                <DateSelectorScreen
+                    date={date}
+                    onChange={onChange}
+                    setShowDate={setShowDate}
+                />
+            </View>
         )
     } else if ( meldung ){
         return (
@@ -122,6 +127,8 @@ export default function MeldungScreen( { navigation } ) {
                             title="Meldung abschicken"
                             backgroundColor="black"
                             onPress={ updateMeldung }
+                            disabled={ !hasSymptoms }
+                            disabledStyle={{ backgroundColor: disabledTextColor}}
                         />
                     </View>
 
