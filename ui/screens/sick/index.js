@@ -1,30 +1,38 @@
 import { useState } from 'react';
 import * as React from 'react';
 import {
-    Image,
     Platform,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
     View
 } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import ConfirmedScreen from "./confirmed";
-
-import DateSelectorScreen from "./DateSelector";
 
 import {
-    Icon,
     Card,
-    CheckBox,
     Button,
-    Input,
 } from 'react-native-elements';
 
+import { ScrollView } from 'react-native-gesture-handler';
+import ConfirmedScreen from "./confirmed";
+import TestText from "./text";
+import TestDate from "./DateSelector";
+import NegativeOption from "./negative";
+import PositiveOption from "./positive";
+import DateSelectorScreen from "./DateSelector";
+
+
 import styles from "../../constants/Styles";
+import { cardStyle, pageStyle, buttonStyle } from './styles'
+
+import SymptomsOption from "./symptoms";
 
 
 export default function MeldungScreen( { navigation } ) {
+
+    const [hasSymptoms, setHasSymptoms] = useState(false);
+    const [positiveTest, setPositiveTest] = useState(false);
+    const [negativeTest, setNegativeTest] = useState(false);
+
+    const [positiveTestSectionVisible, setPositiveTestSectionVisible] = useState(false);
+    const [negativeTestSectionVisible, setNegativeTestSectionVisible] = useState(false);
 
     const [meldung, setMeldung] = useState(false);
     const [date, setDate] = useState(new Date(1598051730000));
@@ -35,6 +43,27 @@ export default function MeldungScreen( { navigation } ) {
         setShowDate(Platform.OS === 'ios');
         setDate(currentDate);
         console.log(currentDate.getFullYear());
+    };
+
+    const onSymptomChange = () => {
+        setHasSymptoms( !hasSymptoms );
+        setPositiveTestSectionVisible( !positiveTestSectionVisible );
+        setNegativeTestSectionVisible( !negativeTestSectionVisible );
+
+        if ( !hasSymptoms ) {
+            setPositiveTest(false);
+            setNegativeTest(false);
+        }
+    };
+
+    const onPositiveTestResultChange = () => {
+      setPositiveTest( !positiveTest );
+      setNegativeTest(false);
+    };
+
+    const onNegativeTestResultChange = () => {
+        setNegativeTest( !negativeTest );
+        setPositiveTest(false);
     };
 
     const showDatepicker = () => {
@@ -66,91 +95,12 @@ export default function MeldungScreen( { navigation } ) {
 
                     <Card containerStyle={cardStyle.card}>
 
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.checkBoxContainer}>
-                                <CheckBox checked={false}/>
-                            </View>
-                            <View style={cardStyle.textContainer}>
-                                <Text style={cardStyle.text}> Ich habe
-                                    Stymptome </Text>
-                            </View>
-                        </View>
+                        <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
 
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.checkBoxContainer}>
-                                <CheckBox
-                                    checked={false}
-                                    checkedIcon='dot-circle-o'
-                                    uncheckedIcon='circle-o'
-                                />
-                            </View>
-                            <View style={cardStyle.textContainer}>
-                                <Text style={cardStyle.text}> Ich wurde
-                                    positiv getestet </Text>
-                            </View>
-                        </View>
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.checkBoxContainer}>
-
-                            </View>
-                            <View style={cardStyle.inputContainer}>
-                                <View style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'flex-start',
-                                }}>
-                                    <Text>wannn:</Text>
-                                </View>
-                                <View style={{
-                                    height: 50,
-                                    flexDirection: 'row'
-                                }}>
-                                    <View style={{width: '15%'}}/>
-                                    <View style={{
-                                        width: '85%',
-                                        paddingRight: '15%'
-                                    }}>
-                                        <TouchableOpacity
-                                            onPress={showDatepicker}>
-                                            <View style={{
-                                                flexDirection: 'column',
-                                                height: '100%',
-                                                borderBottomColor: 'black',
-                                                borderBottomWidth: 0.5,
-                                                alignItems: 'center',
-                                                justifyContent: 'center'
-
-                                            }}>
-                                                <Text style={{
-                                                    flexGrow: 1,
-                                                    height: '100%',
-                                                    justifyContent: 'flex-end',
-                                                    fontSize: 25
-
-                                                }}>
-                                                    { date.getDate() - 1} /
-                                                    { date.getMonth() + 1} /
-                                                    { date.getFullYear() }
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-
-                            </View>
-                        </View>
-
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.checkBoxContainer}>
-                                <CheckBox
-                                    checked={false}
-                                    checkedIcon='dot-circle-o'
-                                    uncheckedIcon='circle-o'
-                                />
-                            </View>
-                            <View style={cardStyle.textContainer}>
-                                <Text style={cardStyle.text}> Ich wurde
-                                    negativ getestet </Text>
-                            </View>
+                        <View pointerEvents={ positiveTestSectionVisible ? 'auto' : "none" } >
+                            <PositiveOption isChecked={positiveTest} onChange={onPositiveTestResultChange} />
+                            <NegativeOption isChecked={negativeTest} onChange={onNegativeTestResultChange} />
+                            <TestDate date={date} showDatepicker={showDatepicker}/>
                         </View>
 
                     </Card>
@@ -161,7 +111,6 @@ export default function MeldungScreen( { navigation } ) {
                             title="Meldung abschicken"
                             backgroundColor="black"
                             onPress={ updateMeldung }
-
                         />
                     </View>
 
@@ -175,65 +124,3 @@ export default function MeldungScreen( { navigation } ) {
 MeldungScreen.navigationOptions = {
     header: null,
 };
-
-const pageStyle = StyleSheet.create({
-    scrollContainer: {
-        // flexGrow: 1,
-        flexDirection: 'column',
-    },
-    scrollContentContainer: {
-        paddingTop: 30,
-        flexGrow: 1,
-        flexDirection: 'column',
-        // justifyContent: 'space-between'
-    },
-});
-
-const cardStyle = StyleSheet.create({
-    card: {
-        padding: 0,
-        borderRadius: 10,
-        marginTop: 5
-    },
-    container: {
-        width: '95%',
-        flexDirection: 'row',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: 5,
-        marginBottom: 5,
-    },
-    checkBoxContainer: {
-        width: '20%',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-    text: {
-        fontSize: 16
-    },
-    textContainer: {
-        flexGrow: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-    inputContainer: {
-        width: '80%',
-        // alignItems: 'center',
-        // backgroundColor: 'blue'
-    },
-});
-
-const buttonStyle = StyleSheet.create({
-    buttonContainer: {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        paddingVertical: 30,
-        paddingHorizontal: 10
-    }
-});
