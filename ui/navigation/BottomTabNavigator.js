@@ -5,7 +5,6 @@ import HomeScreen from '../screens/home';
 import MeldungScreen from '../screens/sick';
 import MapScreen from '../screens/map';
 import InfoScreen from '../screens/info';
-import LinksScreen from '../screens/LinksScreen';
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';

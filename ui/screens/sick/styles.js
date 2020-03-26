@@ -1,5 +1,11 @@
 import {StyleSheet} from "react-native";
 
+const disabledTextColor = 'rgba(204, 204, 204, 0.5)';
+
+export {
+    disabledTextColor,
+}
+
 export const pageStyle = StyleSheet.create({
     scrollContainer: {
         // flexGrow: 1,
@@ -15,17 +21,18 @@ export const pageStyle = StyleSheet.create({
 
 export const cardStyle = StyleSheet.create({
     card: {
-        padding: 0,
+        padding: 10,
         borderRadius: 10,
-        marginTop: 5
+        marginTop: 5,
+        paddingBottom: 25
     },
     container: {
         width: '95%',
         flexDirection: 'row',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: 5,
-        marginBottom: 5,
+        marginTop: 0,
+        marginBottom: 0,
     },
     checkBoxContainer: {
         width: '20%',

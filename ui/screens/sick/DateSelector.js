@@ -1,13 +1,26 @@
-import styles from "../../constants/Styles";
-import {ScrollView} from "react-native-gesture-handler";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {useState} from "react";
 import * as React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
+
 import {Button} from "react-native-elements";
+import { pageStyle, cardStyle, disabledTextColor } from './styles'
+import TestText from "./text";
 
-import { pageStyle, cardStyle } from './styles'
+export default function TestDate ( { isActive, date, showDatepicker} ){
 
-export default function TestDate ( {date, showDatepicker} ){
+    const dateContainerStyle = (borderColor) => {
+        return {
+            flexDirection: 'column',
+            height: '100%',
+            borderBottomColor: borderColor,
+            borderBottomWidth: 0.5,
+            alignItems: 'center',
+            justifyContent: 'center'
+
+        }
+    };
+
     return (
         <View style={cardStyle.container}>
             <View style={cardStyle.checkBoxContainer}>
@@ -18,7 +31,9 @@ export default function TestDate ( {date, showDatepicker} ){
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
                 }}>
-                    <Text>wannn:</Text>
+                    <TestText color={ isActive ? null : disabledTextColor}>
+                        wannn:
+                    </TestText>
                 </View>
                 <View style={{
                     height: 50,
@@ -31,26 +46,18 @@ export default function TestDate ( {date, showDatepicker} ){
                     }}>
                         <TouchableOpacity
                             onPress={showDatepicker}>
-                            <View style={{
-                                flexDirection: 'column',
-                                height: '100%',
-                                borderBottomColor: 'black',
-                                borderBottomWidth: 0.5,
-                                alignItems: 'center',
-                                justifyContent: 'center'
-
-                            }}>
-                                <Text style={{
+                            <View style={dateContainerStyle(isActive? null: disabledTextColor)}>
+                                <TestText
+                                    color={ isActive ? null : disabledTextColor}
+                                    style={{
                                     flexGrow: 1,
                                     height: '100%',
                                     justifyContent: 'flex-end',
-                                    fontSize: 25
-
-                                }}>
+                                    fontSize: 25}} >
                                     { date.getDate() - 1} /
                                     { date.getMonth() + 1} /
                                     { date.getFullYear() }
-                                </Text>
+                                </TestText>
                             </View>
                         </TouchableOpacity>
                     </View>

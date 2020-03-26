@@ -16,7 +16,7 @@ import TestText from "./text";
 import TestDate from "./DateSelector";
 import NegativeOption from "./negative";
 import PositiveOption from "./positive";
-import DateSelectorScreen from "./DateSelector";
+import { DateSelectorScreen } from "./DateSelector";
 
 
 import styles from "../../constants/Styles";
@@ -98,9 +98,20 @@ export default function MeldungScreen( { navigation } ) {
                         <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
 
                         <View pointerEvents={ positiveTestSectionVisible ? 'auto' : "none" } >
-                            <PositiveOption isChecked={positiveTest} onChange={onPositiveTestResultChange} />
-                            <NegativeOption isChecked={negativeTest} onChange={onNegativeTestResultChange} />
-                            <TestDate date={date} showDatepicker={showDatepicker}/>
+                            <PositiveOption
+                                isActive={hasSymptoms}
+                                isChecked={positiveTest}
+                                onChange={onPositiveTestResultChange} />
+
+                            <NegativeOption
+                                isActive={hasSymptoms}
+                                isChecked={negativeTest}
+                                onChange={onNegativeTestResultChange} />
+
+                            <TestDate
+                                isActive={ hasSymptoms && (negativeTest || positiveTest) }
+                                date={date}
+                                showDatepicker={showDatepicker} />
                         </View>
 
                     </Card>
