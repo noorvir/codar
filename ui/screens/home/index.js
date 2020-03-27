@@ -48,48 +48,50 @@ export default function HoneScreen ( navigation ) {
                 style={pageStyle.scrollContainer}
                 contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                <Card containerStyle={cardStyle.neutralCard}>
-                    <View style={cardStyle.container}>
-                        <View style={cardStyle.textContainer}>
-                            <Text style={cardStyle.text}>Begegnete</Text>
-                        </View>
-                        <View style={cardStyle.numberContainer}>
-                            <Text style={cardStyle.number}>{ peopleCrossed }</Text>
-                        </View>
-                    </View>
-                </Card>
-
-                {
-                    potentialInfections !== 0 ?
-                        <Card containerStyle={cardStyle.warningCard}>
-                            <View style={cardStyle.container}>
-                                <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}>Potenziell infizierte</Text>
-                                </View>
-                                <View style={cardStyle.numberContainer}>
-                                    <Text style={cardStyle.number}>{ potentialInfections }</Text>
-                                </View>
+                <View style={{ flexDirection: 'column', alignItems: 'center'}}>
+                    <Card containerStyle={cardStyle.neutralCard}>
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.textContainer}>
+                                <Text style={cardStyle.text}>Begegnete</Text>
                             </View>
-                        </Card>
-                        :
-                        null
-                }
-
-                {
-                    positiveInfections !== 0 ?
-                        <Card containerStyle={cardStyle.alertCard}>
-                            <View style={cardStyle.container}>
-                                <View style={cardStyle.textContainer}>
-                                    <Text style={cardStyle.text}>Positiv getestete</Text>
-                                </View>
-                                <View style={cardStyle.numberContainer}>
-                                    <Text style={cardStyle.number}>{ positiveInfections }</Text>
-                                </View>
+                            <View style={cardStyle.numberContainer}>
+                                <Text style={cardStyle.number}>{ peopleCrossed }</Text>
                             </View>
-                        </Card>
-                        :
-                        null
-                }
+                        </View>
+                    </Card>
+
+                    {
+                        potentialInfections !== 0 ?
+                            <Card containerStyle={cardStyle.warningCard}>
+                                <View style={cardStyle.container}>
+                                    <View style={cardStyle.textContainer}>
+                                        <Text style={cardStyle.text}>Potenziell infizierte</Text>
+                                    </View>
+                                    <View style={cardStyle.numberContainer}>
+                                        <Text style={cardStyle.number}>{ potentialInfections }</Text>
+                                    </View>
+                                </View>
+                            </Card>
+                            :
+                            null
+                    }
+
+                    {
+                        positiveInfections !== 0 ?
+                            <Card containerStyle={cardStyle.alertCard}>
+                                <View style={cardStyle.container}>
+                                    <View style={cardStyle.textContainer}>
+                                        <Text style={cardStyle.text}>Positiv getestete</Text>
+                                    </View>
+                                    <View style={cardStyle.numberContainer}>
+                                        <Text style={cardStyle.number}>{ positiveInfections }</Text>
+                                    </View>
+                                </View>
+                            </Card>
+                            :
+                            null
+                    }
+                </View>
 
 
                 {
@@ -186,20 +188,35 @@ const pageStyle = StyleSheet.create({
 const cardStyle = StyleSheet.create({
     neutralCard: {
         padding: 0,
+        paddingTop: 10,
+        paddingBottom: 10,
         borderRadius: 10,
+        borderWidth: 0,
         marginTop: 5,
+        zIndex: 0,
+        width: '90%',
         backgroundColor: Colors.neutralBlue
     },
     warningCard: {
         padding: 0,
+        paddingTop: 10,
+        paddingBottom: 5,
         borderRadius: 10,
-        marginTop: 5,
+        borderWidth: 0,
+        marginTop: -15,
+        zIndex: -1,
+        width: '90%',
         backgroundColor: Colors.warningYellow
     },
     alertCard: {
         padding: 0,
+        paddingTop: 10,
+        paddingBottom: 5,
         borderRadius: 10,
-        marginTop: 5,
+        borderWidth: 0,
+        marginTop: -15,
+        zIndex: -2,
+        width: '90%',
         backgroundColor: Colors.alertRed
     },
     container: {
@@ -211,7 +228,7 @@ const cardStyle = StyleSheet.create({
         marginBottom: 5,
     },
     textContainer: {
-        flex: 1,
+        flexGrow: 1,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center'

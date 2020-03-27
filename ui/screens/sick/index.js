@@ -23,6 +23,7 @@ import styles from "../../constants/Styles";
 import {cardStyle, pageStyle, buttonStyle, disabledTextColor} from './styles'
 
 import SymptomsOption from "./symptoms";
+import Colors from "../../constants/Colors";
 
 
 export default function MeldungScreen( { navigation } ) {
@@ -77,6 +78,31 @@ export default function MeldungScreen( { navigation } ) {
         setMeldung(!meldung);
     };
 
+    const cardStyle = () => {
+        let color = Colors.neutralBlue;
+
+        if ( positiveTest ) {
+            color = Colors.alertRed;
+        }
+        else if ( negativeTest ) {
+            color = Colors.allGoodGreen;
+        }
+        else if ( hasSymptoms ) {
+            color = Colors.warningYellow;
+        }
+
+        return {
+            padding: 10,
+            borderRadius: 10,
+            marginTop: 5,
+            paddingBottom: 25,
+            shadowColor: color,
+            shadowRadius: 3,
+            marginBottom: 20,
+            shadowOpacity: 1
+        }
+    };
+
     if ( showDate ) {
         return (
             <View style={styles.container}>
@@ -98,7 +124,7 @@ export default function MeldungScreen( { navigation } ) {
                     style={pageStyle.scrollContainer}
                     contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                    <Card containerStyle={cardStyle.card}>
+                    <Card containerStyle={ cardStyle() }>
 
                         <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
 
@@ -142,3 +168,4 @@ export default function MeldungScreen( { navigation } ) {
 MeldungScreen.navigationOptions = {
     header: null,
 };
+

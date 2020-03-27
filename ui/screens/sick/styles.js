@@ -27,7 +27,7 @@ export const cardStyle = StyleSheet.create({
         marginTop: 5,
         paddingBottom: 25,
         shadowColor: Colors.allGoodGreen,
-        shadowRadius: 5
+        shadowRadius: 1,
     },
     container: {
         width: '95%',
