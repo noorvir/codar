@@ -40,7 +40,11 @@ exports.lookup = function (pid) {
 		.where('pid', '==', pid)
 		.orderBy('timestamp')
 		.get()
-		.then(snapshotToData);
+		.then(snapshotToData)
+		.catch(error => {
+			console.error("Error while lookingup encounter!", error);
+			return new Error("Internal error");
+		});
 }
 
 exports.store = function (encounters) {
@@ -59,5 +63,8 @@ exports.store = function (encounters) {
 			encounter
 		)
 	});
-	return batch.commit()
+	return batch.commit().catch(error => {
+		console.error("Error while storing encounters!", error);
+		return new Error("Internal error");
+	})
 }
