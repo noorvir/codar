@@ -19,7 +19,7 @@ api.get('/encounters', (req, res) => {
 	encounters.lookupN(pids)
 		.then(encounters => res.send({ encounters }))
 		// TODO: better error handling
-		.catch(error => res.status(500).send(error));
+		.catch(error => res.status(500).send(error.message));
 });
 
 /**
@@ -38,7 +38,7 @@ api.post('/encounters', (req, res) => {
 	encounters.store(req.body.encounters)
 		.then(() => res.status(200).end())
 		// TODO: better error handling
-		.catch(error => res.status(500).send(error))
+		.catch(error => res.status(500).send(error.message))
 });
 
 exports.api = functions.region('europe-west1').https.onRequest(api);
