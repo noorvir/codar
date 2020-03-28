@@ -27,7 +27,7 @@ const { ToastExample } = NativeModules;
 export default function HoneScreen ( navigation ) {
     console.log(ToastExample.passThisValueToJS);
     ToastExample.show('Awesome', ToastExample.SHORT);
-    
+
     const [peopleCrossed, setPeopleCrossed] = useState(10);
     const [potentialInfections, setPotentialInfections] = useState(0);
     const [positiveInfections, setPositiveInfections] = useState(0);
