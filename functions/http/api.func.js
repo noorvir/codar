@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const express = require('express');
 const cors = require('cors')({ origin: true });
 const encounters = require('../lib/encounters');
-const validateApiKey = require('../lib/apiKeyMiddleware');
+const { validateApiKey } = require('../lib/apiKeyMiddleware');
 
 const api = express();
 api.use(cors);
