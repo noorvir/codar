@@ -17,6 +17,8 @@ Encounters are published by people who have tested positive.
 
 ### HTTP Api
 
+All api functions are a available under `https://europe-west1-chainbreaker-app.cloudfunctions.net/api`.
+
 #### GET /encounters?pids=*pid1*,*pid2*,...
 Fetch all encounters that contain one of the pids listed in the `pids` parameter.  
 Request response example:
