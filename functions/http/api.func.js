@@ -7,6 +7,20 @@ const api = express();
 api.use(cors);
 api.use(express.json());
 
+
+/**
+ * GET /encounters/exports?startAfter=<timestamp>
+ * 
+ * Get all export references with timestamp greater than `startAfter`.
+ */
+api.get('/encounters/exports', (req, res) => {
+	const { startAfter } = req.query;
+	encounters.fetchExportReferences(Number(startAfter))
+		.then(exportReferences => res.send({ exportReferences }))
+		// TODO: better error handling
+		.catch(error => res.status(500).send(error.message));
+});
+
 /**
  * GET /encounters?pids=<pid1>,<pid2>,...
  * 

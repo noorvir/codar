@@ -34,19 +34,6 @@ function fetchUnexported() {
 		.where("exported", "==", false).get();
 }
 
-function fetchLastExportRef() {
-	return admin.firestore().collection(ENCOUNTERS_EXPORT_COLLECTION)
-		.orderBy("timestamp", "asc").limit(1)
-		.get()
-		.then(snap => {
-			if (snap.size > 0) {
-				return snap.docs[0];
-			}
-
-			return null;
-		})
-}
-
 function createExportRef(fileName, downloadLink) {
 	return admin.firestore().collection(ENCOUNTERS_EXPORT_COLLECTION).add({
 		fileName,
@@ -161,4 +148,11 @@ exports.export = function () {
 		fileName,
 		`https://firebasestorage.googleapis.com/v0/b/${ENCOUNTERS_BUCKET}/o/${encodeURIComponent(fileName)}?alt=media`
 	));
+}
+
+exports.fetchExportReferences = function (startAfter) {
+	return admin.firestore().collection(ENCOUNTERS_EXPORT_COLLECTION)
+		.orderBy("timestamp", "asc")
+		.startAfter(startAfter)
+		.get().then(snapshotToData);
 }
