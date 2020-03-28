@@ -12,7 +12,7 @@ function validEncounter(encounter) {
 	const encounterFields = {
 		duration: (val) => typeof val === 'number',
 		pid: (val) => typeof val === 'string' && val.length <= PID_LENGTH,
-		min_distance: (val) => typeof val === 'number',
+		minDistance: (val) => typeof val === 'number',
 		timestamp: (val) => typeof val === 'number',
 	};
 
