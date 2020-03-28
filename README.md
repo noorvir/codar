@@ -1,6 +1,5 @@
 # wvv-hackathon
 
-
 ## Backend docs
 
 ### Encounters
@@ -18,13 +17,15 @@ Encounters are published by people who have tested positive.
 ### HTTP Api
 
 All api functions are a available under `https://europe-west1-chainbreaker-app.cloudfunctions.net/api`.
+Authorization is done via an apiKey that should be included in every request using the `Authorization` HTTP header.  
+Example: `Authorization: Bearer <apiKey>`
 
 #### GET /encounters?pids=*pid1*,*pid2*,...
 Fetch all encounters that contain one of the pids listed in the `pids` parameter.  
 Request response example:
 ```
 {
-		encounters: [
+	encounters: [
 			{
 				timestamp: 2873642,
 				minDistance: 100,
