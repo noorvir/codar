@@ -1,44 +1,13 @@
-const functions = require('firebase-functions');
-const express = require('express');
-const cors = require('cors')({ origin: true });
-const encounters = require('./lib/encounters');
+// Exports all functions from files with .func.js ending
 
-const api = express();
-api.use(cors);
-api.use(express.json());
+const glob = require("glob");
 
-/**
- * GET /encounters?pids=<pid1>,<pid2>,...
- * 
- * Get all encounters that contain one of the supplied pids.
- */
-api.get('/encounters', (req, res) => {
-
-	const pids = (req.query.pids && req.query.pids.split(",")) || []
-	console.log(`Encounter query for ${pids.length} pids`, { pids });
-	encounters.lookupN(pids)
-		.then(encounters => res.send({ encounters }))
-		// TODO: better error handling
-		.catch(error => res.status(500).send(error.message));
-});
-
-/**
- * POST /encounters
- * 
- * Upload encounters.
- * 
- * encounters: [{
- * 		pid: <string>, 
- * 		min_distance: <float>,
- * 		duration: <int>,
- * 		timestamp: <int>,
- * }, ...]
- */
-api.post('/encounters', (req, res) => {
-	encounters.store(req.body.encounters)
-		.then(() => res.status(200).end())
-		// TODO: better error handling
-		.catch(error => res.status(500).send(error.message))
-});
-
-exports.api = functions.region('europe-west1').https.onRequest(api);
+const files = glob.sync('./**/*.func.js', { cwd: __dirname, ignore: './node_modules/**' });
+for (let f = 0, fl = files.length; f < fl; f++) {
+	const file = files[f];
+	const functionPath = file.slice(0, -('.func.js'.length)).split('/');
+	const functionName = functionPath[functionPath.length - 1];
+	if (!process.env.FUNCTION_NAME || process.env.FUNCTION_NAME === functionName) {
+		exports[functionName] = require(file);
+	}
+}
