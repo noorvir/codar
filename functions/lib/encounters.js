@@ -17,8 +17,8 @@ function validEncounter(encounter) {
 	};
 
 	const encounterKeys = Object.keys(encounter);
-	const filteredKeys = encounterKeys.filter(field => encounterFields[field](encounter[field]));
-	return filteredKeys.length === encounterKeys.length;
+	const filteredKeys = encounterKeys.filter(field => encounterFields[field] && encounterFields[field](encounter[field]));
+	return filteredKeys.length === Object.keys(encounterFields).length;
 }
 
 function snapshotToData(snap) {
