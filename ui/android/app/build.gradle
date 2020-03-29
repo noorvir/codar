@@ -144,6 +144,8 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 dependencies {
+    implementation project(':react-native-maps')
+    implementation project(':react-native-vector-icons')
     implementation project(':covidwatch')
     implementation "androidx.room:room-runtime:2.2.4"
     implementation fileTree(dir: "libs", include: ["*.jar"])
