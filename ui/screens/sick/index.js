@@ -2,7 +2,8 @@ import { useState } from 'react';
 import * as React from 'react';
 import {
     Platform,
-    View
+    View,
+    StyleSheet, Text,
 } from 'react-native';
 
 import {
@@ -95,11 +96,14 @@ export default function MeldungScreen( { navigation } ) {
             padding: 10,
             borderRadius: 10,
             marginTop: 5,
-            paddingBottom: 25,
-            shadowColor: color,
-            shadowRadius: 3,
-            marginBottom: 20,
-            shadowOpacity: 1
+            // paddingBottom: 25,
+            // shadowColor: color,
+            // shadowRadius: 3,
+            marginBottom: 10,
+            // shadowOpacity: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '90%'
         }
     };
 
@@ -123,29 +127,53 @@ export default function MeldungScreen( { navigation } ) {
                 <ScrollView
                     style={pageStyle.scrollContainer}
                     contentContainerStyle={pageStyle.scrollContentContainer}>
-
-                    <Card containerStyle={ cardStyle() }>
-
-                        <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
-
-                        <View pointerEvents={ positiveTestSectionVisible ? 'auto' : "none" } >
-                            <PositiveOption
-                                isActive={hasSymptoms}
-                                isChecked={positiveTest}
-                                onChange={onPositiveTestResultChange} />
-
-                            <NegativeOption
-                                isActive={hasSymptoms}
-                                isChecked={negativeTest}
-                                onChange={onNegativeTestResultChange} />
-
-                            <TestDate
-                                isActive={ hasSymptoms && (negativeTest || positiveTest) }
-                                date={date}
-                                showDatepicker={showDatepicker} />
+                        <View style={ {width: '90%'} }>
+                            <Text style={ {fontSize: 36, fontWeight: 'bold', paddingBottom: 10, paddingLeft: 10} }>
+                                Self Report
+                            </Text>
+                            <Text style={ {fontSize: 16, padding: 10,  paddingBottom: 15,} }>
+                                Please tell us what your current state is.
+                            </Text>
                         </View>
+                        <View>
+                            <Card containerStyle={ cardStyle() }>
 
-                    </Card>
+                                <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
+                            </Card>
+                        </View>
+                            <View pointerEvents={ positiveTestSectionVisible ? 'auto' : "none" } >
+                                <Card containerStyle={ cardStyle() }>
+
+                                <PositiveOption
+                                    isActive={hasSymptoms}
+                                    isChecked={positiveTest}
+                                    onChange={onPositiveTestResultChange} />
+                                </Card>
+                                <Card containerStyle={ cardStyle() }>
+                                <NegativeOption
+                                    isActive={hasSymptoms}
+                                    isChecked={negativeTest}
+                                    onChange={onNegativeTestResultChange} />
+                                </Card>
+                                <Card containerStyle={ {
+                                    padding: 10,
+                                    paddingBottom: 25,
+                                    borderRadius: 10,
+                                    marginTop: 5,
+                                    marginBottom: 30,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '90%'
+                                }
+                                }>
+                                <TestDate
+                                    isActive={ hasSymptoms && (negativeTest || positiveTest) }
+                                    date={date}
+                                    showDatepicker={showDatepicker} />
+                                </Card>
+                            </View>
+
+
 
                     <View style={buttonStyle.buttonContainer}>
                         <Button
@@ -168,4 +196,3 @@ export default function MeldungScreen( { navigation } ) {
 MeldungScreen.navigationOptions = {
     header: null,
 };
-

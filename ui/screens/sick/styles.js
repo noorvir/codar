@@ -16,6 +16,7 @@ export const pageStyle = StyleSheet.create({
         paddingTop: 30,
         flexGrow: 1,
         flexDirection: 'column',
+        alignItems: 'center',
         // justifyContent: 'space-between'
     },
 });
@@ -61,13 +62,16 @@ export const cardStyle = StyleSheet.create({
 
 export const buttonStyle = StyleSheet.create({
     buttonContainer: {
+        flexShrink: 1,
         bottom: 0,
         left: 0,
         right: 0,
         width: '90%',
+        height: '10%',
         backgroundColor: '#fff',
         paddingVertical: 10,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        justifyContent: 'flex-end'
     },
     button: {
         backgroundColor: '#0070e3',
