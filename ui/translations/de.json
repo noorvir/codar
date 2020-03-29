@@ -1,0 +1,10 @@
+{
+	"onboarding" : {
+		"step_1_heading" : "Schalte dein Bluetooth ein, wenn du rausgehst.",
+		"step_1_caption" : "Wenn du dich länger in der Nähe einer Person aufhältst, wird ihre anonyme ID auf deinem Handy gespeichert.",
+		"step_2_caption" : "Melde dich, wenn du Symptome bemerkst oder positiv getestet wurdest.",
+		"step_3_caption" : "Wir benachrichtigen dich, wenn du eine Person getroffen hast, die positiv getestet wurde.",
+		"step_4_heading" : "#StayAtHome",
+		"step_4_caption" : "Bis dahin, kannst du beruhigt sein, dass du bisher keinen getroffen hast, der ein Risiko für deine Gesundheit darstellt."
+	}
+}
