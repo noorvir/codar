@@ -149,9 +149,9 @@ export default function MeldungScreen( { navigation } ) {
 
                     <View style={buttonStyle.buttonContainer}>
                         <Button
-                            containerViewStyle={{width: '100%'}}
+                            buttonStyle={ {backgroundColor: '#0070e3', width: '100%', borderRadius: 7, margin: 0, padding: 12} }
+                            containerViewStyle={{width: '90%', marginLeft: 0 }}
                             title="Meldung abschicken"
-                            backgroundColor="black"
                             onPress={ updateMeldung }
                             disabled={ !hasSymptoms }
                             disabledStyle={{ backgroundColor: disabledTextColor}}

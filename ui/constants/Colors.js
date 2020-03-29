@@ -14,5 +14,6 @@ export default {
   allGoodGreen: '#2fc3a7',
   neutralBlue: '#21314D',
   warningYellow: '#fdd004',
-  alertRed: '#ed4e44f0'
+  alertRed: '#ed4e44f0',
+  buttonBlue: '#0070e3'
 };

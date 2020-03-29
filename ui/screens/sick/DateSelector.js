@@ -4,7 +4,7 @@ import * as React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import {Button} from "react-native-elements";
-import { pageStyle, cardStyle, disabledTextColor } from './styles'
+import { pageStyle, cardStyle, disabledTextColor, buttonStyle } from './styles'
 import TestText from "./text";
 
 export default function TestDate ( { isActive, date, showDatepicker} ){
@@ -93,7 +93,8 @@ export function DateSelectorScreen ({ date, onChange, setShowDate }) {
 
             <View style={buttonStyle.buttonContainer}>
                 <Button
-                    containerViewStyle={{width: '100%'}}
+                    buttonStyle={ {backgroundColor: '#0070e3', width: '100%', borderRadius: 7, margin: 0, padding: 12} }
+                    containerViewStyle={{width: '90%', marginLeft: 0 }}
                     title="Fertig"
                     backgroundColor="black"
                     onPress={close}
@@ -104,16 +105,4 @@ export function DateSelectorScreen ({ date, onChange, setShowDate }) {
     )
 }
 
-const buttonStyle = StyleSheet.create({
-    buttonContainer: {
-        bottom: 0,
-        left: 0,
-        right: 0,
-        width: '100%',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        paddingVertical: 30,
-        paddingHorizontal: 10
-    }
-});
 
