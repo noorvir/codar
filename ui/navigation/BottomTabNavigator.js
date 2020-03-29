@@ -27,15 +27,6 @@ export default function BottomTabNavigator({ navigation, route }) {
             }}
         />
         <BottomTab.Screen
-            name="Meldung"
-            component={MeldungScreen}
-            options={{
-            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="heartbeat" />,
-            tabBarLabel: () => { return null}
-
-        }}
-        />
-        <BottomTab.Screen
             name="Map"
             component={MapScreen}
             options={{
@@ -43,6 +34,15 @@ export default function BottomTabNavigator({ navigation, route }) {
                 tabBarLabel: () => { return null}
 
             }}
+        />
+        <BottomTab.Screen
+            name="Meldung"
+            component={MeldungScreen}
+            options={{
+            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="heartbeat" />,
+            tabBarLabel: () => { return null}
+
+        }}
         />
         <BottomTab.Screen
             name="Info"
@@ -63,10 +63,10 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case 'Home':
       return 'Interactions';
-    case 'Meldung':
-      return 'Meldung';
     case 'Map':
         return 'Map';
+  case 'Meldung':
+      return 'Meldung';
     case 'Info':
         return 'FAQ';
   }
