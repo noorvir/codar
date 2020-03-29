@@ -1,7 +1,9 @@
 package com.wirvsvirus;
 
 import android.app.Application;
+import android.content.Intent;
 
+import androidx.core.content.ContextCompat;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -9,6 +11,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.wirvsvirus.generated.BasePackageList;
 
+import org.covidwatch.android.ble.BLEForegroundService;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
 import org.unimodules.adapters.react.ReactModuleRegistryProvider;
 import org.unimodules.core.interfaces.SingletonModule;
@@ -51,5 +54,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    ContextCompat.startForegroundService(this, new Intent(this, BLEForegroundService.class));
   }
 }

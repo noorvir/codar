@@ -6,7 +6,10 @@ import android.widget.Toast;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import org.covidwatch.android.data.ContactEvent;
+import org.covidwatch.android.data.CovidWatchDatabase;
 
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -37,10 +40,14 @@ public class LocalDatabaseModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public String[] getInteractionList() {
-        // TODO: returns list of PIDs that the persons has come across.
-        //  This is the local database
-        String[] InteractionList = {"pid1", "pid2"};
+        List<ContactEvent> contactEvents = CovidWatchDatabase.Companion.getInstance(reactContext).contactEventDAO().getAll();
 
-        return InteractionList;
+        String[] interactionList = new String[contactEvents.size()];
+
+        for (int i = 0; i < contactEvents.size(); i++) {
+            interactionList[i] = contactEvents.get(i).getIdentifier();
+        }
+
+        return interactionList;
     }
 }
