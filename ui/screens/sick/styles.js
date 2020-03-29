@@ -64,10 +64,18 @@ export const buttonStyle = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        width: '100%',
+        width: '90%',
         backgroundColor: '#fff',
-        paddingVertical: 30,
+        paddingVertical: 10,
         paddingHorizontal: 10
+    },
+    button: {
+        backgroundColor: '#0070e3',
+        width: '100%',
+        borderRadius: 25,
+        margin: 0,
+        padding: 12
     }
+
 });
 

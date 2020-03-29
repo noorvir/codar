@@ -149,7 +149,7 @@ export default function MeldungScreen( { navigation } ) {
 
                     <View style={buttonStyle.buttonContainer}>
                         <Button
-                            buttonStyle={ {backgroundColor: '#0070e3', width: '100%', borderRadius: 7, margin: 0, padding: 12} }
+                            buttonStyle={ buttonStyle.button }
                             containerViewStyle={{width: '90%', marginLeft: 0 }}
                             title="Meldung abschicken"
                             onPress={ updateMeldung }
