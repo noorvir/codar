@@ -19,7 +19,14 @@ import Colors from "../../constants/Colors";
 import {MonoText} from "../../components/StyledText";
 
 
+//import { NativeModules } from "react-native";
+
+//const { ToastExample } = NativeModules;
+
+
 export default function HoneScreen ( navigation ) {
+    //console.log(ToastExample.passThisValueToJS);
+    //ToastExample.show('Awesome', ToastExample.SHORT);
 
     const [peopleCrossed, setPeopleCrossed] = useState(10);
     const [potentialInfections, setPotentialInfections] = useState(0);
