@@ -1,13 +1,16 @@
-// ToastModule.java
-
 package com.wirvsvirus;
 import android.widget.Toast;
+
+import androidx.room.Room;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import org.covidwatch.android.data.ContactEvent;
-import org.covidwatch.android.data.CovidWatchDatabase;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
+import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Map;
@@ -19,14 +22,17 @@ public class LocalDatabaseModule extends ReactContextBaseJavaModule {
     private static final String DURATION_SHORT_KEY = "SHORT";
     private static final String DURATION_LONG_KEY = "LONG";
 
+    private LocalDatabase mDb;
+
     LocalDatabaseModule(ReactApplicationContext context) {
         super(context);
         reactContext = context;
+        mDb = LocalDatabase.getDatabase(context);
     }
 
     @Override
     public String getName() {
-        return "LocalDatabase";
+        return "LocalDatabaseModule";
     }
 
     @Override
@@ -39,15 +45,12 @@ public class LocalDatabaseModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public String[] getInteractionList() {
-        List<ContactEvent> contactEvents = CovidWatchDatabase.Companion.getInstance(reactContext).contactEventDAO().getAll();
-
-        String[] interactionList = new String[contactEvents.size()];
-
-        for (int i = 0; i < contactEvents.size(); i++) {
-            interactionList[i] = contactEvents.get(i).getIdentifier();
-        }
-
-        return interactionList;
+    public void getEncounters(Promise promise) {
+        mDb.getQueryExecutor().execute(() -> {
+            String result;
+            Gson gson = new Gson();
+            result = gson.toJson(mDb.encountersDao().getAll());
+            promise.resolve(result);
+        });
     }
 }
