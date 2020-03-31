@@ -1,11 +1,15 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import {
+  Image,
   Platform,
   StatusBar,
   StyleSheet,
+  AsyncStorage,
   View,
-  AppRegistry
+  AppRegistry,
+  NativeModules,
+  I18nManager
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,52 +17,91 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
-import Onboarding from "./screens/onboarding";
 
+import Onboarding from 'react-native-onboarding-swiper';
 
-export const Stack = createStackNavigator();
-let initialized = true;
+import localize from './translation'
+
+// Setting a default background color for all View components.
+const Stack = createStackNavigator();
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
+  const [isInitialized, setIsInitialized] = React.useState(false);
   const [initialNavigationState, setInitialNavigationState] = React.useState();
   const containerRef = React.useRef();
   const { getInitialState } = useLinking(containerRef);
+
+  const finishOnboarding = () => {
+    setIsInitialized(true)
+    const _storeData = async () => {
+        try {
+            await AsyncStorage.setItem('onboardingFinsihed', 'true');
+        } catch (error) {
+            // Error saving data
+            console.warn(error);
+            console.warn("Couldn't store that Onboarding finished.")
+        }
+    }
+    _storeData()
+  }
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide();
-
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
+        setIsInitialized(await AsyncStorage.getItem('onboardingFinsihed'));
 
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-        });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hide();
       }
     }
 
     loadResourcesAndDataAsync();
   }, []);
-
   if (!isLoadingComplete && !props.skipLoadingScreen) {
     return null;
   } else {
-
-    if (!initialized) {
+    if (!isInitialized) {
       return (
           <View style={styles.container}>
-            <Onboarding/>
+            <Onboarding
+            pages={[
+              {
+                backgroundColor: '#fff',
+                title: localize('onboarding.step_1_heading'),
+                image: <Image source={require('./assets/images/de/onboarding_1.png')} style={{ width: 300, height: 300 }} />,
+                subtitle: localize('onboarding.step_1_caption'),
+              },{
+                backgroundColor: '#fff',
+                title: localize('onboarding.step_2_heading'),
+                image: <Image source={require('./assets/images/de/onboarding_2.png')} style={{ width: 300, height: 300 }} />,
+                subtitle: localize('onboarding.step_2_caption'),
+              },{
+                backgroundColor: '#fff',
+                title: localize('onboarding.step_3_heading'),
+                image: <Image source={require('./assets/images/de/onboarding_3.png')} style={{ width: 300, height: 300 }} />,
+                subtitle: localize('onboarding.step_3_caption'),
+              },{
+                backgroundColor: '#fff',
+                title: localize('onboarding.step_4_heading'),
+                image: <Image source={require('./assets/images/de/onboarding_4.png')} style={{ width: 300, height: 300 }} />,
+                subtitle: localize('onboarding.step_4_caption'),
+              },{
+                backgroundColor: '#fff',
+                title: localize('onboarding.step_5_heading'),
+                image: <Image source={require('./assets/images/de/onboarding_5.png')} style={{ width: 300, height: 300 }} />,
+                subtitle: localize('onboarding.step_5_caption'),
+              },
+            ]}
+            onDone={finishOnboarding}
+            onSkip={finishOnboarding}
+          />
           </View>
       )
     } else {
@@ -79,7 +122,7 @@ export default function App(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ccc',
   },
 });
 

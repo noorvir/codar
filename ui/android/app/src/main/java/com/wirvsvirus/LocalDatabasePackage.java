@@ -20,7 +20,8 @@ public class LocalDatabasePackage implements ReactPackage {
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
 
-    modules.add(new LocalDatabaseModule(reactContext));
+      modules.add(new LocalDatabaseModule(reactContext));
+      modules.add(new DataEventEmitterModule(reactContext));
 
     return modules;
   }
