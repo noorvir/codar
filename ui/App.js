@@ -11,6 +11,7 @@ import {
   NativeModules,
   I18nManager
 } from 'react-native';
+import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -50,6 +51,8 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
+        // SplashScreen.preventAutoHide();
+
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
         setIsInitialized(await AsyncStorage.getItem('onboardingFinsihed'));
