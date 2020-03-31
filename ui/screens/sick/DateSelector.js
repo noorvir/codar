@@ -31,12 +31,13 @@ export function DateSelectorScreen ({ navigation, route }) {
     };
 
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setDate(currentDate);
 
         if (event.type === "dismissed" || event.type === "set"){
             setShowAndroidDateSelector(false)
         }
+
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
     };
 
     const getDatePicker = () => {
