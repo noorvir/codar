@@ -3,12 +3,12 @@ import { Linking } from "react-native";
 
 export default function(containerRef) {
   return useLinking(containerRef, {
-    prefixes: [Linking.openURL('/')],
+    // prefixes: [Linking.openURL('/')],
     config: {
       Root: {
         path: 'root',
         screens: {
-          Home: 'home',
+          Home: 'Home',
           Links: 'links',
           Settings: 'settings',
         },
