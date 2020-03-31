@@ -29,24 +29,13 @@ import SymptomsOption from "./symptoms";
 import Colors from "../../constants/Colors";
 import OnboardingOne from "../onboarding/one";
 
-import { Stack } from '../../App'
 
 const MeldungStack = createStackNavigator();
 
 export default function MeldungScreen( { navigation } ) {
 
     const [meldung, setMeldung] = useState(false);
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [showDate, setShowDate] = useState(false);
 
-    const [isRegistered, setIsRegistered] = useState(false);
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShowDate(Platform.OS === 'ios');
-        setDate(currentDate);
-        console.log(currentDate.getFullYear());
-    };
 
     // TODO: fix this
     navigation.dangerouslyGetParent().setOptions({
@@ -55,42 +44,25 @@ export default function MeldungScreen( { navigation } ) {
 
     return(
         <NavigationContainer independent={true} >
-            <MeldungStack.Navigator>
+            <MeldungStack.Navigator initialRouteName={'Meldung'}>
                 <MeldungStack.Screen
-                    name={'meldung'}
+                    name={'Meldung'}
                     component={MeldungLandingScreen}
+                />
+                <MeldungStack.Screen
+                    name={'DateSelectorScreen'}
+                    component={DateSelectorScreen}
                     options={{headerLeft: button}}
+                />
+                <MeldungStack.Screen
+                    name={'ConfirmedScreen'}
+                    component={ConfirmedScreen}
+                    options={{headerLeft: button}}
+                    initialParams={{ meldung, setMeldung}}
                 />
             </MeldungStack.Navigator>
         </NavigationContainer>
     );
-
-    // if ( showDate ) {
-    //
-    //     return (
-    //
-    //         <View style={styles.container}>
-    //             <DateSelectorScreen
-    //                 date={date}
-    //                 onChange={onChange}
-    //                 setShowDate={setShowDate}
-    //                 navigation={navigation}
-    //             />
-    //         </View>
-    //     )
-    // } else if ( meldung ){
-    //     return (
-    //         <ConfirmedScreen/>
-    //     )
-    // } else {
-    //     return (
-    //         <MeldungLandingScreen
-    //             meldung={meldung}
-    //             setMeldung={setMeldung}
-    //             showDatepicker={showDatepicker}
-    //         />
-    //     )
-    // }
 }
 
 MeldungScreen.navigationOptions = {
@@ -103,16 +75,10 @@ function button () {
         <View style={ {paddingLeft: 10} }>
             <Text style={ {fontSize: 16} }>Back</Text>
         </View>
-        // <Button
-        //     onPress={() => alert('This is a button!')}
-        //     title="Info"
-        //     color="black"
-        //     style={ {paddingLeft: 10} }
-        // />
     )
 }
 
-function MeldungLandingScreen ( { meldung, setMeldung, showDatepicker } ) {
+function MeldungLandingScreen ( { navigation, meldung, setMeldung } ) {
 
     const [hasSymptoms, setHasSymptoms] = useState(false);
     const [positiveTest, setPositiveTest] = useState(false);
@@ -121,6 +87,17 @@ function MeldungLandingScreen ( { meldung, setMeldung, showDatepicker } ) {
     const [positiveTestSectionVisible, setPositiveTestSectionVisible] = useState(false);
     const [negativeTestSectionVisible, setNegativeTestSectionVisible] = useState(false);
 
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [showDate, setShowDate] = useState(false);
+
+    const [isRegistered, setIsRegistered] = useState(false);
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowDate(Platform.OS === 'ios');
+        setDate(currentDate);
+        console.log(currentDate.getFullYear());
+    };
 
     const onSymptomChange = () => {
         setHasSymptoms( !hasSymptoms );
@@ -192,7 +169,11 @@ function MeldungLandingScreen ( { meldung, setMeldung, showDatepicker } ) {
                         buttonStyle={ buttonStyle.button }
                         containerViewStyle={{width: '90%', marginLeft: 0 }}
                         title="Next"
-                        onPress={ showDatepicker }
+                        onPress={
+                            navigation.navigate(
+                                'DateSelectorScreen',
+                                { date, onChange, setShowDate})
+                        }
                         disabled={ !hasSymptoms }
                         disabledStyle={{ backgroundColor: disabledTextColor}}
                     />

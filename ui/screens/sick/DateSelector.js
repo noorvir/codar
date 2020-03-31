@@ -53,9 +53,15 @@ export default function TestDate ( { isActive, date, showDatepicker} ){
     )
 }
 
-export function DateSelectorScreen ({ date, onChange, setShowDate, navigation }) {
+export function DateSelectorScreen ({ navigation, route }) {
 
     let dateToday = new Date().getDate();
+    let date = route.params.date;
+    let onChange = route.params.onChange;
+    let setShowDate = route.params.setShowDate;
+
+    console.log(date);
+
     const [today, setToday] = useState(true);
 
     function close() {
