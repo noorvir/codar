@@ -9,6 +9,7 @@ An encounter has the following fields:
 * `minDistance` the smallest distance measured for the encounter in centimeters (int)
 * `duration` the duration of the encounter in seconds (int)
 * `pid` the pseudonymous identifier of the encoutered person
+* `reportType` the reason for the encounter to be published. can be "SYMPTOMS_TESTED_POSITIVE" or "SYMPTOMS_TESTED_NEGATIVE" or "SYMPTOMS_NOT_TESTED".
 
 Encounters are published by people who have tested positive.
 

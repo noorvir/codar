@@ -6,6 +6,11 @@ const ENCOUNTERS_BUCKET = "chainbreaker-public";
 
 // TODO: set to correct length
 const PID_LENGTH = 16
+const REPORT_TYPES = [
+  "SYMPTOMS_TESTED_POSITIVE",
+  "SYMPTOMS_TESTED_NEGATIVE",
+  "SYMPTOMS_NOT_TESTED",
+];
 
 // checks if an encounter has the required fields
 function validEncounter(encounter) {
@@ -13,7 +18,8 @@ function validEncounter(encounter) {
 		duration: (val) => typeof val === 'number',
 		pid: (val) => typeof val === 'string' && val.length <= PID_LENGTH,
 		minDistance: (val) => typeof val === 'number',
-		timestamp: (val) => typeof val === 'number',
+    timestamp: (val) => typeof val === 'number',
+    reportType: (val) => typeof val === 'string' && REPORT_TYPES.includes(val),
 	};
 
 	const encounterKeys = Object.keys(encounter);
