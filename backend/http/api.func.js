@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors')({ origin: true });
 const encounters = require('../lib/encounters');
 const { validateApiKey } = require('../lib/apiKeyMiddleware');
+const { storeContactRequest } = require('../lib/contact');
 
 const api = express();
 api.use(cors);
@@ -55,6 +56,34 @@ api.post('/encounters', (req, res) => {
 		.then(() => res.status(200).end())
 		// TODO: better error handling
 		.catch(error => res.status(500).send(error.message))
+});
+
+
+
+api.post('/contact', (req, resp) => {
+	const { name, email, text } = req.body;
+
+	if (!name.trim()) {
+		resp.status(400).send("You have to enter your name!");
+		return;
+	}
+
+	if (!text.trim()) {
+		resp.status(400).send("The message can not be empty!");
+		return;
+	}
+
+	if (!validateEmail(email)) {
+		resp.status(400).send("Please enter a valid email address.");
+		return;
+	}
+
+	storeContactRequest({ name, email, text })
+		.then(() => resp.status(200).send())
+		.catch(error => {
+			console.error(error);
+			resp.status(500).send("An error occured please try again later.");
+		});
 });
 
 module.exports = functions.region('europe-west1').https.onRequest(api);
