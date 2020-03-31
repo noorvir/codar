@@ -6,14 +6,14 @@ import * as serviceWorker from './serviceWorker';
 import './app.scss';
 
 const firebaseConfig = {
-	apiKey: "",
-	authDomain: "",
-	databaseURL: "",
-	projectId: "",
-	storageBucket: "",
-	messagingSenderId: "",
-	appId: "",
-	measurementId: ""
+  apiKey: "AIzaSyBlqUWYRXAROcZ7yqPOF4IfdbLbxyTYn8A",
+  authDomain: "chainbreaker-app.firebaseapp.com",
+  databaseURL: "https://chainbreaker-app.firebaseio.com",
+  projectId: "chainbreaker-app",
+  storageBucket: "chainbreaker-app.appspot.com",
+  messagingSenderId: "669251220885",
+  appId: "1:669251220885:web:c1a315d651d94fa122329c",
+  measurementId: "G-Z7RGZP3ZB7"
 };
 
 firebase.initializeApp(firebaseConfig);
