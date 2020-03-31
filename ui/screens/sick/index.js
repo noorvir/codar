@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
     Platform,
     View,
-    StyleSheet, Text,
+    StyleSheet, Text, TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -34,8 +34,7 @@ const MeldungStack = createStackNavigator();
 
 export default function MeldungScreen( { navigation } ) {
 
-    const [meldung, setMeldung] = useState(false);
-
+    const [isRegistered, setIsRegistered] = useState(false);
 
     // TODO: fix this
     useFocusEffect(
@@ -43,14 +42,12 @@ export default function MeldungScreen( { navigation } ) {
             navigation.dangerouslyGetParent().setOptions({
                 headerShown: false
             });
-            console.log('mounted');
 
             return () => {
                 console.log(navigation);
                 navigation.dangerouslyGetParent().setOptions({
                     headerShown: true
                 });
-                console.log('unmounted')
             }
         }, [])
     );
@@ -58,7 +55,7 @@ export default function MeldungScreen( { navigation } ) {
 
     return(
         <NavigationContainer independent={true} >
-            <MeldungStack.Navigator initialRouteName={'Meldung'}>
+            <MeldungStack.Navigator initialRouteName={ isRegistered ? 'ConfirmedScreen' : 'Meldung' }>
                 <MeldungStack.Screen
                     name={'Meldung'}
                     component={MeldungLandingScreen}
@@ -66,13 +63,12 @@ export default function MeldungScreen( { navigation } ) {
                 <MeldungStack.Screen
                     name={'DateSelectorScreen'}
                     component={DateSelectorScreen}
-                    options={{headerLeft: button}}
+                    initialParams={{setIsRegistered: setIsRegistered}}
                 />
                 <MeldungStack.Screen
                     name={'ConfirmedScreen'}
                     component={ConfirmedScreen}
-                    options={{headerLeft: button}}
-                    initialParams={{ meldung, setMeldung}}
+                    options={{headerLeft: null, gesturesEnabled: false}}
                 />
             </MeldungStack.Navigator>
         </NavigationContainer>
@@ -86,13 +82,15 @@ MeldungScreen.navigationOptions = {
 
 function button () {
     return (
-        <View style={ {paddingLeft: 10} }>
-            <Text style={ {fontSize: 16} }>Back</Text>
-        </View>
+        <TouchableOpacity onPress={ onSymptomChange } style={{width: '100%'}}>
+            <View style={ {paddingLeft: 10} }>
+                <Text style={ {fontSize: 16} }>Back</Text>
+            </View>
+        </TouchableOpacity>
     )
 }
 
-function MeldungLandingScreen ( { navigation, meldung, setMeldung } ) {
+function MeldungLandingScreen ( { navigation, route } ) {
 
     const [hasSymptoms, setHasSymptoms] = useState(false);
     const [positiveTest, setPositiveTest] = useState(false);
@@ -100,18 +98,6 @@ function MeldungLandingScreen ( { navigation, meldung, setMeldung } ) {
 
     const [positiveTestSectionVisible, setPositiveTestSectionVisible] = useState(false);
     const [negativeTestSectionVisible, setNegativeTestSectionVisible] = useState(false);
-
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [showDate, setShowDate] = useState(false);
-
-    const [isRegistered, setIsRegistered] = useState(false);
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShowDate(Platform.OS === 'ios');
-        setDate(currentDate);
-        console.log(currentDate.getFullYear());
-    };
 
     const onSymptomChange = () => {
         setHasSymptoms( !hasSymptoms );
@@ -136,10 +122,11 @@ function MeldungLandingScreen ( { navigation, meldung, setMeldung } ) {
         setPositiveTest(false);
     };
 
-    const updateMeldung = () => {
-        setMeldung(!meldung);
+    const navigateToDateSelector = () => {
+        navigation.navigate(
+            'DateSelectorScreen',
+        )
     };
-
 
     return (
         <View style={styles.container}>
@@ -154,40 +141,43 @@ function MeldungLandingScreen ( { navigation, meldung, setMeldung } ) {
                         Please tell us what your current state is.
                     </Text>
                 </View>
+
                 <View>
-                    <Card containerStyle={ cardStyle.card } >
-
-                        <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
-                    </Card>
+                    <TouchableOpacity onPress={ onSymptomChange } style={{width: '100%'}}>
+                        <Card containerStyle={ cardStyle.card } >
+                            <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
+                        </Card>
+                    </TouchableOpacity>
                 </View>
+
                 <View pointerEvents={ positiveTestSectionVisible ? 'auto' : "none" } >
-                    <Card containerStyle={ cardStyle.card } >
+                    <TouchableOpacity onPress={ onPositiveTestResultChange } style={{width: '100%'}}>
+                        <Card containerStyle={ cardStyle.card } >
+                            <PositiveOption
+                                isActive={hasSymptoms}
+                                isChecked={positiveTest}
+                                onChange={onPositiveTestResultChange}
+                            />
+                        </Card>
+                    </TouchableOpacity>
 
-                        <PositiveOption
-                            isActive={hasSymptoms}
-                            isChecked={positiveTest}
-                            onChange={onPositiveTestResultChange} />
-                    </Card>
-                    <Card containerStyle={ cardStyle.card }>
-                        <NegativeOption
-                            isActive={hasSymptoms}
-                            isChecked={negativeTest}
-                            onChange={onNegativeTestResultChange} />
-                    </Card>
+                    <TouchableOpacity onPress={ onNegativeTestResultChange } style={{width: '100%'}}>
+                        <Card containerStyle={ cardStyle.card }>
+                            <NegativeOption
+                                isActive={hasSymptoms}
+                                isChecked={negativeTest}
+                                onChange={onNegativeTestResultChange}
+                            />
+                        </Card>
+                    </TouchableOpacity>
                 </View>
-
-
 
                 <View style={buttonStyle.buttonContainer}>
                     <Button
                         buttonStyle={ buttonStyle.button }
                         containerViewStyle={{width: '90%', marginLeft: 0 }}
                         title="Next"
-                        onPress={
-                            navigation.navigate(
-                                'DateSelectorScreen',
-                                { date, onChange, setShowDate})
-                        }
+                        onPress={navigateToDateSelector}
                         disabled={ !hasSymptoms }
                         disabledStyle={{ backgroundColor: disabledTextColor}}
                     />

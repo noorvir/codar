@@ -5,7 +5,7 @@ import styles from "../../constants/Styles";
 import {ScrollView} from "react-native-gesture-handler";
 import {Ionicons} from "@expo/vector-icons";
 
-export default function ConfirmedScreen () {
+export default function ConfirmedScreen ({ navigation }) {
 
     return (
         <View style={styles.container}>

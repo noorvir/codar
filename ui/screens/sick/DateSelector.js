@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useState} from "react";
 import * as React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -6,74 +6,59 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import {Button} from "react-native-elements";
 import Colors from "../../constants/Colors";
 
-import { cardStyle, disabledTextColor, buttonStyle } from './styles'
-import TestText from "./text";
+import { buttonStyle } from './styles'
 import SwitchSelector from 'react-native-switch-selector'
 
 
-export default function TestDate ( { isActive, date, showDatepicker} ){
+export function DateSelectorScreen ({ navigation, route }) {
 
-    const dateContainerStyle = (borderColor) => {
-        return {
-            flexDirection: 'column',
-            height: '100%',
-            borderBottomColor: borderColor,
-            borderBottomWidth: 0.5,
-            alignItems: 'center',
-            justifyContent: 'center'
+    let dateToday = new Date();
+
+    const [today, setToday] = useState(true);
+    const [showDate, setShowDate] = useState(false);
+    const [date, setDate] = useState(new Date());
+
+    const onDateSwitchChange = () => {
+        setToday( !today );
+        if ( !today ) {
+            setDate(dateToday)
+        } else {
+            let dateYesterday = (
+                d => new Date(d.setDate(d.getDate()-1))
+            )(new Date);
+            setDate(dateYesterday);
         }
     };
 
-    return (
-        <View style={cardStyle.container}>
-            <View style={{
-                    flexGrow: 1,
-                    flexDirection: 'column',
-                    // justifyContent: 'flex-start',
-                    alignItems: 'center',
-            }}>
-                <View>
-                <TestText color={ isActive ? null : disabledTextColor }>
-                    Test Date
-                </TestText>
-                </View>
-                {/*<View style={dateContainerStyle(isActive? null: disabledTextColor)}>*/}
-                <View style={ {marginTop: 15} }>
-                    <TouchableOpacity onPress={showDatepicker}>
-                        <TestText color={ isActive ? null : disabledTextColor}>
-                            { date.getDate() - 1} /
-                            { date.getMonth() + 1} /
-                            { date.getFullYear() }
-                        </TestText>
-                    </TouchableOpacity>
-                </View>
-                {/*</View>*/}
-            </View>
-        </View>
-    )
-}
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowDate(Platform.OS === 'ios');
+        setDate(currentDate);
+    };
 
-export function DateSelectorScreen ({ navigation, route }) {
-
-    let dateToday = new Date().getDate();
-    let date = route.params.date;
-    let onChange = route.params.onChange;
-    let setShowDate = route.params.setShowDate;
-
-    console.log(date);
-
-    const [today, setToday] = useState(true);
-
-    function close() {
-        setShowDate(false)
-    }
+    const submit = () => {
+        route.params.setIsRegistered(true);
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'ConfirmedScreen' }],
+        });
+        navigation.navigate('ConfirmedScreen');
+    };
 
     return (
         <View style={ pageStyle.container }>
+            <View style={ {width: '90%'} }>
+                <Text style={ {fontSize: 36, fontWeight: 'bold', paddingBottom: 10, paddingLeft: 10} }>
+                    Date of Test
+                </Text>
+                <Text style={ {fontSize: 16, padding: 10,  paddingBottom: 10,} }>
+                    Please tell us when you got tested or first noticed the symptoms.
+                </Text>
+            </View>
             <SwitchSelector
                 initial={0}
                 style={{width: '90%', margin: 'auto'}}
-                onPress={value => setToday(!today)}
+                onPress={onDateSwitchChange}
                 textColor={'black'} //'#7a44cf'
                 selectedColor={'black'}
                 buttonColor={'#FFF'}
@@ -87,7 +72,7 @@ export function DateSelectorScreen ({ navigation, route }) {
                     { label: "Yesterday", value: "m", }
                 ]}
             />
-
+            {console.log(date.getDate(),date.getMonth(), date.getFullYear())}
             <View style={pageStyle.dateWheelContainer}>
                 <View  style={pageStyle.dateWheel}>
                     <DateTimePicker
@@ -103,13 +88,14 @@ export function DateSelectorScreen ({ navigation, route }) {
                     />
                 </View>
             </View>
+
             <View style={ buttonStyle.buttonContainer }>
                 <Button
                     buttonStyle={ buttonStyle.button }
                     containerViewStyle={{width: '80%', marginLeft: 0 }}
                     title="Finished"
                     backgroundColor="black"
-                    onPress={close}
+                    onPress={ submit }
                 />
             </View>
 
@@ -127,18 +113,19 @@ const pageStyle = StyleSheet.create({
         paddingTop: '10%',
         justifyContent: 'space-between',
         height: '100%',
-        width: '100%'
+        width: '100%',
+        backgroundColor: '#fff'
 
     },
     dateWheelContainer: {
         flexShrink: 1,
         paddingTop: 20,
         justifyContent: 'flex-start',
-        height: '70%',
+        height: '50%',
         width: '100%'
     },
     dateWheel:{
-        height: '40%',
+        height: '45%',
         width: '100%',
     }
 });
