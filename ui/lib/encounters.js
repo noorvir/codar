@@ -2,6 +2,12 @@ import { HTTP_API } from '../constants/urls';
 import { NativeModules } from 'react-native';
 const { LocalDatabaseModule } = NativeModules;
 
+const REPORT_TYPES = [
+  "SYMPTOMS_TESTED_POSITIVE",
+  "SYMPTOMS_TESTED_NEGATIVE",
+  "SYMPTOMS_NOT_TESTED",
+];
+
 function lookup(pids) {
   return fetch(
     `${HTTP_API}/encounters?pids=${pids.join(",")}`,
@@ -42,14 +48,20 @@ export function checkPublicEncounters() {
  * Publish locally stored encounters to the backend.
  * TODO: Encounters that are older than 1 month should not be published.
  */
-export function publish() {
-  LocalDatabaseModule.getEncounters().then(JSON.parse)
+export function publish(reportType) {
+
+  return LocalDatabaseModule.getEncounters().then(JSON.parse)
     .then(encounters => encounters.map(encounter => {
+      if(!REPORT_TYPES.includes(reportType)) {
+        return Promise.reject(new Error(`Invalid reportType: ${reportType}`));
+      }
+
       return {
         pid: encounter.uuid,
         minDistance: encounter.distance,
         duration: encounter.duration,
         timestamp: Number(new Date(encounter.timestamp)),
+        reportType,
       }
     }))
     .then(uploadEncounters);
