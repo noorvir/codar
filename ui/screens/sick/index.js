@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import * as React from 'react';
 import {
     Platform,
@@ -19,7 +19,7 @@ import NegativeOption from "./negative";
 import PositiveOption from "./positive";
 import { DateSelectorScreen } from "./DateSelector";
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import styles from "../../constants/Styles";
@@ -38,9 +38,23 @@ export default function MeldungScreen( { navigation } ) {
 
 
     // TODO: fix this
-    navigation.dangerouslyGetParent().setOptions({
-        headerShown: false
-    });
+    useFocusEffect(
+        React.useCallback(() => {
+            navigation.dangerouslyGetParent().setOptions({
+                headerShown: false
+            });
+            console.log('mounted');
+
+            return () => {
+                console.log(navigation);
+                navigation.dangerouslyGetParent().setOptions({
+                    headerShown: true
+                });
+                console.log('unmounted')
+            }
+        }, [])
+    );
+
 
     return(
         <NavigationContainer independent={true} >
