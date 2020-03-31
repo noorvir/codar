@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
@@ -24,6 +25,15 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.Strategy;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.UUID;
+
+interface ChangeNotifyCallback {
+    void onChange();
+}
+
+
 public class BeaconService extends Service {
     private static final String CHANNEL_ID = "yo";
     private static final int ONGOING_NOTIFICATION_ID = 1;
@@ -32,10 +42,23 @@ public class BeaconService extends Service {
     private ServiceHandler serviceHandler;
     private MessageListener mMessageListener;
 
+    private final IBinder binder = new LocalBinder();
 
-    Message mMessage = new Message("Hello World from Background Service".getBytes());
+    Message mMessage = new Message("Hello World from Background Service asd".getBytes());
+    LocalDatabase db;
 
     private Notification notification;
+    private ChangeNotifyCallback mCallback;
+
+    public void registerDataChangeCallback(ChangeNotifyCallback callback) {
+        mCallback = callback;
+    }
+
+    public class LocalBinder extends Binder {
+        BeaconService getService() {
+            return BeaconService.this;
+        }
+    }
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
@@ -62,6 +85,9 @@ public class BeaconService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
+
+        db = LocalDatabase.getDatabase(getApplicationContext());
+
         // Start up the thread running the service. Note that we create a
         // separate thread because the service normally runs in the process's
         // main thread, which we don't want to block. We also make it
@@ -80,8 +106,11 @@ public class BeaconService extends Service {
         mMessageListener = new MessageListener() {
             @Override
             public void onFound(Message message) {
-               notification.contentIntent.cancel();
+//               notification.contentIntent.cancel();
                 Log.d(TAG, "Found message: " + new String(message.getContent()));
+                writeEncounter(new String(message.getContent()));
+                notifyAppIfRunning();
+
                 Toast.makeText(service, "Found message: " + new String(message.getContent()), Toast.LENGTH_SHORT).show();
             }
 
@@ -100,16 +129,6 @@ public class BeaconService extends Service {
         Nearby.getMessagesClient(this).subscribe(mMessageListener, options);
 
         Nearby.getMessagesClient(this).publish(mMessage);
-
-        // DATABASE STUFF
-        LocalDatabase db = LocalDatabase.getDatabase(getApplicationContext());
-//
-//        Encounter dummyElement = new Encounter("asdunaosidnmaosind");
-//        Encounter dummyElement2 = new Encounter("aasdsdunaosidnmaosind");
-//
-//        db.getTransactionExecutor().execute(() -> {
-//            db.encountersDao().insertAll(dummyElement, dummyElement2);
-//        });
 
         startForeground(ONGOING_NOTIFICATION_ID, notification);
     }
@@ -144,8 +163,7 @@ public class BeaconService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // We don't provide binding, so return null
-        return null;
+        return binder;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -153,5 +171,20 @@ public class BeaconService extends Service {
     public void onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
         stopForeground(STOP_FOREGROUND_REMOVE);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void writeEncounter(String uuid) {
+        Encounter dummyElement = new Encounter(uuid);
+
+        db.getTransactionExecutor().execute(() -> {
+            db.encountersDao().insertAll(dummyElement);
+        });
+    }
+
+    private void notifyAppIfRunning() {
+        if (mCallback != null && binder.isBinderAlive()) {
+            mCallback.onChange();
+        }
     }
 }

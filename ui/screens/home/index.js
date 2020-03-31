@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
     Platform,
     StatusBar,
     Image,
-    TouchableOpacity, StyleSheet
+    TouchableOpacity,
+    StyleSheet,
+    DeviceEventEmitter
 } from "react-native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,33 +21,40 @@ import Colors from "../../constants/Colors";
 import {MonoText} from "../../components/StyledText";
 
 
-import { NativeModules } from "react-native";
+import { NativeEventEmitter, NativeModules } from "react-native";
 
 const { LocalDatabaseModule } = NativeModules;
 
 export default function HoneScreen ( navigation ) {
-    const testNativeCommunication = async () => {
-        console.warn(await LocalDatabaseModule.getEncounters());
-    };
-    testNativeCommunication();
-
-    const [peopleCrossed, setPeopleCrossed] = useState(10);
+    const DataEventEmitterModule = NativeModules.DataEventEmitterModule;
+    const [peopleCrossed, setPeopleCrossed] = useState(0);
     const [potentialInfections, setPotentialInfections] = useState(0);
     const [positiveInfections, setPositiveInfections] = useState(0);
+    const updateEncountersFromStore = async () => {
+        let encounterObj = JSON.parse(await LocalDatabaseModule.getEncounters());
+        setPeopleCrossed(encounterObj.length);
+    };
+    
+    updateEncountersFromStore();
+    
+    useEffect(() => {
+        DeviceEventEmitter.addListener('newDataAvailable', (event) => updateEncountersFromStore());
+        return () => DeviceEventEmitter.removeListener('newDataAvailable', (event) => updateEncountersFromStore());
+    }, [DeviceEventEmitter]);
 
     function counterGut() {
-        setPeopleCrossed(10);
+        // setPeopleCrossed(10);
         setPotentialInfections(0);
         setPositiveInfections(0);
     }
 
     let counterWarn = function () {
-        setPeopleCrossed(20);
+        // setPeopleCrossed(20);
         setPotentialInfections(6);
     };
 
     function counterAlert() {
-        setPeopleCrossed(26);
+        // setPeopleCrossed(26);
         setPotentialInfections(7);
         setPositiveInfections(1);
     }

@@ -50,12 +50,10 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        // SplashScreen.preventAutoHide();
-
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
         setIsInitialized(await AsyncStorage.getItem('onboardingFinsihed'));
-        setIsInitialized(false);
+
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);

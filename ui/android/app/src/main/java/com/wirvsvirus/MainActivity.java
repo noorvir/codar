@@ -1,25 +1,24 @@
 package com.wirvsvirus;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 import android.app.NotificationChannel; 
 import android.app.NotificationManager;
-import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.os.IBinder;
 
-import com.wirvsvirus.BeaconService;
+import org.jetbrains.annotations.Nullable;
 
 public class MainActivity extends ReactActivity {
     private static final String CHANNEL_ID = "yo";
@@ -71,7 +70,8 @@ public class MainActivity extends ReactActivity {
         // initLocationManager();
     }
 
-    /**
+
+/**
      * Initializes the BluetoothAdapter. Manifest file is already setup to allow bluetooth access.
      * The user will be asked to enable bluetooth if it is turned off
      */
