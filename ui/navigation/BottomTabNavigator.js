@@ -57,7 +57,7 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'Interactions';
+      return 'Dashboard';
     case 'Map':
         return 'Map';
   case 'Meldung':

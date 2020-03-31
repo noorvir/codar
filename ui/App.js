@@ -34,7 +34,8 @@ export default function App(props) {
   const { getInitialState } = useLinking(containerRef);
 
   const finishOnboarding = () => {
-    setIsInitialized(true)
+    setIsInitialized(true);
+
     const _storeData = async () => {
         try {
             await AsyncStorage.setItem('onboardingFinsihed', 'true');
@@ -43,9 +44,9 @@ export default function App(props) {
             console.warn(error);
             console.warn("Couldn't store that Onboarding finished.")
         }
-    }
+    };
     _storeData()
-  }
+  };
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {

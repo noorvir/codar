@@ -1,12 +1,13 @@
-import {Platform, StyleSheet, Text, View} from "react-native";
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useState} from "react";
 import * as React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-import {Button} from "react-native-elements";
+import {Button, Card} from "react-native-elements";
 
 import { buttonStyle } from './styles'
 import SwitchSelector from 'react-native-switch-selector'
+import SymptomsOption from "./symptoms";
 
 
 export function DateSelectorScreen ({ navigation, route }) {
@@ -14,7 +15,7 @@ export function DateSelectorScreen ({ navigation, route }) {
     let dateToday = new Date();
 
     const [today, setToday] = useState(true);
-    const [showDate, setShowDate] = useState(false);
+    const [showAndroidDateSelector, setShowAndroidDateSelector] = useState(false);
     const [date, setDate] = useState(new Date());
 
     const onDateSwitchChange = () => {
@@ -31,8 +32,27 @@ export function DateSelectorScreen ({ navigation, route }) {
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
-        setShowDate(Platform.OS === 'ios');
         setDate(currentDate);
+
+        if (event.type === "dismissed" || event.type === "set"){
+            setShowAndroidDateSelector(false)
+        }
+    };
+
+    const getDatePicker = () => {
+        return (
+              <DateTimePicker
+                  testID="dateTimePicker"
+                  timeZoneOffsetInMinutes={0}
+                  value={date}
+                  mode={'date'}
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChange}
+                  maximumDate={dateToday}
+                  style={{flex: 1}}
+              />
+          );
     };
 
     const submit = () => {
@@ -71,22 +91,31 @@ export function DateSelectorScreen ({ navigation, route }) {
                     { label: "Yesterday", value: "m", }
                 ]}
             />
-            {console.log(date.getDate(),date.getMonth(), date.getFullYear())}
-            <View style={pageStyle.dateWheelContainer}>
-                <View  style={pageStyle.dateWheel}>
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        timeZoneOffsetInMinutes={0}
-                        value={date}
-                        mode={'date'}
-                        is24Hour={true}
-                        display="default"
-                        onChange={onChange}
-                        maximumDate={ dateToday }
-                        style={{flex:1}}
-                    />
+            {Platform.OS === "ios" ?
+                <View style={pageStyle.dateWheelContainer}>
+                    <View style={pageStyle.dateWheel}>
+                        {getDatePicker()}
+                    </View>
                 </View>
-            </View>
+                :
+                <View style={cardStyle.container}>
+                    <TouchableOpacity
+                        onPress={ () => {setShowAndroidDateSelector(true)} }
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'center',
+                            width: '100%'}} >
+                        <Card containerStyle={cardStyle.card}>
+                            <Text style={{ fontSize: 17, fontWeight:'bold' }}>
+                                {date.getDate()} /
+                                {date.getMonth()} /
+                                {date.getFullYear()}
+                            </Text>
+                        </Card>
+                    </TouchableOpacity>
+                    {showAndroidDateSelector ? getDatePicker() : null}
+                </View>
+            }
 
             <View style={ buttonStyle.buttonContainer }>
                 <Button
@@ -126,5 +155,26 @@ const pageStyle = StyleSheet.create({
     dateWheel:{
         height: '45%',
         width: '100%',
+    }
+});
+
+
+
+const cardStyle = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        height: '20%',
+        width: '100%'
+    },
+    card: {
+        flexShrink: 1,
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 5,
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '70%'
     }
 });

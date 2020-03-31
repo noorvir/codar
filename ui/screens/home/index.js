@@ -9,6 +9,7 @@ import {
     StyleSheet,
     DeviceEventEmitter
 } from "react-native";
+import { NativeEventEmitter, NativeModules } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Icon, Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,16 +17,14 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from "../../constants/Styles";
 import Colors from "../../constants/Colors";
 
-
-import { NativeEventEmitter, NativeModules } from "react-native";
-
 const { LocalDatabaseModule } = NativeModules;
 
-export default function HoneScreen ( navigation ) {
+export default function HomeScreen ( navigation ) {
     const DataEventEmitterModule = NativeModules.DataEventEmitterModule;
     const [peopleCrossed, setPeopleCrossed] = useState(0);
     const [potentialInfections, setPotentialInfections] = useState(0);
     const [positiveInfections, setPositiveInfections] = useState(0);
+
     const updateEncountersFromStore = async () => {
         let encounterObj = JSON.parse(await LocalDatabaseModule.getEncounters());
         setPeopleCrossed(encounterObj.length);
@@ -34,8 +33,15 @@ export default function HoneScreen ( navigation ) {
     updateEncountersFromStore();
     
     useEffect(() => {
-        DeviceEventEmitter.addListener('newDataAvailable', (event) => updateEncountersFromStore());
-        return () => DeviceEventEmitter.removeListener('newDataAvailable', (event) => updateEncountersFromStore());
+        DeviceEventEmitter.addListener(
+            'newDataAvailable',
+            (event) => updateEncountersFromStore()
+        );
+
+        return () => DeviceEventEmitter.removeListener(
+            'newDataAvailable',
+            (event) => updateEncountersFromStore()
+        );
     }, [DeviceEventEmitter]);
 
     function counterGut() {

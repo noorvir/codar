@@ -175,9 +175,6 @@ function MeldungLandingScreen ( { navigation, route } ) {
     )
 }
 
-
-
-
 const cardStyle = StyleSheet.create({
    card: {
        padding: 10,

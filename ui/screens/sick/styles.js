@@ -67,7 +67,7 @@ export const buttonStyle = StyleSheet.create({
         left: 0,
         right: 0,
         width: '90%',
-        height: '10%',
+        height: '15%',
         backgroundColor: '#fff',
         paddingVertical: 10,
         paddingHorizontal: 10,
