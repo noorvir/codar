@@ -1,6 +1,5 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import * as React from "react";
-import {Button} from "react-native-elements";
 import styles from "../../constants/Styles";
 import {ScrollView} from "react-native-gesture-handler";
 import {Ionicons} from "@expo/vector-icons";
@@ -64,8 +63,6 @@ const buttonStyle = StyleSheet.create({
 
 const notice = StyleSheet.create({
     container: {
-        // position: 'absolute',
-        // marginTop: 'auto',
         top: '20%',
         left: 0,
         right: 0,

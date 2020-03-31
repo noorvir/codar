@@ -1,7 +1,6 @@
-import {useEffect, useLayoutEffect, useState} from 'react';
+import { useState } from 'react';
 import * as React from 'react';
 import {
-    Platform,
     View,
     StyleSheet, Text, TouchableOpacity,
 } from 'react-native';
@@ -13,8 +12,6 @@ import {
 
 import { ScrollView } from 'react-native-gesture-handler';
 import ConfirmedScreen from "./confirmed";
-import TestText from "./text";
-import TestDate from "./DateSelector";
 import NegativeOption from "./negative";
 import PositiveOption from "./positive";
 import { DateSelectorScreen } from "./DateSelector";
@@ -26,8 +23,6 @@ import styles from "../../constants/Styles";
 import { pageStyle, buttonStyle, disabledTextColor} from './styles'
 
 import SymptomsOption from "./symptoms";
-import Colors from "../../constants/Colors";
-import OnboardingOne from "../onboarding/one";
 
 
 const MeldungStack = createStackNavigator();
@@ -80,15 +75,6 @@ MeldungScreen.navigationOptions = {
     headerMode: 'none'
 };
 
-function button () {
-    return (
-        <TouchableOpacity onPress={ onSymptomChange } style={{width: '100%'}}>
-            <View style={ {paddingLeft: 10} }>
-                <Text style={ {fontSize: 16} }>Back</Text>
-            </View>
-        </TouchableOpacity>
-    )
-}
 
 function MeldungLandingScreen ( { navigation, route } ) {
 

@@ -1,10 +1,9 @@
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Platform, StyleSheet, Text, View} from "react-native";
 import {useState} from "react";
 import * as React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import {Button} from "react-native-elements";
-import Colors from "../../constants/Colors";
 
 import { buttonStyle } from './styles'
 import SwitchSelector from 'react-native-switch-selector'

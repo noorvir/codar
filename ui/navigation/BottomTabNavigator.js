@@ -6,17 +6,10 @@ import MeldungScreen from '../screens/sick';
 import MapScreen from '../screens/map';
 import InfoScreen from '../screens/info';
 
-import { Button } from 'react-native';
-
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
-import Stack from '../screens/sick'
-
 export default function BottomTabNavigator({ navigation, route }) {
-  // Set the header title on the parent stack navigator depending on the
-  // currently active tab. Learn more in the documentation:
-  // https://reactnavigation.org/docs/en/screen-options-resolution.html
   navigation.setOptions({ headerTitle: getHeaderTitle(route)});
 
   return (

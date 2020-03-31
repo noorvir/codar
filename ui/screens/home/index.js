@@ -2,25 +2,17 @@ import React, { useState } from 'react';
 import {
     View,
     Text,
-    Platform,
-    StatusBar,
-    Image,
-    TouchableOpacity, StyleSheet
+    TouchableOpacity,
+    StyleSheet
 } from "react-native";
-import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from "@react-navigation/stack";
 import { ScrollView } from "react-native-gesture-handler";
 import { Icon, Card } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from "../../constants/Styles";
 import Colors from "../../constants/Colors";
-import {MonoText} from "../../components/StyledText";
-
 
 //import { NativeModules } from "react-native";
-
 //const { ToastExample } = NativeModules;
 
 
