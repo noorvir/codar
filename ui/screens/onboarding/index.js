@@ -37,10 +37,7 @@ export default function Onboarding () {
         <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <NavigationContainer>
-                <Stack.Navigator
-                    initialRouteName={INITIAL_ROUTE_NAME}
-
-                >
+                <Stack.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
                     <Stack.Screen
                         name={ "OnboardingOne" }
                         component={ OnboardingOne }

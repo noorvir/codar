@@ -26,51 +26,34 @@ export default function TestDate ( { isActive, date, showDatepicker} ){
 
     return (
         <View style={cardStyle.container}>
-            <View style={cardStyle.checkBoxContainer}>
-
-            </View>
-            <View style={cardStyle.inputContainer}>
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                }}>
-                    <TestText color={ isActive ? null : disabledTextColor}>
-                        wannn:
-                    </TestText>
+            <View style={{
+                    flexGrow: 1,
+                    flexDirection: 'column',
+                    // justifyContent: 'flex-start',
+                    alignItems: 'center',
+            }}>
+                <View>
+                <TestText color={ isActive ? null : disabledTextColor }>
+                    Test Date
+                </TestText>
                 </View>
-                <View style={{
-                    height: 50,
-                    flexDirection: 'row'
-                }}>
-                    <View style={{width: '15%'}}/>
-                    <View
-                        style={{ width: '85%', paddingRight: '15%'}}
-                        pointerEvents={ isActive ? 'auto' : "none" }>
-                        <TouchableOpacity
-                            onPress={showDatepicker}>
-                            <View style={dateContainerStyle(isActive? null: disabledTextColor)}>
-                                <TestText
-                                    color={ isActive ? null : disabledTextColor}
-                                    style={{
-                                    flexGrow: 1,
-                                    height: '100%',
-                                    justifyContent: 'flex-end',
-                                    fontSize: 25}} >
-                                    { date.getDate() - 1} /
-                                    { date.getMonth() + 1} /
-                                    { date.getFullYear() }
-                                </TestText>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                {/*<View style={dateContainerStyle(isActive? null: disabledTextColor)}>*/}
+                <View style={ {marginTop: 15} }>
+                    <TouchableOpacity onPress={showDatepicker}>
+                        <TestText color={ isActive ? null : disabledTextColor}>
+                            { date.getDate() - 1} /
+                            { date.getMonth() + 1} /
+                            { date.getFullYear() }
+                        </TestText>
+                    </TouchableOpacity>
                 </View>
-
+                {/*</View>*/}
             </View>
         </View>
     )
 }
 
-export function DateSelectorScreen ({ date, onChange, setShowDate }) {
+export function DateSelectorScreen ({ date, onChange, setShowDate, navigation }) {
 
     let dateToday = new Date().getDate();
     const [today, setToday] = useState(true);

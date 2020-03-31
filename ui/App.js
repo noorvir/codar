@@ -14,9 +14,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import Onboarding from "./screens/onboarding";
+import {createContext} from "react";
 
 
-const Stack = createStackNavigator();
+export const Stack = createStackNavigator();
 let initialized = true;
 
 export default function App(props) {

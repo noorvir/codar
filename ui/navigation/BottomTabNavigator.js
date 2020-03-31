@@ -6,15 +6,18 @@ import MeldungScreen from '../screens/sick';
 import MapScreen from '../screens/map';
 import InfoScreen from '../screens/info';
 
+import { Button } from 'react-native';
+
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
+
+import Stack from '../screens/sick'
 
 export default function BottomTabNavigator({ navigation, route }) {
   // Set the header title on the parent stack navigator depending on the
   // currently active tab. Learn more in the documentation:
   // https://reactnavigation.org/docs/en/screen-options-resolution.html
-  navigation.setOptions({ headerTitle: getHeaderTitle(route) });
-
+  navigation.setOptions({ headerTitle: getHeaderTitle(route)});
 
   return (
         <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
@@ -23,7 +26,7 @@ export default function BottomTabNavigator({ navigation, route }) {
             component={HomeScreen}
             options={{
                 tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="home" />,
-                tabBarLabel: () => { return null}
+                tabBarLabel: () => { return null},
             }}
         />
         <BottomTab.Screen
@@ -39,9 +42,8 @@ export default function BottomTabNavigator({ navigation, route }) {
             name="Meldung"
             component={MeldungScreen}
             options={{
-            tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="heartbeat" />,
-            tabBarLabel: () => { return null}
-
+                tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="heartbeat" />,
+                tabBarLabel: () => { return null},
         }}
         />
         <BottomTab.Screen
@@ -50,11 +52,11 @@ export default function BottomTabNavigator({ navigation, route }) {
             options={{
                 tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="question-circle" />,
                 tabBarLabel: () => { return null}
-
             }}
         />
     </BottomTab.Navigator>
   );
+
 }
 
 function getHeaderTitle(route) {
@@ -71,3 +73,4 @@ function getHeaderTitle(route) {
         return 'FAQ';
   }
 }
+
