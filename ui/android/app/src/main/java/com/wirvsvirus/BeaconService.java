@@ -1,12 +1,16 @@
 package com.wirvsvirus;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Binder;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -15,19 +19,23 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.Strategy;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.UUID;
+import java.util.Random;
 
 interface ChangeNotifyCallback {
     void onChange();
@@ -44,11 +52,12 @@ public class BeaconService extends Service {
 
     private final IBinder binder = new LocalBinder();
 
-    Message mMessage = new Message("Hello World from Background Service asd".getBytes());
+    Message mBroadcastMessage;
     LocalDatabase db;
 
     private Notification notification;
     private ChangeNotifyCallback mCallback;
+    private String ownUUID;  // TODO regenerate new UUID after contact circle feature is implemented
 
     public void registerDataChangeCallback(ChangeNotifyCallback callback) {
         mCallback = callback;
@@ -87,6 +96,8 @@ public class BeaconService extends Service {
     public void onCreate() {
 
         db = LocalDatabase.getDatabase(getApplicationContext());
+        ownUUID = getOrCreateOwnUUID();
+        mBroadcastMessage = new Message(ownUUID.getBytes());
 
         // Start up the thread running the service. Note that we create a
         // separate thread because the service normally runs in the process's
@@ -107,9 +118,13 @@ public class BeaconService extends Service {
             @Override
             public void onFound(Message message) {
 //               notification.contentIntent.cancel();
-                Log.d(TAG, "Found message: " + new String(message.getContent()));
-                writeEncounter(new String(message.getContent()));
-                notifyAppIfRunning();
+                String encounterUuid = new String(message.getContent());
+                Log.d(TAG, "Found message: " + encounterUuid);
+                writeEncounter(encounterUuid);
+
+                if (isLocationEnabled()) {
+                    updateWithCurrentLocation(encounterUuid);
+                }
 
                 Toast.makeText(service, "Found message: " + new String(message.getContent()), Toast.LENGTH_SHORT).show();
             }
@@ -128,9 +143,36 @@ public class BeaconService extends Service {
 
         Nearby.getMessagesClient(this).subscribe(mMessageListener, options);
 
-        Nearby.getMessagesClient(this).publish(mMessage);
+        Nearby.getMessagesClient(this).publish(mBroadcastMessage);
 
         startForeground(ONGOING_NOTIFICATION_ID, notification);
+    }
+
+    private String getOrCreateOwnUUID() {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+
+        String ownUUID = sharedPref.getString(getString(R.string.ownUuidKey), "");
+
+        if (ownUUID.length() == 0) {
+            ownUUID = randomUUID();
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.ownUuidKey), ownUUID);
+            editor.apply();
+        }
+        return ownUUID;
+    }
+
+    public static String randomUUID() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(128);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -175,11 +217,50 @@ public class BeaconService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void writeEncounter(String uuid) {
-        Encounter dummyElement = new Encounter(uuid);
+        Encounter newElement = new Encounter(uuid, ownUUID);
 
         db.getTransactionExecutor().execute(() -> {
-            db.encountersDao().insertAll(dummyElement);
+            db.encountersDao().insertAll(newElement);
         });
+    }
+
+    private boolean isLocationEnabled(){
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        );
+    }
+
+    private void updateWithCurrentLocation(String uuid){
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(0);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, getLocationCallbackForUuid(uuid),
+                serviceLooper
+        );
+    }
+
+    private LocationCallback getLocationCallbackForUuid(String uuid) {
+        return new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                Location mLastLocation = locationResult.getLastLocation();
+                writeLocationToDatabase(uuid, mLastLocation);
+
+            }
+        };
+    }
+
+    private void writeLocationToDatabase(String uuid, Location mLastLocation) {
+        db.getTransactionExecutor().execute(() -> {
+            db.encountersDao().updateLocation(uuid, mLastLocation.getLatitude(), mLastLocation.getLatitude());
+        });
+        notifyAppIfRunning();
     }
 
     private void notifyAppIfRunning() {
@@ -187,4 +268,5 @@ public class BeaconService extends Service {
             mCallback.onChange();
         }
     }
+
 }

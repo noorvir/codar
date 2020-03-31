@@ -15,4 +15,5 @@
     <string name="channel_name">Channel Name</string>
     <string name="channel_description">Channel Description</string>
     <string name="notification_current_user_was_exposed">Uh oh, you have been exposed</string>
+    <string name="ownUuidKey">ownUuid</string>
 </resources>

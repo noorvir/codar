@@ -17,7 +17,8 @@ import java.util.Date;
 @Entity(tableName = "encounters")
 class Encounter {
      @RequiresApi(api = Build.VERSION_CODES.N)
-     public Encounter(String uuid) {
+     public Encounter(String uuid, String ownUuid) {
+         this.ownUuid = ownUuid;
          this.uuid = uuid;
          SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
          this.timestamp = simpleDateFormat.format(new Date());
@@ -38,6 +39,9 @@ class Encounter {
     @ColumnInfo(name = "distance")
     public int distance;
 
-    @ColumnInfo(name = "location")
-    public String location;
+    @ColumnInfo(name = "location_lat")
+    public double locationLat;
+
+    @ColumnInfo(name = "location_long")
+    public double locationLong;
 }

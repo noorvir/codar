@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, NativeModules, DeviceEventEmitter } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 
 import MapView from "react-native-maps";
 import styles from "../../constants/Styles";
 
+const { LocalDatabaseModule } = NativeModules;
 
 function WarningMarker({ latitude, longitude }) {
     let RADIUS = 100;
@@ -39,27 +40,38 @@ function AlertMarker({ latitude, longitude }) {
 
 export default function MapScreen() {
 
-    let latitude =  37.78825;
-    let longitude =  -122.4324;
+    let latitude =  52.518611;
+    let longitude =  13.408333;
     let latitudeDelta =  0.0922;
     let longitudeDelta =  0.0421;
 
-    let warningLatLongList = [
-        { latitude: 37.78825, longitude: -122.4324 },
-        { latitude: 37.78745, longitude: -122.4324 },
-        { latitude: 37.78265, longitude: -122.4324 },
-        { latitude: 37.77705, longitude: -122.4114 },
-        { latitude: 37.78895, longitude: -122.4314 },
-    ];
+    let [warningLatLongList, setWarningLatLongList] = React.useState([
+        { latitude: 52.51825, longitude: 13.4324 },
+        { latitude: 52.51745, longitude: 13.4324 },
+        { latitude: 52.51265, longitude: 13.4324 },
+        { latitude: 52.51705, longitude: 13.4114 },
+        { latitude: 52.51895, longitude: 13.4314 },
+    ]);
 
-    let alertLatLongList = [
-        { latitude: 37.79825, longitude: -122.4324 },
-        { latitude: 37.70745, longitude: -122.4924 },
-        { latitude: 37.78265, longitude: -122.4624 },
-        { latitude: 37.78705, longitude: -122.3114 },
-        { latitude: 37.78895, longitude: -122.4314 },
-    ];
+    let [alertLatLongList, setAlertLatLongList] = React.useState([
+        { latitude: 52.51825, longitude: 13.4324 },
+        { latitude: 52.51745, longitude: 13.4924 },
+        { latitude: 52.51265, longitude: 13.4624 },
+        { latitude: 52.51705, longitude: 13.3114 },
+        { latitude: 52.51895, longitude: 13.4314 },
+    ]);
 
+    const updateEncountersFromStore = async () => {
+        let encounterObj = JSON.parse(await LocalDatabaseModule.getEncounters());
+        setWarningLatLongList(
+            encounterObj.map((encounter) => ({ latitude: encounter.locationLat, longitude: encounter.locationLong})));
+    };
+    
+    React.useEffect(() => {
+        updateEncountersFromStore();
+        DeviceEventEmitter.addListener('newDataAvailable', (event) => updateEncountersFromStore());
+        return () => DeviceEventEmitter.removeListener('newDataAvailable', (event) => updateEncountersFromStore());
+    });
 
     return (
         <View style={styles.container}>
