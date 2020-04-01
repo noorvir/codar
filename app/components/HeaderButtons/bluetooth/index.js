@@ -1,8 +1,11 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
+import {useState} from "react";
+import { Ionicons } from "@expo/vector-icons";
 import {StyleSheet, View, TouchableOpacity, Text} from "react-native";
 import {Overlay} from "react-native-elements";
-import {useState} from "react";
+
+import Colors from "../../../constants/Colors";
+
 
 export default function BluetoothToggle () {
     const [isBluetoothOn, setIsBluetoothOn] = useState(true);
@@ -18,15 +21,15 @@ export default function BluetoothToggle () {
 
     return (
         <>
-        <TouchableOpacity onPress={handlePress}>
-            <View style={ styles.container }>
-                <Ionicons name='ios-bluetooth' size={30} color='#ed4e44f0'/>
-            </View>
-        </TouchableOpacity>
-        <BluetoothOffConfirmation
-            isVisible={confirmationOverlayVisible}
-            setIsVisible={setConfirmationOverlayVisible}
-        />
+            <TouchableOpacity onPress={handlePress}>
+                <View style={ styles.container }>
+                    <Ionicons name='ios-bluetooth' size={30} color={Colors.buttonBlue}/>
+                </View>
+            </TouchableOpacity>
+            <BluetoothOffConfirmation
+                isVisible={confirmationOverlayVisible}
+                setIsVisible={setConfirmationOverlayVisible}
+            />
         </>
     )
 }

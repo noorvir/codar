@@ -1,23 +1,24 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as React from "react";
+import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, View, TouchableOpacity, Text} from "react-native";
 import { Overlay} from "react-native-elements";
-import {useState} from "react";
+
 
 export default function ShareButton () {
     const [confirmationOverlayVisible, setConfirmationOverlayVisible] = useState(false);
 
     return (
         <>
-        <TouchableOpacity onPress={ () => {setConfirmationOverlayVisible(true)}}>
-            <View style={ styles.container }>
-                <Ionicons name='ios-share-alt' size={30}/>
-            </View>
-        </TouchableOpacity>
-        <ShareConfirmation
-            isVisible={confirmationOverlayVisible}
-            setIsVisible={setConfirmationOverlayVisible}
-        />
+            <TouchableOpacity onPress={ () => {setConfirmationOverlayVisible(true)}}>
+                <View style={ styles.container }>
+                    <Ionicons name='ios-share-alt' size={30}/>
+                </View>
+            </TouchableOpacity>
+            <ShareConfirmation
+                isVisible={confirmationOverlayVisible}
+                setIsVisible={setConfirmationOverlayVisible}
+            />
         </>
     )
 }
