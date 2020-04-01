@@ -2,7 +2,9 @@ import { useState } from 'react';
 import * as React from 'react';
 import {
     View,
-    StyleSheet, Text, TouchableOpacity,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
 } from 'react-native';
 
 import {
@@ -41,7 +43,7 @@ export default function MeldungScreen( { navigation } ) {
             return () => {
                 console.log(navigation);
                 navigation.dangerouslyGetParent().setOptions({
-                    headerShown: true
+                    headerShown: true,
                 });
             }
         }, [])
@@ -54,16 +56,22 @@ export default function MeldungScreen( { navigation } ) {
                 <MeldungStack.Screen
                     name={'Meldung'}
                     component={MeldungLandingScreen}
+                    options={ {headerTitleAlign:'center'}}
                 />
                 <MeldungStack.Screen
                     name={'DateSelectorScreen'}
                     component={DateSelectorScreen}
                     initialParams={{setIsRegistered: setIsRegistered}}
+                    options={ {headerTitleAlign:'center'}}
                 />
                 <MeldungStack.Screen
                     name={'ConfirmedScreen'}
                     component={ConfirmedScreen}
-                    options={{headerLeft: null, gesturesEnabled: false}}
+                    options={{
+                        headerLeft: null,
+                        gesturesEnabled: false,
+                        headerTitleAlign:'center'
+                    }}
                 />
             </MeldungStack.Navigator>
         </NavigationContainer>

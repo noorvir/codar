@@ -20,8 +20,10 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 
 import Onboarding from 'react-native-onboarding-swiper';
+import BluetoothToggle from "./components/HeaderButtons/bluetooth";
 
 import localize from './translation'
+import ShareButton from "./components/HeaderButtons/share";
 
 // Setting a default background color for all View components.
 const Stack = createStackNavigator();
@@ -114,7 +116,14 @@ export default function App(props) {
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
             <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
               <Stack.Navigator>
-                <Stack.Screen name="Root" component={BottomTabNavigator} />
+                <Stack.Screen
+                    name="Root"
+                    component={BottomTabNavigator}
+                    options={{
+                      headerLeft: () => { return (<BluetoothToggle/>) },
+                      headerRight: () => { return (<ShareButton/>) }
+                    }}
+                />
               </Stack.Navigator>
             </NavigationContainer>
           </View>

@@ -5,12 +5,13 @@ import HomeScreen from '../screens/home';
 import MeldungScreen from '../screens/sick';
 import MapScreen from '../screens/map';
 import InfoScreen from '../screens/info';
+import {Ionicons} from "@expo/vector-icons";
 
 const BottomTab = createBottomTabNavigator();
 const INITIAL_ROUTE_NAME = 'Home';
 
 export default function BottomTabNavigator({ navigation, route }) {
-  navigation.setOptions({ headerTitle: getHeaderTitle(route)});
+  navigation.setOptions({ headerTitle: getHeaderTitle(route), headerTitleAlign:'center'});
 
   return (
         <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
