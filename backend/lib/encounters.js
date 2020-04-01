@@ -118,7 +118,7 @@ exports.store = function (encounters) {
  */
 exports.deleteOldEncounters = function (age) {
 	return admin.firestore().collection(ENCOUNTERS_COLLECTION)
-		.where("timestamp", "<", Date.now() - age)
+		.where("timestamp", "<", Date.now() - age).get()
 		.then((querySnapshot) => {
 			var batch = db.batch();
 

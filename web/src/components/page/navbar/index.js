@@ -15,13 +15,7 @@ function NavbarBrand(props) {
 				<img
 					className="navbar-logo"
 					alt='codar logo'
-					src="/images/codar.svg"
-					style={
-						{
-							WebkitFilter: 'grayscale(100%)',
-							filter: 'grayscale(100%)'
-						}
-					} />
+					src="/images/codar-text.svg" />
 			</Link>
 
 			<span className="navbar-burger burger" id='burger' onClick={toggleBurgerMenu}>
@@ -63,17 +57,13 @@ function NavbarMenu({ signedIn, signOut, ...props }) {
 					</>
 					:
 					<>
-						<span className='navbar-item'>
-							<Link className="navbar-button" to='/contact' onClick={toggleBurgerMenu}>
-								Contact us
-							</Link>
-						</span>
+						<a className='navbar-item' href='/#contact' onClick={toggleBurgerMenu}>
+							Contact
+						</a>
 
-						<span className='navbar-item'>
-							<Link className="navbar-button" to='/faqs' onClick={toggleBurgerMenu}>
-								FAQ
-							</Link>
-						</span>
+						<a className='navbar-item' href='/#faq' onClick={toggleBurgerMenu}>
+							FAQ
+						</a>
 					</>
 				}
 
@@ -87,10 +77,10 @@ function Navbar({ signedIn, signIn, signOut }) {
 	return (
 		<nav id="navbar"
 			role="navigation" aria-label="main navigation"
-			className="navbar is-white">
+			className="navbar is-white is-shadowless">
 			<div className="container">
 				<NavbarBrand />
-				<NavbarMenu/>
+				<NavbarMenu />
 			</div>
 		</nav>
 	);

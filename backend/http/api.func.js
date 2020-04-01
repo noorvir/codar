@@ -8,15 +8,16 @@ const { storeContactRequest } = require('../lib/contact');
 const api = express();
 api.use(cors);
 api.use(express.json());
-api.use(validateApiKey);
 
+const encountersApi = express();
+encountersApi.use(validateApiKey);
 
 /**
  * GET /encounters/exports?startAfter=<timestamp>
  * 
  * Get all export references with timestamp greater than `startAfter`.
  */
-api.get('/encounters/exports', (req, res) => {
+encountersApi.get('/exports', (req, res) => {
 	const { startAfter } = req.query;
 	encounters.fetchExportReferences(Number(startAfter))
 		.then(exportReferences => res.send({ exportReferences }))
@@ -29,7 +30,7 @@ api.get('/encounters/exports', (req, res) => {
  * 
  * Get all encounters that contain one of the supplied pids.
  */
-api.get('/encounters', (req, res) => {
+encountersApi.get('/', (req, res) => {
 
 	const pids = (req.query.pids && req.query.pids.split(",")) || []
 	console.log(`Encounter query for ${pids.length} pids`, { pids });
@@ -51,16 +52,22 @@ api.get('/encounters', (req, res) => {
  * 		timestamp: <int>,
  * }, ...]
  */
-api.post('/encounters', (req, res) => {
+encountersApi.post('/', (req, res) => {
 	encounters.store(req.body.encounters)
 		.then(() => res.status(200).end())
 		// TODO: better error handling
 		.catch(error => res.status(500).send(error.message))
 });
 
-
+api.use("/encounters", encountersApi);
 
 api.post('/contact', (req, resp) => {
+	function validateEmail(email) {
+		// eslint-disable-next-line
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test(String(email).toLowerCase());
+	}
+
 	const { name, email, text } = req.body;
 
 	if (!name.trim()) {
@@ -78,7 +85,7 @@ api.post('/contact', (req, resp) => {
 		return;
 	}
 
-	storeContactRequest({ name, email, text })
+	storeContactRequest({ name, email, text, timestamp: Date.now() })
 		.then(() => resp.status(200).send())
 		.catch(error => {
 			console.error(error);

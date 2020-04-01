@@ -8,7 +8,7 @@ import Container from "../container";
 const Page = withRouter(withTracker(function ({ children, noNav, noFooter }) {
 	return (
 		<div>
-			<Navbar/>
+		  {!noNav &&	<Navbar/>}
 			{children}
 			{!noFooter && <Footer />}
 		</div>
