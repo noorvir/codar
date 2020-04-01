@@ -38,7 +38,7 @@ function uploadEncounters(encounters) {
  * Returns a promise that resolves into all matching encounters.
  */
 export function checkPublicEncounters() {
-  return LocalDatabaseModule.getEncounters().then(JSON.parse)
+  return getLocalEncounters()
     // TODO: rename uuid to pid
     .then(encounters => encounters.map(encounter => encounter.uuid))
     .then(lookup);
@@ -65,4 +65,8 @@ export function publish(reportType) {
       }
     }))
     .then(uploadEncounters);
+}
+
+export function getLocalEncounters() {
+	return LocalDatabaseModule.getEncounters().then(JSON.parse)
 }

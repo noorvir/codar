@@ -16,10 +16,64 @@ import { Ionicons } from '@expo/vector-icons';
 
 import styles from "../../constants/Styles";
 import Colors from "../../constants/Colors";
+import EncounterFetcher, { EncounterContext } from '../../components/EncounterFetcher';
 
 const { LocalDatabaseModule } = NativeModules;
 
-export default function HomeScreen ( navigation ) {
+function EncounterCards() {
+    const [localEncounters, potentiallyInfectiousEncounters, infectiousEncounters] = React.useContext(EncounterContext);
+
+    console.log(localEncounters, potentiallyInfectiousEncounters, infectiousEncounters);
+
+    return (
+        <>
+            <Card containerStyle={cardStyle.neutralCard}>
+                <View style={cardStyle.container}>
+                    <View style={cardStyle.textContainer}>
+                        <Text style={cardStyle.text}>Begegnete</Text>
+                    </View>
+                    <View style={cardStyle.numberContainer}>
+                        <Text style={cardStyle.number}>{localEncounters.length}</Text>
+                    </View>
+                </View>
+            </Card>
+
+            {
+                potentiallyInfectiousEncounters.length !== 0 ?
+                    <Card containerStyle={cardStyle.warningCard}>
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.textContainer}>
+                                <Text style={cardStyle.text}>Potenziell infizierte</Text>
+                            </View>
+                            <View style={cardStyle.numberContainer}>
+                                <Text style={cardStyle.number}>{potentiallyInfectiousEncounters.length}</Text>
+                            </View>
+                        </View>
+                    </Card>
+                    :
+                    null
+            }
+
+            {
+                infectiousEncounters.length !== 0 ?
+                    <Card containerStyle={cardStyle.alertCard}>
+                        <View style={cardStyle.container}>
+                            <View style={cardStyle.textContainer}>
+                                <Text style={cardStyle.text}>Positiv getestete</Text>
+                            </View>
+                            <View style={cardStyle.numberContainer}>
+                                <Text style={cardStyle.number}>{infectiousEncounters.length}</Text>
+                            </View>
+                        </View>
+                    </Card>
+                    :
+                    null
+            }
+        </>
+    )
+}
+
+export default function HomeScreen(navigation) {
     const DataEventEmitterModule = NativeModules.DataEventEmitterModule;
     const [peopleCrossed, setPeopleCrossed] = useState(0);
     const [potentialInfections, setPotentialInfections] = useState(0);
@@ -29,9 +83,9 @@ export default function HomeScreen ( navigation ) {
         let encounterObj = JSON.parse(await LocalDatabaseModule.getEncounters());
         setPeopleCrossed(encounterObj.length);
     };
-    
+
     updateEncountersFromStore();
-    
+
     useEffect(() => {
         DeviceEventEmitter.addListener(
             'newDataAvailable',
@@ -67,49 +121,10 @@ export default function HomeScreen ( navigation ) {
                 style={pageStyle.scrollContainer}
                 contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                <View style={{ flexDirection: 'column', alignItems: 'center'}}>
-                    <Card containerStyle={cardStyle.neutralCard}>
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.textContainer}>
-                                <Text style={cardStyle.text}>Begegnete</Text>
-                            </View>
-                            <View style={cardStyle.numberContainer}>
-                                <Text style={cardStyle.number}>{ peopleCrossed }</Text>
-                            </View>
-                        </View>
-                    </Card>
-
-                    {
-                        potentialInfections !== 0 ?
-                            <Card containerStyle={cardStyle.warningCard}>
-                                <View style={cardStyle.container}>
-                                    <View style={cardStyle.textContainer}>
-                                        <Text style={cardStyle.text}>Potenziell infizierte</Text>
-                                    </View>
-                                    <View style={cardStyle.numberContainer}>
-                                        <Text style={cardStyle.number}>{ potentialInfections }</Text>
-                                    </View>
-                                </View>
-                            </Card>
-                            :
-                            null
-                    }
-
-                    {
-                        positiveInfections !== 0 ?
-                            <Card containerStyle={cardStyle.alertCard}>
-                                <View style={cardStyle.container}>
-                                    <View style={cardStyle.textContainer}>
-                                        <Text style={cardStyle.text}>Positiv getestete</Text>
-                                    </View>
-                                    <View style={cardStyle.numberContainer}>
-                                        <Text style={cardStyle.number}>{ positiveInfections }</Text>
-                                    </View>
-                                </View>
-                            </Card>
-                            :
-                            null
-                    }
+                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                    <EncounterFetcher>
+                        <EncounterCards />
+                    </EncounterFetcher>
                 </View>
 
 
@@ -119,14 +134,14 @@ export default function HomeScreen ( navigation ) {
                             <Text style={notice.infoText}>
                                 Alles gut!
                             </Text>
-                            <Text/>
+                            <Text />
                             <Text style={notice.infoText}>
                                 Du bist bisher noch keiner Person begegnet,
                                 die ein Risiko für deine Gesundheit darstellt.
                             </Text>
-                            <Text/>
-                            <TouchableOpacity onPress={ counterWarn }>
-                                <Ionicons name='ios-checkmark-circle-outline' size={50} color={Colors.allGoodGreen}/>
+                            <Text />
+                            <TouchableOpacity onPress={counterWarn}>
+                                <Ionicons name='ios-checkmark-circle-outline' size={50} color={Colors.allGoodGreen} />
                             </TouchableOpacity>
                         </View>
                         :
@@ -139,20 +154,20 @@ export default function HomeScreen ( navigation ) {
                             <Text style={notice.infoText}>
                                 Achtung!
                             </Text>
-                            <Text/>
+                            <Text />
                             <Text style={notice.infoText}>
                                 Du bist in letzter Zeit Personen begegnet, die
                                 Symptome gemeldet haben.
                             </Text>
-                            <Text/>
+                            <Text />
                             <Text style={notice.infoText}>
                                 Es besteht die Möglichkeit, dass
                                 sie den Virus auf dich übertragen haben. Bleibe in nächster
                                 Zeit lieber zu Hause und achte auf Symptome.
                             </Text>
-                            <Text/>
-                            <TouchableOpacity onPress={ counterAlert }>
-                                <Ionicons name='ios-warning' size={50} color='#fdd004'/>
+                            <Text />
+                            <TouchableOpacity onPress={counterAlert}>
+                                <Ionicons name='ios-warning' size={50} color='#fdd004' />
                             </TouchableOpacity>
                         </View>
                         :
@@ -165,29 +180,29 @@ export default function HomeScreen ( navigation ) {
                             <Text style={notice.infoText}>
                                 Achtung!
                             </Text>
-                            <Text/>
+
                             <Text style={notice.infoText}>
                                 Du bist in letzter Zeit einer Person begegnet, die
-                                positiv getestet wurden.  Es ist sehr wahrscheinlich, dass
+                                positiv getestet wurden. Es ist sehr wahrscheinlich, dass
                                 du dich angesteckt hast.
                             </Text>
-                            <Text/>
+       
                             <Text style={notice.infoText}>
                                 Du solltest dich ab heute in eine zweiwöchige
                                 Selbstquarantäne begeben und aufkommende Symptome melden.
                             </Text>
-                            <Text/>
+       
                             <TouchableOpacity onPress={ counterGut }>
                                 <Ionicons name='ios-alert' size={50} color='#ed4e44f0'/>
                             </TouchableOpacity>
-                        </View>
+        </View>
                         :
-                        null
+  null
                 }
 
-            </ScrollView>
+            </ScrollView >
 
-        </View>
+        </View >
     );
 }
 
