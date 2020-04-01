@@ -7,11 +7,10 @@ import {Alert} from "react-native";
 import Colors from "../../../constants/Colors";
 
 
-export default function BluetoothToggle () {
-    const [isBluetoothOn, setIsBluetoothOn] = useState(true);
+export default function BluetoothToggle ({ isOn, setIsOn }) {
 
     const handlePress = () => {
-        if ( isBluetoothOn ) {
+        if ( isOn ) {
             Alert.alert(
                 'Turn Off Bluetooth?',
                 'Are you sure you want to turn off Bluetooth? You will ' +
@@ -19,12 +18,13 @@ export default function BluetoothToggle () {
                 [
                     {},
                     {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                    {text: 'Turn Off', onPress: () => console.log('OK Pressed')},
+                    {text: 'Turn Off', onPress: () => setIsOn(false)},
                 ],
                 { cancelable: false }
             )
         } else {
-            setIsBluetoothOn(true);
+            setIsOn(true);
+            console.log('bluetooth switched on')
         }
     };
 
@@ -32,7 +32,7 @@ export default function BluetoothToggle () {
         <>
             <TouchableOpacity onPress={handlePress}>
                 <View style={ styles.container }>
-                    <Ionicons name='ios-bluetooth' size={30} color={Colors.buttonBlue}/>
+                    <Ionicons name='ios-bluetooth' size={30} color={ isOn ? Colors.buttonBlue: null}/>
                 </View>
             </TouchableOpacity>
         </>

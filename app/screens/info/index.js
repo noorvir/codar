@@ -26,16 +26,6 @@ function OptionButton({ icon, label, onPress, isLastOption }) {
 }
 
 const SECTIONS = [
-    // {
-    //     title: 'How does it work?',
-    //     content: 'Magic!',
-    //     icon: 'ios-construct',
-    // },
-    // {
-    //     title: 'Is my data stored in the cloud?',
-    //     content: 'No no no no!!',
-    //     icon: 'ios-cloud'
-    // },
     {
         title:
             'Welche Daten werden mit anderen geteilt, wenn ich Symptome melde?',
@@ -132,7 +122,7 @@ InfoScreen.navigationOptions = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
     },
     contentContainer: {
         paddingTop: 0,
@@ -151,12 +141,12 @@ const styles = StyleSheet.create({
         width: '85%'
     },
     option: {
-        backgroundColor: '#fdfdfd',
+        backgroundColor: '#fff',
         paddingHorizontal: 15,
         paddingVertical: 15,
         borderWidth: StyleSheet.hairlineWidth,
         borderBottomWidth: 0,
-        borderColor: '#ededed',
+        borderColor: '#aaa',
     },
     lastOption: {
         borderBottomWidth: StyleSheet.hairlineWidth,

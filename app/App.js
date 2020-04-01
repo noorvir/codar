@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
+import { useState, useRef } from 'react';
 import {
   Image,
   Platform,
@@ -29,26 +30,38 @@ import ShareButton from "./components/HeaderButtons/share";
 const Stack = createStackNavigator();
 
 export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [isInitialized, setIsInitialized] = React.useState(false);
-  const [initialNavigationState, setInitialNavigationState] = React.useState();
-  const containerRef = React.useRef();
-  const { getInitialState } = useLinking(containerRef);
+  const [isBluetoothOn, setIsBluetoothOn] = useState(true);
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [initialNavigationState, setInitialNavigationState] = useState();
+  const containerRef = useRef();
+  const {getInitialState} = useLinking(containerRef);
 
   const finishOnboarding = () => {
     setIsInitialized(true);
 
     const _storeData = async () => {
-        try {
-            await AsyncStorage.setItem('onboardingFinsihed', 'true');
-        } catch (error) {
-            // Error saving data
-            console.warn(error);
-            console.warn("Couldn't store that Onboarding finished.")
-        }
+      try {
+        await AsyncStorage.setItem('onboardingFinsihed', 'true');
+      } catch (error) {
+        // Error saving data
+        console.warn(error);
+        console.warn("Couldn't store that Onboarding finished.")
+      }
     };
     _storeData()
   };
+
+  // TODO: Get bluetooth on from persistent storage. Doesn't work yet. Blocks.
+  async function getBluetoothStatus () {
+    try {
+      setIsBluetoothOn(await AsyncStorage.getItem('isBluetoothOn'));
+    } catch (error) {
+      setIsBluetoothOn(false);
+      console.log('bluetooth error')
+    }
+  }
+  // getBluetoothStatus();
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
@@ -120,7 +133,7 @@ export default function App(props) {
                     name="Root"
                     component={BottomTabNavigator}
                     options={{
-                      headerLeft: () => { return (<BluetoothToggle/>) },
+                      headerLeft: () => { return (<BluetoothToggle isOn={isBluetoothOn} setIsOn={setIsBluetoothOn}/>) },
                       headerRight: () => { return (<ShareButton/>) }
                     }}
                 />
