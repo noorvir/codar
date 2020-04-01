@@ -11,7 +11,7 @@ An encounter has the following fields:
 * `pid` the pseudonymous identifier of the encoutered person
 * `reportType` the reason for the encounter to be published. can be "SYMPTOMS_TESTED_POSITIVE" or "SYMPTOMS_TESTED_NEGATIVE" or "SYMPTOMS_NOT_TESTED".
 
-Encounters are published by people who have tested positive.
+Encounters are published by people who have reported that they are symptomatic.
 
 *location is currently not supported, the app can still collect location data on the client side*
 
