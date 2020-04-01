@@ -109,7 +109,7 @@ export function DateSelectorScreen ({ navigation, route }) {
                         <Card containerStyle={cardStyle.card}>
                             <Text style={{ fontSize: 17, fontWeight:'bold' }}>
                                 {date.getDate()} /
-                                {date.getMonth()} /
+                                {date.getMonth() + 1} /
                                 {date.getFullYear()}
                             </Text>
                         </Card>
