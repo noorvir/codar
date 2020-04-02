@@ -26,6 +26,7 @@ function uploadEncounters(encounters) {
     {
       method: 'POST',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer L8WDxw/TzbRFah0Jy6yQiaEj+tFfz14wtE9R+AecEKY=`
       },
       body: JSON.stringify({ encounters }),
