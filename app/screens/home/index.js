@@ -35,7 +35,7 @@ function EncounterNotice({ children, icon, color }) {
 }
 
 function EncounterCards() {
-    const [localEncounters, potentiallyInfectiousEncounters, infectiousEncounters] = React.useContext(EncounterContext);
+    const { localEncounters, potentiallyInfectiousEncounters, infectiousEncounters } = React.useContext(EncounterContext);
 
     return (
         <>
@@ -62,7 +62,7 @@ function EncounterCards() {
 }
 
 function EncounterNotices() {
-    const [localEncounters, potentiallyInfectiousEncounters, infectiousEncounters] = React.useContext(EncounterContext);
+    const { localEncounters, potentiallyInfectiousEncounters, infectiousEncounters } = React.useContext(EncounterContext);
     return (
         <>
             {
@@ -102,64 +102,21 @@ function EncounterNotices() {
 }
 
 export default function HomeScreen(navigation) {
-    const DataEventEmitterModule = NativeModules.DataEventEmitterModule;
-    const [peopleCrossed, setPeopleCrossed] = useState(0);
-    const [potentialInfections, setPotentialInfections] = useState(0);
-    const [positiveInfections, setPositiveInfections] = useState(0);
-
-    const updateEncountersFromStore = async () => {
-        let encounterObj = JSON.parse(await LocalDatabaseModule.getEncounters());
-        setPeopleCrossed(encounterObj.length);
-    };
-
-    updateEncountersFromStore();
-
-    useEffect(() => {
-        DeviceEventEmitter.addListener(
-            'newDataAvailable',
-            (event) => updateEncountersFromStore()
-        );
-
-        return () => DeviceEventEmitter.removeListener(
-            'newDataAvailable',
-            (event) => updateEncountersFromStore()
-        );
-    }, [DeviceEventEmitter]);
-
-    function counterGut() {
-        // setPeopleCrossed(10);
-        setPotentialInfections(0);
-        setPositiveInfections(0);
-    }
-
-    let counterWarn = function () {
-        // setPeopleCrossed(20);
-        setPotentialInfections(6);
-    };
-
-    function counterAlert() {
-        // setPeopleCrossed(26);
-        setPotentialInfections(7);
-        setPositiveInfections(1);
-    }
-
     return (
-        <EncounterFetcher>
-            <View style={styles.container}>
-                <ScrollView
-                    style={pageStyle.scrollContainer}
-                    contentContainerStyle={pageStyle.scrollContentContainer}>
+        <View style={styles.container}>
+            <ScrollView
+                style={pageStyle.scrollContainer}
+                contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                    <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                        <EncounterCards />
-                    </View>
+                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                    <EncounterCards />
+                </View>
 
-                    <EncounterNotices />
+                <EncounterNotices />
 
-                </ScrollView >
-            </View >
-        </EncounterFetcher>
-    );                                    
+            </ScrollView >
+        </View >
+    );                                            
 }
 
 const pageStyle = StyleSheet.create({
