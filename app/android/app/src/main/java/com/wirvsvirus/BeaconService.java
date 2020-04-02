@@ -88,7 +88,7 @@ public class BeaconService extends Service {
 
         db = LocalDatabase.getDatabase(getApplicationContext());
        Encounter dummyElement = new Encounter("testpid1000");
-       Encounter dummyElement2 = new Encounter("aasdsdunaosidnmaosind");
+       Encounter dummyElement2 = new Encounter("testpid1001");
 
        db.getTransactionExecutor().execute(() -> {
            db.encountersDao().insertAll(dummyElement, dummyElement2);
