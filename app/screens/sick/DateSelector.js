@@ -8,12 +8,13 @@ import {Button, Card} from "react-native-elements";
 import { buttonStyle } from './styles'
 import SwitchSelector from 'react-native-switch-selector'
 import SymptomsOption from "./symptoms";
+import { publish } from "../../lib/encounters";
 
 
 export function DateSelectorScreen ({ navigation, route }) {
 
     let dateToday = new Date();
-
+    const [submitting, setSubmitting] = useState(false);
     const [today, setToday] = useState(true);
     const [showAndroidDateSelector, setShowAndroidDateSelector] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -57,12 +58,16 @@ export function DateSelectorScreen ({ navigation, route }) {
     };
 
     const submit = () => {
-        route.params.setIsRegistered(true);
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'ConfirmedScreen' }],
-        });
-        navigation.navigate('ConfirmedScreen');
+        setSubmitting(true);
+        publish("SYMPTOMS_NOT_TESTED").then(() => {
+            setSubmitting(false);
+            route.params.setIsRegistered(true);
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'ConfirmedScreen' }],
+            });
+            navigation.navigate('ConfirmedScreen');
+        }).catch(error => console.log(error));
     };
 
     return (
@@ -120,6 +125,7 @@ export function DateSelectorScreen ({ navigation, route }) {
 
             <View style={ buttonStyle.buttonContainer }>
                 <Button
+                    loading={submitting}
                     buttonStyle={ buttonStyle.button }
                     containerViewStyle={{width: '80%', marginLeft: 0 }}
                     title="Finished"

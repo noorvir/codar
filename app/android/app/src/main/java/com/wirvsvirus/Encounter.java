@@ -19,8 +19,7 @@ class Encounter {
      @RequiresApi(api = Build.VERSION_CODES.N)
      public Encounter(String uuid) {
          this.uuid = uuid;
-         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss");
-         this.timestamp = simpleDateFormat.format(new Date());
+         this.timestamp = System.currentTimeMillis();
      }
 
     @PrimaryKey @NotNull
@@ -30,7 +29,7 @@ class Encounter {
     public String ownUuid;
 
     @ColumnInfo(name = "time_stamp")
-    public String timestamp;
+    public long timestamp;
 
     @ColumnInfo(name = "duration")
     public int duration;
