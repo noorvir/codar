@@ -17,60 +17,88 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from "../../constants/Styles";
 import Colors from "../../constants/Colors";
 import EncounterFetcher, { EncounterContext } from '../../components/EncounterFetcher';
+import EncounterCard from '../../components/EncounterCard';
 
 const { LocalDatabaseModule } = NativeModules;
+
+function EncounterNotice({ children, icon, color }) {
+    return (
+        <View style={notice.container}>
+            <Text style={notice.infoText}>
+                {children}
+            </Text>
+            <TouchableOpacity>
+                <Ionicons name={icon} size={50} color={color} />
+            </TouchableOpacity>
+        </View>
+    )
+}
 
 function EncounterCards() {
     const [localEncounters, potentiallyInfectiousEncounters, infectiousEncounters] = React.useContext(EncounterContext);
 
-    console.log(localEncounters, potentiallyInfectiousEncounters, infectiousEncounters);
-
     return (
         <>
-            <Card containerStyle={cardStyle.neutralCard}>
-                <View style={cardStyle.container}>
-                    <View style={cardStyle.textContainer}>
-                        <Text style={cardStyle.text}>Begegnete</Text>
-                    </View>
-                    <View style={cardStyle.numberContainer}>
-                        <Text style={cardStyle.number}>{localEncounters.length}</Text>
-                    </View>
-                </View>
-            </Card>
+            <EncounterCard
+                containerStyle={cardStyle.neutralCard}
+                title={"Begegnete"}
+                count={localEncounters.length}
+                displayZero
+            />
+
+            <EncounterCard
+                containerStyle={cardStyle.warningCard}
+                title={"Potenziell infizierte"}
+                count={potentiallyInfectiousEncounters.length}
+            />
+
+            <EncounterCard
+                containerStyle={cardStyle.alertCard}
+                title={"Positiv getestete"}
+                count={infectiousEncounters.length}
+            />
+        </>
+    )
+}
+
+function EncounterNotices() {
+    const [localEncounters, potentiallyInfectiousEncounters, infectiousEncounters] = React.useContext(EncounterContext);
+    return (
+        <>
+            {
+                potentiallyInfectiousEncounters.length === 0 && infectiousEncounters.length === 0 ?
+                    <EncounterNotice icon="ios-checkmark-circle-outline" color={Colors.allGoodGreen}>
+                        Alles gut!{"\n\n"}
+                        Du bist bisher noch keiner Person begegnet, die ein Risiko für deine Gesundheit darstellt.
+                    </EncounterNotice>
+                    :
+                    null
+            }
 
             {
-                potentiallyInfectiousEncounters.length !== 0 ?
-                    <Card containerStyle={cardStyle.warningCard}>
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.textContainer}>
-                                <Text style={cardStyle.text}>Potenziell infizierte</Text>
-                            </View>
-                            <View style={cardStyle.numberContainer}>
-                                <Text style={cardStyle.number}>{potentiallyInfectiousEncounters.length}</Text>
-                            </View>
-                        </View>
-                    </Card>
+                potentiallyInfectiousEncounters.length !== 0 && infectiousEncounters.length === 0 ?
+                    <EncounterNotice icon="ios-warning" color="#fdd004">
+                        Achtung! {"\n\n"}
+                        Du bist in letzter Zeit Personen begegnet, die Symptome gemeldet haben. {"\n\n"}
+                        Es besteht die Möglichkeit, dass sie den Virus auf dich übertragen haben.
+                        Bleibe in nächster Zeit lieber zu Hause und achte auf Symptome.
+                    </EncounterNotice>
                     :
                     null
             }
 
             {
                 infectiousEncounters.length !== 0 ?
-                    <Card containerStyle={cardStyle.alertCard}>
-                        <View style={cardStyle.container}>
-                            <View style={cardStyle.textContainer}>
-                                <Text style={cardStyle.text}>Positiv getestete</Text>
-                            </View>
-                            <View style={cardStyle.numberContainer}>
-                                <Text style={cardStyle.number}>{infectiousEncounters.length}</Text>
-                            </View>
-                        </View>
-                    </Card>
+                    <EncounterNotice icon='ios-alert' color="#ed4e44f0">
+                        Achtung! {"\n\n"}
+                        Du bist in letzter Zeit einer Person begegnet, die positiv getestet wurden. Es ist sehr wahrscheinlich, dass du dich angesteckt hast. {"\n\n"}
+                        Du solltest dich ab heute in eine zweiwöchige Selbstquarantäne begeben und aufkommende Symptome melden.
+                    </EncounterNotice>
                     :
                     null
             }
         </>
-    )
+    );
 }
 
 export default function HomeScreen(navigation) {
@@ -116,94 +144,22 @@ export default function HomeScreen(navigation) {
     }
 
     return (
-        <View style={styles.container}>
-            <ScrollView
-                style={pageStyle.scrollContainer}
-                contentContainerStyle={pageStyle.scrollContentContainer}>
+        <EncounterFetcher>
+            <View style={styles.container}>
+                <ScrollView
+                    style={pageStyle.scrollContainer}
+                    contentContainerStyle={pageStyle.scrollContentContainer}>
 
-                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                    <EncounterFetcher>
+                    <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                         <EncounterCards />
-                    </EncounterFetcher>
-                </View>
+                    </View>
 
+                    <EncounterNotices />
 
-                {
-                    potentialInfections === 0 && positiveInfections === 0 ?
-                        <View style={notice.container}>
-                            <Text style={notice.infoText}>
-                                Alles gut!
-                            </Text>
-                            <Text />
-                            <Text style={notice.infoText}>
-                                Du bist bisher noch keiner Person begegnet,
-                                die ein Risiko für deine Gesundheit darstellt.
-                            </Text>
-                            <Text />
-                            <TouchableOpacity onPress={counterWarn}>
-                                <Ionicons name='ios-checkmark-circle-outline' size={50} color={Colors.allGoodGreen} />
-                            </TouchableOpacity>
-                        </View>
-                        :
-                        null
-                }
-
-                {
-                    potentialInfections !== 0 && positiveInfections === 0 ?
-                        <View style={notice.container}>
-                            <Text style={notice.infoText}>
-                                Achtung!
-                            </Text>
-                            <Text />
-                            <Text style={notice.infoText}>
-                                Du bist in letzter Zeit Personen begegnet, die
-                                Symptome gemeldet haben.
-                            </Text>
-                            <Text />
-                            <Text style={notice.infoText}>
-                                Es besteht die Möglichkeit, dass
-                                sie den Virus auf dich übertragen haben. Bleibe in nächster
-                                Zeit lieber zu Hause und achte auf Symptome.
-                            </Text>
-                            <Text />
-                            <TouchableOpacity onPress={counterAlert}>
-                                <Ionicons name='ios-warning' size={50} color='#fdd004' />
-                            </TouchableOpacity>
-                        </View>
-                        :
-                        null
-                }
-
-                {
-                    potentialInfections !== 0 && positiveInfections !== 0 ?
-                        <View style={notice.container}>
-                            <Text style={notice.infoText}>
-                                Achtung!
-                            </Text>
-
-                            <Text style={notice.infoText}>
-                                Du bist in letzter Zeit einer Person begegnet, die
-                                positiv getestet wurden. Es ist sehr wahrscheinlich, dass
-                                du dich angesteckt hast.
-                            </Text>
-       
-                            <Text style={notice.infoText}>
-                                Du solltest dich ab heute in eine zweiwöchige
-                                Selbstquarantäne begeben und aufkommende Symptome melden.
-                            </Text>
-       
-                            <TouchableOpacity onPress={ counterGut }>
-                                <Ionicons name='ios-alert' size={50} color='#ed4e44f0'/>
-                            </TouchableOpacity>
-        </View>
-                        :
-  null
-                }
-
-            </ScrollView >
-
-        </View >
-    );
+                </ScrollView >
+            </View >
+        </EncounterFetcher>
+    );                                    
 }
 
 const pageStyle = StyleSheet.create({
@@ -252,34 +208,6 @@ const cardStyle = StyleSheet.create({
         zIndex: -2,
         width: '90%',
         backgroundColor: Colors.alertRed
-    },
-    container: {
-        width: '90%',
-        flexDirection: 'row',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: 5,
-        marginBottom: 5,
-    },
-    textContainer: {
-        flexGrow: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
-    text: {
-        fontSize: 20,
-        color: '#fff'
-    },
-    numberContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center'
-    },
-    number: {
-        fontSize: 50,
-        color: '#fff'
     },
 });
 
