@@ -6,7 +6,9 @@ import { checkPublicEncounters, getLocalEncounters } from '../lib/encounters';
 const STORAGE_KEY_ENCOUNTERS_CACHE = "encounters_cache"
 const STORAGE_FETCH_INTERVAL = 5000; // 5 sec.
 
-export const EncounterContext = createContext([]);
+export const EncounterContext = createContext({
+  localEncounters: [], potentiallyInfectiousEncounters: [], infectiousEncounters: [], forceRefresh: () => { }
+});
 
 export default function EncounterFetcher({ children }) {
   const [mounted, setMounted] = useState(false);
