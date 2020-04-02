@@ -1,9 +1,9 @@
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useState} from "react";
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
 import * as React from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-import {Button, Card} from "react-native-elements";
+import { Button, Card } from "react-native-elements";
 
 import { buttonStyle } from './styles'
 import SwitchSelector from 'react-native-switch-selector'
@@ -11,7 +11,7 @@ import SymptomsOption from "./symptoms";
 import { publish } from "../../lib/encounters";
 
 
-export function DateSelectorScreen ({ navigation, route }) {
+export function DateSelectorScreen({ navigation, route }) {
 
     let dateToday = new Date();
     const [submitting, setSubmitting] = useState(false);
@@ -20,12 +20,12 @@ export function DateSelectorScreen ({ navigation, route }) {
     const [date, setDate] = useState(new Date());
 
     const onDateSwitchChange = () => {
-        setToday( !today );
-        if ( !today ) {
+        setToday(!today);
+        if (!today) {
             setDate(dateToday)
         } else {
             let dateYesterday = (
-                d => new Date(d.setDate(d.getDate()-1))
+                d => new Date(d.setDate(d.getDate() - 1))
             )(new Date);
             setDate(dateYesterday);
         }
@@ -33,7 +33,7 @@ export function DateSelectorScreen ({ navigation, route }) {
 
     const onChange = (event, selectedDate) => {
 
-        if (event.type === "dismissed" || event.type === "set"){
+        if (event.type === "dismissed" || event.type === "set") {
             setShowAndroidDateSelector(false)
         }
 
@@ -43,23 +43,32 @@ export function DateSelectorScreen ({ navigation, route }) {
 
     const getDatePicker = () => {
         return (
-              <DateTimePicker
-                  testID="dateTimePicker"
-                  timeZoneOffsetInMinutes={0}
-                  value={date}
-                  mode={'date'}
-                  is24Hour={true}
-                  display="default"
-                  onChange={onChange}
-                  maximumDate={dateToday}
-                  style={{flex: 1}}
-              />
-          );
+            <DateTimePicker
+                testID="dateTimePicker"
+                timeZoneOffsetInMinutes={0}
+                value={date}
+                mode={'date'}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+                maximumDate={dateToday}
+                style={{ flex: 1 }}
+            />
+        );
     };
 
     const submit = () => {
         setSubmitting(true);
-        publish("SYMPTOMS_NOT_TESTED").then(() => {
+        const { positiveTest, negativeTest } = route.params;
+        let reportType = "SYMPTOMS_NOT_TESTED";
+        if (positiveTest) {
+            reportType = "SYMPTOMS_TESTED_POSITIVE";
+        }
+        if (negativeTest) {
+            reportType = "SYMPTOMS_TESTED_NEGATIVE";
+        }
+
+        publish(reportType).then(() => {
             setSubmitting(false);
             route.params.setIsRegistered(true);
             navigation.reset({
@@ -71,18 +80,18 @@ export function DateSelectorScreen ({ navigation, route }) {
     };
 
     return (
-        <View style={ pageStyle.container }>
-            <View style={ {width: '90%'} }>
-                <Text style={ {fontSize: 36, fontWeight: 'bold', paddingBottom: 10, paddingLeft: 10} }>
+        <View style={pageStyle.container}>
+            <View style={{ width: '90%' }}>
+                <Text style={{ fontSize: 36, fontWeight: 'bold', paddingBottom: 10, paddingLeft: 10 }}>
                     Date of Test
                 </Text>
-                <Text style={ {fontSize: 16, padding: 10,  paddingBottom: 10,} }>
+                <Text style={{ fontSize: 16, padding: 10, paddingBottom: 10, }}>
                     Please tell us when you got tested or first noticed the symptoms.
                 </Text>
             </View>
             <SwitchSelector
                 initial={0}
-                style={{width: '90%', margin: 'auto'}}
+                style={{ width: '90%', margin: 'auto' }}
                 onPress={onDateSwitchChange}
                 textColor={'black'} //'#7a44cf'
                 selectedColor={'black'}
@@ -93,7 +102,7 @@ export function DateSelectorScreen ({ navigation, route }) {
                 borderRadius={10}
                 hasPadding
                 options={[
-                    { label: "Today", value: "f",  },
+                    { label: "Today", value: "f", },
                     { label: "Yesterday", value: "m", }
                 ]}
             />
@@ -106,13 +115,14 @@ export function DateSelectorScreen ({ navigation, route }) {
                 :
                 <View style={cardStyle.container}>
                     <TouchableOpacity
-                        onPress={ () => {setShowAndroidDateSelector(true)} }
+                        onPress={() => { setShowAndroidDateSelector(true) }}
                         style={{
                             flexDirection: 'row',
                             justifyContent: 'center',
-                            width: '100%'}} >
+                            width: '100%'
+                        }} >
                         <Card containerStyle={cardStyle.card}>
-                            <Text style={{ fontSize: 17, fontWeight:'bold' }}>
+                            <Text style={{ fontSize: 17, fontWeight: 'bold' }}>
                                 {date.getDate()} /
                                 {date.getMonth() + 1} /
                                 {date.getFullYear()}
@@ -123,14 +133,14 @@ export function DateSelectorScreen ({ navigation, route }) {
                 </View>
             }
 
-            <View style={ buttonStyle.buttonContainer }>
+            <View style={buttonStyle.buttonContainer}>
                 <Button
                     loading={submitting}
-                    buttonStyle={ buttonStyle.button }
-                    containerViewStyle={{width: '80%', marginLeft: 0 }}
+                    buttonStyle={buttonStyle.button}
+                    containerViewStyle={{ width: '80%', marginLeft: 0 }}
                     title="Finished"
                     backgroundColor="black"
-                    onPress={ submit }
+                    onPress={submit}
                 />
             </View>
 
@@ -159,7 +169,7 @@ const pageStyle = StyleSheet.create({
         height: '50%',
         width: '100%'
     },
-    dateWheel:{
+    dateWheel: {
         height: '45%',
         width: '100%',
     }
