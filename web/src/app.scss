@@ -1,0 +1,276 @@
+@import '../node_modules/bulma/sass/utilities/initial-variables.sass';
+
+
+$primary: #f78080;
+$grey-darker:  hsl(0, 0%, 21%) !default;
+$grey-dark:    hsl(0, 0%, 29%) !default;
+$grey:         hsl(0, 0%, 48%) !default;
+$grey-light:   hsl(0, 0%, 71%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+$radius: 5px;
+$font-color: #3d4465;
+$family-primary: 'Ubuntu', Arial, sans-serif;
+$navbar-shadow: 0 2px 6px 0 rgba(0,0,0,.06);
+
+$modal-background-background-color: rgba(#0000, 0.6) !default;
+
+@import '../node_modules/bulma/bulma';
+
+.bg-img { 
+	background-image: url(https://images.unsplash.com/photo-1555480320-b9fa01a86dd8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80);
+	background-position: center center;
+	background-repeat:  no-repeat;
+	background-attachment: fixed;
+	background-size:  cover;
+	background-color: #000;
+
+
+  &:before {
+    content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient(to bottom right,$dark,$dark);
+        opacity: .8; 
+  }
+}
+
+.navbar {
+	box-shadow: $navbar-shadow;
+	min-height: 3.75rem;
+}
+
+.navbar-logo {
+	height: 60em;
+}
+
+.navbar-button {
+	@extend button;
+	color: $font-color;
+	font-weight: bold;
+}
+
+.button {
+	border-width: 2px;
+}
+
+.button.is-primary.is-outlined {
+	color: $font-color;
+}
+
+.hero {
+	min-height: 100vh;
+}
+
+.hero-body {
+	padding: 5rem 1.5rem;
+}
+
+// Form
+.auth-form {
+	background-color: #f9f9f9;
+	border-radius: 10px;
+}
+
+.auth-header, .auth-footer {
+	text-align: center;
+	padding: 10px;
+	display: block;
+}
+
+.auth-button {
+	text-align: center;
+	margin: auto;
+}
+
+.form-body {
+	padding: 20px;
+}
+
+.faq-section {
+	border-bottom: 1px solid $grey-lighter;
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+}
+
+.faq-answer {
+	padding-top: 5px;
+	padding-bottom: 20px;
+	line-height: 1.5;
+}
+
+.form-error-centered {
+	text-align: center;
+}
+
+
+// Modal
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place front is invalid - may break your css so removed */  
+    padding-top: 100px; /* Location of the box - don't know what this does?  If it is to move your modal down by 100px, then just change top below to 100px and remove this*/
+    left: 0;
+    right:0; /* Full width (left and right 0) */
+    top: 0;
+    bottom: 0; /* Full height top and bottom 0 */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    z-index: 9999; /* Sit on top - higher than any other z-index in your site*/
+}
+
+.modal-card{
+    width: 75%;
+    margin: 0 auto;
+    min-width: 400px;
+	max-width: 750px;
+	position: fixed;
+	top: 10%;
+}
+
+.modal-header {
+	justify-content: center;
+	vertical-align: center;
+	text-align: center;
+	background-color: #fefefe;
+}
+
+.modal-body {
+	justify-content: center;
+}
+
+.modal-footer {
+	justify-content: center;
+	background-color: #fefefe;
+}
+
+.modal-card-title {
+	font-size: 20px;
+	margin: 0px !important;
+}
+
+.modal-back-button {
+	color: #7f7f7f;
+}
+
+
+// Size Page
+.size-image-container {
+	padding: 2rem;
+	position: relative;
+}
+
+$line-width: 50%;
+$line-width-short: 30%;
+$line-color: $grey-light;
+$line-thickness: 1px;
+$font-weight: bold;
+
+.size-shoulder-line {
+	position: absolute;
+	top: 102px;
+	left: 53%;
+	width: $line-width-short;
+	border-bottom: $line-thickness solid $line-color;
+	font-weight: $font-weight;
+}
+
+.size-chest-line {
+	position: absolute;
+	top: 120px;
+	right: 53%;
+	width: $line-width;
+	border-bottom: $line-thickness solid $line-color;
+	font-weight: $font-weight;
+}
+
+.size-waist-line {
+	position: absolute;
+	top: 145px;
+	left: 53%;
+	width: $line-width;
+	border-bottom: $line-thickness solid $line-color;
+	font-weight: $font-weight;
+}
+
+.size-hips-line {
+	position: absolute;
+	top: 160px;
+	right: 54%;
+	width: $line-width-short;
+	border-bottom: $line-thickness solid $line-color;
+	font-weight: $font-weight;
+}
+
+// Scan App
+.info-text {
+	text-align: center;
+	font-size: 15px;
+	color: #444444;
+	padding: 10px;
+}
+
+.info-image-container {
+	display: flex;
+	justify-content: center;
+}
+
+.scan-screen-side-columns{
+	padding: 1.75rem;
+	text-align: center;
+}
+
+video {
+	border-radius: 5px;
+}
+
+.height-input {
+	max-width: 340px;
+	text-align: center;
+	display: flex;
+	margin: auto;
+}
+
+.height-error {
+	@extend .height-input;
+	justify-content: center;
+
+}
+
+.results-screen {
+	display: block;
+	text-align: center;
+}
+
+.results-screen-field {
+	padding: 1rem;
+}
+
+.results-screen-labels {
+}
+
+.results-screen-label {
+	font-size: 19px;
+	padding: 0.2rem;
+	text-align: left;
+	vertical-align: middle;
+	margin: auto;
+}
+
+.results-screen-value {
+	font-size: 30px;
+	font-weight: bold;
+	padding: 0.2rem;
+	text-align: left;
+	vertical-align: middle;
+	margin: auto;
+}
+
+// Brand
+.brand-list {
+	padding: 5%;
+	padding-bottom: 3%;
+	padding-top:3%;
+}
