@@ -23,7 +23,18 @@ function validEncounter(encounter) {
 	};
 
 	const encounterKeys = Object.keys(encounter);
-	const filteredKeys = encounterKeys.filter(field => encounterFields[field] && encounterFields[field](encounter[field]));
+	const filteredKeys = encounterKeys.filter(field => {
+		if (!encounterFields[field]) {
+			console.log(`Invalid encounter field: ${field}`);
+			return false;
+		}
+		if (!encounterFields[field](encounter[field])) {
+			console.log(`Invalid encounter field value: ${field} for ${encounter[field]}`);
+			return false;
+		}
+
+		return true;
+	});
 	return filteredKeys.length === Object.keys(encounterFields).length;
 }
 
