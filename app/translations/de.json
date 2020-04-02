@@ -2,13 +2,22 @@
 	"all_fine" : "Alles gut!",
 	"attention": "Achtung",
 	"onboarding" : {
-		"step_1_heading" : "Schalte dein Bluetooth ein, wenn du rausgehst.",
+		"step_1_heading" : "Zeichne deine Begegnungen\n mit Bluetooth auf.",
 		"step_1_caption" : "Wenn du dich länger in der Nähe einer Person aufhältst, wird ihre anonyme ID auf deinem Handy gespeichert.",
 		"step_2_heading" : "Privacy by Design.",
-		"step_2_caption" : "Deine Kennung wird ständig neu erzeugt und nur Du weißt welche Kennungen zu Dir gehöhren. Da wir Open Source sind, kann sich auch jeder selbst noch einmal versichern.",
-		"step_3_caption" : "Melde dich, wenn du Symptome bemerkst oder positiv getestet wurdest.",
+		"step_2_caption" : "Deine Kennung wird ständig neu erzeugt und nur du weißt welche Kennungen zu dir gehöhren. Da die App Open Source sind, kann sich auch jeder selbst noch einmal versichern.",
+		"step_3_heading" : "Bei Symptomen, kannst du deine Mitmenschen frühzeitig warnen.",
+		"step_3_caption" : "Melde dich, wenn du Symptome bemerkst oder positiv getestet wurdest. Diese Nachricht wird dann an alle Begegnungen übermittelt, ohne dass eine Zurückverfolgung möglich ist.",
+		"step_4_heading" : "...und deine Mitmenschen können dich warnen.",
 		"step_4_caption" : "Wir benachrichtigen dich, wenn du eine Person getroffen hast, die positiv getestet wurde.",
 		"step_5_heading" : "#StayAtHome",
 		"step_5_caption" : "Bis dahin, kannst du beruhigt sein, dass du bisher keinen getroffen hast, der ein Risiko für deine Gesundheit darstellt."
+	},
+
+	"home" : {
+		"encounters" : "Begegnungen",
+		"potentiallyInfectiousEncounters": "potenziell Infizierte",
+		"positivTestedEncounters": "positiv Getestete",
+		"allGoodMessage": "Alles gut!\n\nDu bist bisher noch keiner Person begegnet, die ein Risiko für deine Gesundheit darstellt."
 	}
 }

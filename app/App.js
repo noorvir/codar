@@ -72,8 +72,7 @@ export default function App(props) {
 
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
-        // setIsInitialized(await AsyncStorage.getItem('onboardingFinsihed'));
-        setIsInitialized(true);
+        setIsInitialized(await AsyncStorage.getItem('onboardingFinsihed'));
 
       } catch (e) {
         // We might want to provide this error information to an error reporting service

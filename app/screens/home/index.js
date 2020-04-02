@@ -19,6 +19,8 @@ import Colors from "../../constants/Colors";
 import EncounterFetcher, { EncounterContext } from '../../components/EncounterFetcher';
 import EncounterCard from '../../components/EncounterCard';
 
+import localize from '../../translation'
+
 const { LocalDatabaseModule } = NativeModules;
 
 function EncounterNotice({ children, icon, color }) {
@@ -41,20 +43,20 @@ function EncounterCards() {
         <>
             <EncounterCard
                 containerStyle={cardStyle.neutralCard}
-                title={"Begegnete"}
+                title={localize("home.encounters")}
                 count={localEncounters.length}
                 displayZero
             />
 
             <EncounterCard
                 containerStyle={cardStyle.warningCard}
-                title={"Potenziell infizierte"}
+                title={localize("home.potentiallyInfectiousEncounters")}
                 count={potentiallyInfectiousEncounters.length}
             />
 
             <EncounterCard
                 containerStyle={cardStyle.alertCard}
-                title={"Positiv getestete"}
+                title={localize("home.positivTestedEncounters")}
                 count={infectiousEncounters.length}
             />
         </>
@@ -68,8 +70,7 @@ function EncounterNotices() {
             {
                 potentiallyInfectiousEncounters.length === 0 && infectiousEncounters.length === 0 ?
                     <EncounterNotice icon="ios-checkmark-circle-outline" color={Colors.allGoodGreen}>
-                        Alles gut!{"\n\n"}
-                        Du bist bisher noch keiner Person begegnet, die ein Risiko für deine Gesundheit darstellt.
+                        {localize("home.allGoodMessage")}{"\n\n"}
                     </EncounterNotice>
                     :
                     null

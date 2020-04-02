@@ -13,3 +13,4 @@ pods/
 
 # macOS
 .DS_Store
+android/app/src/main/AndroidManifest.xml

@@ -157,7 +157,8 @@ public class BeaconService extends Service {
 
         String ownUUID = sharedPref.getString(getString(R.string.ownUuidKey), "");
 
-        if (ownUUID.length() == 0) {
+//        if (ownUUID.length() == 0) {
+        if (true) {
             ownUUID = randomUUID();
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString(getString(R.string.ownUuidKey), ownUUID);
@@ -169,11 +170,9 @@ public class BeaconService extends Service {
     public static String randomUUID() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(128);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
+        int length = 16;
+        for (int i = 0; i < length; i++){
+            randomStringBuilder.append((char) (generator.nextInt(25) + 65));
         }
         return randomStringBuilder.toString();
     }
@@ -244,7 +243,7 @@ public class BeaconService extends Service {
         FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mFusedLocationClient.requestLocationUpdates(
                 mLocationRequest, getLocationCallbackForUuid(uuid),
-                serviceLooper
+                Looper.getMainLooper()
         );
     }
 
