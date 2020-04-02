@@ -60,7 +60,7 @@ export function publish(reportType) {
         pid: encounter.uuid,
         minDistance: encounter.distance,
         duration: encounter.duration,
-        timestamp: Number(new Date(encounter.timestamp)),
+        timestamp: encounter.timestamp,
         reportType,
       }
     }))
