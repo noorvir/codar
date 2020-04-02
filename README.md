@@ -1,4 +1,7 @@
-# wvv-hackathon
+# Codar: COVID-19 Contact Tracer
+
+This repository contains an implementation of an Android and iOS app to trace the spread of COVID-19 in a privacy preserving 
+manner.
 
 ## Backend docs
 
