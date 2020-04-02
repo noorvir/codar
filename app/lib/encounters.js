@@ -41,7 +41,7 @@ function uploadEncounters(encounters) {
 export function checkPublicEncounters() {
   return getLocalEncounters()
     // TODO: rename uuid to pid
-    .then(encounters => encounters.map(encounter => encounter.uuid))
+    .then(encounters => encounters.map(encounter => encounter.ownUuid))
     .then(lookup);
 }
 
