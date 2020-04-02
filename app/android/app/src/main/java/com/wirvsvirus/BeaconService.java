@@ -99,9 +99,9 @@ public class BeaconService extends Service {
         ownUUID = getOrCreateOwnUUID();
         mBroadcastMessage = new Message(ownUUID.getBytes());
 
-       db.getTransactionExecutor().execute(() -> {
-           db.encountersDao().insertAll(dummyElement, dummyElement2);
-       });
+//       db.getTransactionExecutor().execute(() -> {
+//           db.encountersDao().insertAll(dummyElement, dummyElement2);
+//       });
         // Start up the thread running the service. Note that we create a
         // separate thread because the service normally runs in the process's
         // main thread, which we don't want to block. We also make it
