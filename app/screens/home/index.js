@@ -24,12 +24,14 @@ import localize from '../../translation'
 const { LocalDatabaseModule } = NativeModules;
 
 function EncounterNotice({ children, icon, color }) {
+    const { forceRefresh } = React.useContext(EncounterContext);
+
     return (
         <View style={notice.container}>
             <Text style={notice.infoText}>
                 {children}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={forceRefresh}>
                 <Ionicons name={icon} size={50} color={color} />
             </TouchableOpacity>
         </View>
