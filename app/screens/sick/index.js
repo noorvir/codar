@@ -22,14 +22,14 @@ import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import styles from "../../constants/Styles";
-import { pageStyle, buttonStyle, disabledTextColor} from './styles'
+import { pageStyle, buttonStyle, disabledTextColor } from './styles'
 
 import SymptomsOption from "./symptoms";
 
 
 const MeldungStack = createStackNavigator();
 
-export default function MeldungScreen( { navigation } ) {
+export default function MeldungScreen({ navigation }) {
 
     const [isRegistered, setIsRegistered] = useState(false);
 
@@ -50,19 +50,19 @@ export default function MeldungScreen( { navigation } ) {
     );
 
 
-    return(
+    return (
         <NavigationContainer independent={true} >
-            <MeldungStack.Navigator initialRouteName={ isRegistered ? 'ConfirmedScreen' : 'Meldung' }>
+            <MeldungStack.Navigator initialRouteName={isRegistered ? 'ConfirmedScreen' : 'Meldung'}>
                 <MeldungStack.Screen
                     name={'Meldung'}
                     component={MeldungLandingScreen}
-                    options={ {headerTitleAlign:'center'}}
+                    options={{ headerTitleAlign: 'center' }}
                 />
                 <MeldungStack.Screen
                     name={'DateSelectorScreen'}
                     component={DateSelectorScreen}
-                    initialParams={{setIsRegistered: setIsRegistered}}
-                    options={ {headerTitleAlign:'center'}}
+                    initialParams={{ setIsRegistered: setIsRegistered }}
+                    options={{ headerTitleAlign: 'center' }}
                 />
                 <MeldungStack.Screen
                     name={'ConfirmedScreen'}
@@ -70,7 +70,7 @@ export default function MeldungScreen( { navigation } ) {
                     options={{
                         headerLeft: null,
                         gesturesEnabled: false,
-                        headerTitleAlign:'center'
+                        headerTitleAlign: 'center'
                     }}
                 />
             </MeldungStack.Navigator>
@@ -84,7 +84,7 @@ MeldungScreen.navigationOptions = {
 };
 
 
-function MeldungLandingScreen ( { navigation, route } ) {
+function MeldungLandingScreen({ navigation, route }) {
 
     const [hasSymptoms, setHasSymptoms] = useState(false);
     const [positiveTest, setPositiveTest] = useState(false);
@@ -94,31 +94,33 @@ function MeldungLandingScreen ( { navigation, route } ) {
     const [negativeTestSectionVisible, setNegativeTestSectionVisible] = useState(false);
 
     const onSymptomChange = () => {
-        setHasSymptoms( !hasSymptoms );
-        setPositiveTestSectionVisible( !positiveTestSectionVisible );
-        setNegativeTestSectionVisible( !negativeTestSectionVisible );
+        setHasSymptoms(!hasSymptoms);
+        setPositiveTestSectionVisible(!positiveTestSectionVisible);
+        setNegativeTestSectionVisible(!negativeTestSectionVisible);
 
         // hasSymptoms state isn't updated yet - so this is opposite of what
         // you'd expect
-        if ( hasSymptoms ) {
+        if (hasSymptoms) {
             setPositiveTest(false);
             setNegativeTest(false);
         }
     };
 
     const onPositiveTestResultChange = () => {
-        setPositiveTest( !positiveTest );
+        setPositiveTest(!positiveTest);
         setNegativeTest(false);
     };
 
     const onNegativeTestResultChange = () => {
-        setNegativeTest( !negativeTest );
+        setNegativeTest(!negativeTest);
         setPositiveTest(false);
     };
 
     const navigateToDateSelector = () => {
         navigation.navigate(
-            'DateSelectorScreen',
+            'DateSelectorScreen', {
+            positiveTest, negativeTest
+        }
         )
     };
 
@@ -127,26 +129,26 @@ function MeldungLandingScreen ( { navigation, route } ) {
             <ScrollView
                 style={pageStyle.scrollContainer}
                 contentContainerStyle={pageStyle.scrollContentContainer}>
-                <View style={ {width: '90%'} }>
-                    <Text style={ {fontSize: 36, fontWeight: 'bold', paddingBottom: 10, paddingLeft: 10} }>
+                <View style={{ width: '90%' }}>
+                    <Text style={{ fontSize: 36, fontWeight: 'bold', paddingBottom: 10, paddingLeft: 10 }}>
                         Self Report
                     </Text>
-                    <Text style={ {fontSize: 16, padding: 10,  paddingBottom: 15,} }>
+                    <Text style={{ fontSize: 16, padding: 10, paddingBottom: 15, }}>
                         Please tell us what your current state is.
                     </Text>
                 </View>
 
                 <View>
-                    <TouchableOpacity onPress={ onSymptomChange } style={{width: '100%'}}>
-                        <Card containerStyle={ cardStyle.card } >
-                            <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange}/>
+                    <TouchableOpacity onPress={onSymptomChange} style={{ width: '100%' }}>
+                        <Card containerStyle={cardStyle.card} >
+                            <SymptomsOption isChecked={hasSymptoms} onChange={onSymptomChange} />
                         </Card>
                     </TouchableOpacity>
                 </View>
 
-                <View pointerEvents={ positiveTestSectionVisible ? 'auto' : "none" } >
-                    <TouchableOpacity onPress={ onPositiveTestResultChange } style={{width: '100%'}}>
-                        <Card containerStyle={ cardStyle.card } >
+                <View pointerEvents={positiveTestSectionVisible ? 'auto' : "none"} >
+                    <TouchableOpacity onPress={onPositiveTestResultChange} style={{ width: '100%' }}>
+                        <Card containerStyle={cardStyle.card} >
                             <PositiveOption
                                 isActive={hasSymptoms}
                                 isChecked={positiveTest}
@@ -155,8 +157,8 @@ function MeldungLandingScreen ( { navigation, route } ) {
                         </Card>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={ onNegativeTestResultChange } style={{width: '100%'}}>
-                        <Card containerStyle={ cardStyle.card }>
+                    <TouchableOpacity onPress={onNegativeTestResultChange} style={{ width: '100%' }}>
+                        <Card containerStyle={cardStyle.card}>
                             <NegativeOption
                                 isActive={hasSymptoms}
                                 isChecked={negativeTest}
@@ -168,12 +170,12 @@ function MeldungLandingScreen ( { navigation, route } ) {
 
                 <View style={buttonStyle.buttonContainer}>
                     <Button
-                        buttonStyle={ buttonStyle.button }
-                        containerViewStyle={{width: '90%', marginLeft: 0 }}
+                        buttonStyle={buttonStyle.button}
+                        containerViewStyle={{ width: '90%', marginLeft: 0 }}
                         title="Next"
                         onPress={navigateToDateSelector}
-                        disabled={ !hasSymptoms }
-                        disabledStyle={{ backgroundColor: disabledTextColor}}
+                        disabled={!hasSymptoms}
+                        disabledStyle={{ backgroundColor: disabledTextColor }}
                     />
                 </View>
 
@@ -184,13 +186,13 @@ function MeldungLandingScreen ( { navigation, route } ) {
 }
 
 const cardStyle = StyleSheet.create({
-   card: {
-       padding: 10,
-       borderRadius: 10,
-       marginTop: 5,
-       marginBottom: 10,
-       justifyContent: 'center',
-       alignItems: 'center',
-       width: '90%'
-   }
+    card: {
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 5,
+        marginBottom: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '90%'
+    }
 });
