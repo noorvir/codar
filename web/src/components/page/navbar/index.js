@@ -9,6 +9,38 @@ function toggleBurgerMenu() {
 	dropMenu.classList.toggle('is-active');
 }
 
+function LanguageDropdown() {
+
+	return (
+		<div className="dropdown is-hoverable navbar-item">
+			<div className="dropdown-trigger">
+				<button
+					className="button"
+					aria-haspopup="true"
+					aria-controls="dropdown-menu"
+					style={{borderWidth: '0px'}}>
+
+							<span className="icon is-small">
+        						<i className="fas fa-angle-down" aria-hidden="true"></i>
+     						</span>
+				</button>
+			</div>
+			<div className="dropdown-menu" id="dropdown-menu" role="menu">
+				<div className="dropdown-content">
+					<a href="#" className="dropdown-item">
+						EN
+					</a>
+				</div>
+				<div className="dropdown-content">
+					<a href="#" className="dropdown-item">
+						DE
+					</a>
+				</div>
+			</div>
+		</div>
+	)
+}
+
 function NavbarBrand(props) {
 	return (
 		<div className="navbar-brand">
@@ -35,13 +67,15 @@ function NavbarMenu({ signedIn, signOut, ...props }) {
 			<div className="navbar-end">
 
 				<a className='navbar-item' href='/#contact' onClick={toggleBurgerMenu}>
-					<Text h5>Contact</Text>
+					<Text h6>Contact</Text>
 				</a>
 
 				<a className='navbar-item' href='/#faq' onClick={toggleBurgerMenu}>
-					<Text h5>FAQ</Text>
+					<Text h6>FAQ</Text>
 				</a>
 
+				<LanguageDropdown/>
+				
 			</div>
 		</div >
 	);
