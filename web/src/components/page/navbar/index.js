@@ -75,7 +75,7 @@ function NavbarMenu({ signedIn, signOut, ...props }) {
 				</a>
 
 				<LanguageDropdown/>
-				
+
 			</div>
 		</div >
 	);

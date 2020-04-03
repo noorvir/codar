@@ -173,7 +173,7 @@ export default function Home() {
 				</HeroBody>
 			</Hero>
 
-			<Hero color="light" size="small">
+			<Hero color="light" size="medium">
 				<HeroBody>
 					<Container>
 						<div id="contact"></div>
