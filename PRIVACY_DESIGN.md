@@ -27,8 +27,9 @@ The user has the option to choose his own TOR relay, but for the average user th
 A mailbox is a collection of encrypted messages for the owner of the mailbox. A mailbox is addressed by the public key of the owner. Mailboxes older than a month can be deleted, since 
 The mailbox is made up of FaaS and a Database. Currently codar uses Google Cloud Functions and Google Cloud Firestore, which are highly scalable serverless services, however we could switch to serverful solutions if needed.
 
-### Regular health report
-Both parties of an encounter send regular messages to the mailboxes of their encounters, wether they are infected or not, this prevents the mailbox services from knowing the health status of associated with a public key.
+### Periodic health reports
+Both parties of an encounter send periodic messages to the mailboxes of their encounters, wether they are infected or not, this prevents the mailbox services from knowing the health status of associated with a public key.
+The interval of periodic messages is chosen at random to avoid that a health report containing positive test results can be spotted because it fell out of the regular interval.
 
 ### Verified test results
 1. Health authorities generate their own `secp256k1` key pair and publish the public key.
