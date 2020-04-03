@@ -48,7 +48,7 @@ export default function ContactForm() {
 
 	return (
 		<>
-			<Text h3>Contact us</Text>
+			<Text className={'is-header-title'} h3>Contact us</Text>
 			<Text subtitle h4>If you have any question or inquiries you can send us a message and we will get back to you as soon as possible.</Text>
 			<fieldset>
 

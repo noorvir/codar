@@ -40,7 +40,8 @@ $modal-background-background-color: rgba(#0000, 0.6) !default;
 
 .navbar {
 	box-shadow: $navbar-shadow;
-	min-height: 3.75rem;
+	min-height: 5rem;
+	border-bottom:1px solid rgba(221, 221, 221, 0.46);
 }
 
 .navbar-item .navbar-logo {
@@ -286,6 +287,12 @@ video {
 	to {box-shadow: $card-shadow}
 }
 
+.explain-card {
+	height: 100% !important;
+	border-radius: 20px;
+	padding: 15px;
+}
+
 .is-elevated-on-hover {
 	@extend .is-shadowless;
 }
@@ -311,4 +318,9 @@ video {
 
 .is-colorized-on-hover:hover {
 	animation: colorize .4s linear forwards;
+}
+
+.is-header-title {
+	padding-top: 2rem;
+	padding-bottom: 1rem;
 }

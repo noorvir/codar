@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '../../link';
+import Text from "../../text";
 
 function toggleBurgerMenu() {
 	let burgerIcon = document.getElementById('burger');
@@ -33,39 +34,13 @@ function NavbarMenu({ signedIn, signOut, ...props }) {
 		<div className="navbar-menu" id='menu'>
 			<div className="navbar-end">
 
-				{signedIn ?
-					<>
-						<span className='navbar-item'>
-							<Link className="button is-text" onClick={toggleBurgerMenu}>
-								Measurements
-							</Link>
-						</span>
-						<span className='navbar-item'>
-							<Link className="button is-text" onClick={toggleBurgerMenu}>
-								Find my size
-							</Link>
-						</span>
-						<span className='navbar-item'>
-							<Link onClick={() => {
-								signOut();
-								toggleBurgerMenu();
-							}}
-								className="button is-text" to='/'>
-								Sign out
-							</Link>
-						</span>
-					</>
-					:
-					<>
-						<a className='navbar-item' href='/#contact' onClick={toggleBurgerMenu}>
-							Contact
-						</a>
+				<a className='navbar-item' href='/#contact' onClick={toggleBurgerMenu}>
+					<Text h5>Contact</Text>
+				</a>
 
-						<a className='navbar-item' href='/#faq' onClick={toggleBurgerMenu}>
-							FAQ
-						</a>
-					</>
-				}
+				<a className='navbar-item' href='/#faq' onClick={toggleBurgerMenu}>
+					<Text h5>FAQ</Text>
+				</a>
 
 			</div>
 		</div >
@@ -77,7 +52,7 @@ function Navbar({ signedIn, signIn, signOut }) {
 	return (
 		<nav id="navbar"
 			role="navigation" aria-label="main navigation"
-			className="navbar is-white is-shadowless">
+			className="navbar is-white is-shadowless is-fixed-top">
 			<div className="container">
 				<NavbarBrand />
 				<NavbarMenu />

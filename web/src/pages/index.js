@@ -65,7 +65,7 @@ const faqSections = [
 	},
 ];
 
-const columnSize = "is-2-fullhd is-3-widescreen is-3-desktop is-3-tablet";
+const columnSize = "is-2-fullhdz is-3-widescreen is-3-desktop is-3-tablet";
 
 export default function Home() {
 	return (
@@ -77,14 +77,14 @@ export default function Home() {
 							<Column size={6}>
 								<Columns className="is-multiline">
 
-									<Column size={12}>
-										<Text h1>
+									<Column size={12} >
+										<Text className={'is-header-title'} h1>
 											Help bring the world back to its feet.
-                    </Text>
+                    					</Text>
 										<Text subtitle h4>
 											Codar helps you trace potential contact with people who might be infected
 											and lets you make informed decisions about how to protect yourself and your community.
-                    </Text>
+                   						 </Text>
 										<Button primary large>Get the app</Button>
 									</Column>
 
@@ -101,38 +101,46 @@ export default function Home() {
 
 			<Hero color="light" size="small" className=" is-colorized-on-hover">
 				<HeroBody>
-					<Columns className="is-vcentered is-centered is-multiline">
-						<Column size={12} className="has-text-centered">
-							<Text h3>How does it work?</Text>
+					<Columns className="is-vcentered is-centered">
+						<Container>
+						<Column size={12}>
+							<Columns className="is-vcentered is-centered is-multiline">
+								<Column size={12} className="has-text-centered is-header-title">
+									<Text h3>How does it work?</Text>
+								</Column>
+							</Columns>
+							<Columns>
+								<Column className={columnSize}>
+									<ExplainCard
+										title="Contact tracing using Bluetooth"
+										subtitle="Two phones that come into close contact exchange anonymous identifiers using bluetooth low energy. The phones log the encounter along side a duration and the closest distance measured. The data stays on the phone until test results are submitted."
+										src="/images/anonymous.png"
+									/>
+								</Column>
+								<Column className={columnSize}>
+									<ExplainCard
+										title="Submission of test results or symptoms"
+										subtitle="If a person shows symptoms they can report them in the app along side with potential test results. All locally stored encounters are then published to a public database."
+										src="/images/submit.png"
+									/>
+								</Column>
+								<Column className={columnSize}>
+									<ExplainCard
+										title="Alert system for dangerous encounters"
+										subtitle="If a person has had a potentially infectious encounter, they get a notification via codar. This happens while maintaining the privacy of both parties involved."
+										src="/images/notification.png"
+									/>
+								</Column>
+								<Column className={columnSize}>
+									<ExplainCard
+										title="Self isolate advice"
+										subtitle="If you get an alert for a potentially infectious encounter you should self isolate for at least 14 days."
+										src="/images/isolate.png"
+									/>
+								</Column>
+							</Columns>
 						</Column>
-						<Column className={columnSize}>
-							<ExplainCard
-								title="Contact tracing using Bluetooth"
-								subtitle="Two phones that come into close contact exchange anonymous identifiers using bluetooth low energy. The phones log the encounter along side a duration and the closest distance measured. The data stays on the phone until test results are submitted."
-								src="/images/anonymous.png"
-							/>
-						</Column>
-						<Column className={columnSize}>
-							<ExplainCard
-								title="Submission of test results or symptoms"
-								subtitle="If a person shows symptoms they can report them in the app along side with potential test results. All locally stored encounters are then published to a public database."
-								src="/images/submit.png"
-							/>
-						</Column>
-						<Column className={columnSize}>
-							<ExplainCard
-								title="Alert system for dangerous encounters"
-								subtitle="If a person has had a potentially infectious encounter, they get a notification via codar. This happens while maintaining the privacy of both parties involved."
-								src="/images/notification.png"
-							/>
-						</Column>
-						<Column className={columnSize}>
-							<ExplainCard
-								title="Self isolate advice"
-								subtitle="If you get an alert for a potentially infectious encounter you should self isolate for at least 14 days."
-								src="/images/isolate.png"
-							/>
-						</Column>
+						</Container>
 					</Columns>
 				</HeroBody>
 			</Hero>
@@ -143,7 +151,7 @@ export default function Home() {
 						<div id="faq"></div>
 						<Columns className="is-vcentered is-centered">
 							<Column size={8}>
-								<Text h3>
+								<Text className={'is-header-title'} h3>
 									Frequently asked questions.
 						    </Text>
 
