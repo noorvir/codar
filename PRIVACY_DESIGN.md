@@ -14,7 +14,7 @@ Codar uses a private messaging system to achieve privacy from snoopers and priva
 
 ### Encryption scheme
 We choose the elliptic curve `secp256k1` for our encryption scheme.
-`secp256k1` is a popular curve due to Bitcoin and it also has small key sizes, which is better for storage on mobile devices.
+`secp256k1` is a popular curve due to Bitcoin and it also has small key sizes (256+512 bit per key pair), which is better for storage on mobile devices.
 
 ### Public key exchange
 The exchange of public keys ideally happens over BLE. For every new encounter a new key pair is generated. **Only public keys are exchanged, the private key remains on the phone**. Private key generation could happen randomly or deterministically [2] using a seed phrase which would enable recovery of encounter mailboxes. The seed would have to be random and the user should be able to back it up.
@@ -24,9 +24,8 @@ The TOR network serves as proxy servers to avoid correlation of a users network 
 The user has the option to choose his own TOR relay, but for the average user this is to complicated so an automatic lookup and selection of public relays is the default.
 
 ### Mailboxes
-A mailbox is a collection of encrypted messages for the owner of the mailbox. A mailbox is addressed by the public key of the owner.
-
-The mailbox backend is a scalable system made of FaaS and a Database. Currently codar uses Google Cloud Functions and Google Cloud Firestore, which are highly scalable serverless services, however we could switch to serverful solutions if needed.  
+A mailbox is a collection of encrypted messages for the owner of the mailbox. A mailbox is addressed by the public key of the owner. Mailboxes older than a month can be deleted, since 
+The mailbox is made up of FaaS and a Database. Currently codar uses Google Cloud Functions and Google Cloud Firestore, which are highly scalable serverless services, however we could switch to serverful solutions if needed.
 
 ### Regular health report
 Both parties of an encounter send regular messages to the mailboxes of their encounters, wether they are infected or not, this prevents the mailbox services from knowing the health status of associated with a public key.
