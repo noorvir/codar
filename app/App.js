@@ -10,7 +10,9 @@ import {
   View,
   AppRegistry,
   NativeModules,
-  I18nManager
+  I18nManager,
+  Button,
+  PermissionsAndroid
 } from 'react-native';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,6 +32,30 @@ import EncounterFetcher from './components/EncounterFetcher';
 // Setting a default background color for all View components.
 const Stack = createStackNavigator();
 
+const requestPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: "Cool Photo App Camera Permission",
+        message:
+          "Cool Photo App needs access to your camera " +
+          "so you can take awesome pictures.",
+        buttonNeutral: "Ask Me Later",
+        buttonNegative: "Cancel",
+        buttonPositive: "OK"
+      }
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can use the camera");
+    } else {
+      console.log("Camera permission denied");
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+};
+
 export default function App(props) {
   const [isBluetoothOn, setIsBluetoothOn] = useState(true);
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -39,6 +65,7 @@ export default function App(props) {
   const { getInitialState } = useLinking(containerRef);
 
   const finishOnboarding = () => {
+    requestPermission();
     setIsInitialized(true);
 
     const _storeData = async () => {
@@ -68,7 +95,6 @@ export default function App(props) {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        // SplashScreen.preventAutoHide();
 
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
@@ -84,12 +110,13 @@ export default function App(props) {
 
     loadResourcesAndDataAsync();
   }, []);
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
+  if (!isLoadingComplete) {
     return null;
   } else {
     if (!isInitialized) {
       return (
         <View style={styles.container}>
+
           <Onboarding
             pages={[
               {
