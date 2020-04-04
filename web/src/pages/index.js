@@ -85,7 +85,13 @@ export default function Home() {
 											Codar helps you trace potential contact with people who might be infected
 											and lets you make informed decisions about how to protect yourself and your community.
                    						 </Text>
-										<Button primary large>Get the app</Button>
+										<button className="button is-primary medium is-rounded">
+											<span> Get the app </span>
+											<span class="icon is-small">
+												<i class="fas fa-download"></i>
+											</span>
+											<span></span>
+										</button>
 									</Column>
 
 								</Columns>
