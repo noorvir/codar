@@ -65,7 +65,7 @@ const faqSections = [
 	},
 ];
 
-const columnSize = "is-2-fullhdz is-3-widescreen is-3-desktop is-3-tablet";
+const columnSize = "is-4-fullhd is-4-widescreen is-4-desktop is-4-tablet";
 
 export default function Home() {
 	return (
@@ -91,7 +91,7 @@ export default function Home() {
 								</Columns>
 							</Column>
 							<Column size={5} offset={1}>
-								<img src={'/images/bluetooth.png'} />
+								<img src={'/images/bluetooth.svg'} />
 							</Column>
 						</Columns>
 					</Container>
@@ -99,7 +99,7 @@ export default function Home() {
 			</Hero>
 
 
-			<Hero color="light" size="small" className=" is-colorized-on-hover">
+			<Hero color="light" size="small">
 				<HeroBody>
 					<Columns className="is-vcentered is-centered">
 						<Container>
@@ -109,33 +109,26 @@ export default function Home() {
 									<Text h3>How does it work?</Text>
 								</Column>
 							</Columns>
-							<Columns>
+							<Columns className="is-aligned-start is-centered is-multiline">
 								<Column className={columnSize}>
 									<ExplainCard
-										title="Contact tracing using Bluetooth"
-										subtitle="Two phones that come into close contact exchange anonymous identifiers using bluetooth low energy. The phones log the encounter along side a duration and the closest distance measured. The data stays on the phone until test results are submitted."
+										title="Bluetooth Contact Tracing"
+										subtitle="When two phones come in contact, they exchange an encrypted and anonymous ID. This ID is stored locally on tour phone."
 										src="/images/anonymous.png"
 									/>
 								</Column>
 								<Column className={columnSize}>
 									<ExplainCard
-										title="Submission of test results or symptoms"
-										subtitle="If a person shows symptoms they can report them in the app along side with potential test results. All locally stored encounters are then published to a public database."
-										src="/images/submit.png"
+										title="Submit Results or Symptoms"
+										subtitle="If a person self-reports as being sick, an encrypted message is sent to all the people that the person met in the previous two weeks."
+										src="/images/submit.svg"
 									/>
 								</Column>
 								<Column className={columnSize}>
 									<ExplainCard
-										title="Alert system for dangerous encounters"
-										subtitle="If a person has had a potentially infectious encounter, they get a notification via codar. This happens while maintaining the privacy of both parties involved."
+										title="Alert for Potential Encounters"
+										subtitle="Your phone receives an alert of a potentially infectious encounter and presents you with a risk-score. This is all done locally on your phone!"
 										src="/images/notification.png"
-									/>
-								</Column>
-								<Column className={columnSize}>
-									<ExplainCard
-										title="Self isolate advice"
-										subtitle="If you get an alert for a potentially infectious encounter you should self isolate for at least 14 days."
-										src="/images/isolate.png"
 									/>
 								</Column>
 							</Columns>

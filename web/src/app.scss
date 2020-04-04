@@ -57,6 +57,7 @@ $modal-background-background-color: rgba(#0000, 0.6) !default;
 
 .button {
 	border-width: 2px;
+	border-radius: 30px;
 }
 
 .button.is-primary.is-outlined {
@@ -287,12 +288,6 @@ video {
 	to {box-shadow: $card-shadow}
 }
 
-.explain-card {
-	height: 100% !important;
-	border-radius: 20px;
-	padding: 15px;
-}
-
 .is-elevated-on-hover {
 	@extend .is-shadowless;
 }
@@ -300,6 +295,33 @@ video {
 .is-elevated-on-hover:hover {
 	animation: elevate 0.4s linear forwards;
 	box-shadow: $card-shadow;
+}
+
+.is-aligned-start {
+	align-items: start;
+}
+
+.explain-container {
+	padding: 1rem
+}
+.explain-card {
+	height: 100% !important;
+	border-radius: 20px;
+	padding: 15px;
+}
+
+.explain-text {
+	font-size: 16px;
+	//font-weight: bold;
+	color: rgba(72, 72, 72, 0.84);
+	line-height: 2;
+}
+
+.explain-title {
+	font-size: 16px;
+	//font-weight: bold;
+	color: rgba(54, 54, 54, 0.97);
+	line-height: 2;
 }
 
 @keyframes colorize {
