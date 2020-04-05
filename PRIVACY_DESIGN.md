@@ -1,46 +1,19 @@
-# Codars privacy preserving contact tracing model
+# Peer-to-peer contact tracing using Tor hidden services
 
-Our privacy model is based the ideas outlined by Hyunghoon Cho, Daphne Ippolito and Yun William Yu in their paper ([Contact Tracing Mobile Apps for COVID-19: Privacy Considerations and Related Trade-offs](https://arxiv.org/pdf/2003.11511.pdf)).
+Every phone using the app operates a [Tor hidden service](https://2019.www.torproject.org/docs/onion-services) which enables anonymous peer-to-peer communication between two phones that have come in contact.
 
-Codar uses a private messaging system to achieve privacy from snoopers and privacy from the authorities. [1]
+Phones broadcast their Tor hidden service address via a peer-to-peer nearby device discovery mechanism (BLE, wifi, sound, ...).
+Tor v3 addresses are used because they are generated from a `curve24419` public key, which enables both parties of an encounter arriving at a unique shared secret for each encounter via a Diffie-Hellman key exchange. Note that this shared secret would not change if the same two parties meet again as long both maintain the same Tor address. Consider this example:  
+<img src="encounter.jpg" width="40%">
 
-## Terminology
-* BLE: Bluetooth low energy
-* Encounter: refers to phones communicating over BLE or people meeting beeing in close proximity to each other 
+After this encounter Bob and Alice have a way of contacting and identifying the encounter totally anonymously trough the Tor network.
 
-## Architecture
-<img src="./architecture.png" width="70%">
-[1] 
+To verify infection reports a health authority could sign a message for the infected person which they then attach to their messages addressed to their contacts. For this to work health authorities need to have a publicly verifyable cryptographic identity, so that a infection reports can be verified by the receiving person. Note that this compromises the identity of the infected person to the health authorities, which is inevitable when beeing tested for a disease. Since the receiving party enjoys the anonymity guarantees of the Tor network when verifying the received message, their identity remains hidden.
 
-### Encryption scheme
-We choose the elliptic curve `secp256k1` for our encryption scheme.
-`secp256k1` is a popular curve due to Bitcoin and it also has small key sizes (256+512 bit per key pair), which is better for storage on mobile devices.
+<img src="notify.jpg" width="40%">
 
-### Public key exchange
-The exchange of public keys ideally happens over BLE. For every new encounter a new key pair is generated. **Only public keys are exchanged, the private key remains on the phone**. Private key generation could happen randomly or deterministically [2] using a seed phrase which would enable recovery of encounter mailboxes. The seed would have to be random and the user should be able to back it up.
+## Problems
 
-### Proxy Servers
-The TOR network serves as proxy servers to avoid correlation of a users network identity with his public key.
-The user has the option to choose his own TOR relay, but for the average user this is to complicated so an automatic lookup and selection of public relays is the default.
+**Can i DDoS the phones of users since the hidden service addresses are exposed to nearby devices?** Yes and No. You can DDoS a phone you discovered but when a phone detects to much/malicious traffic it can shut down its service for the time beeing. In addition DDoS attacks are very ineffective in disturbing the majority of users which would be needed to reduce the overal benefit of the app, because there is no central backend to attack and attacking all devices is to expensive/ not feasible.
 
-### Mailboxes
-A mailbox is a collection of encrypted messages for the owner of the mailbox. A mailbox is addressed by the public key of the owner. Mailboxes older than a month can be deleted, since 
-The mailbox is made up of FaaS and a Database. Currently codar uses Google Cloud Functions and Google Cloud Firestore, which are highly scalable serverless services, however we could switch to serverful solutions if needed.
-
-### Periodic health reports
-Both parties of an encounter send periodic messages to the mailboxes of their encounters, wether they are infected or not, this prevents the mailbox services from knowing the health status of associated with a public key.
-The interval of periodic messages is chosen at random to avoid that a health report containing positive test results can be spotted because it fell out of the regular interval.
-
-### Verified test results
-1. Health authorities generate their own `secp256k1` key pair and publish the public key.
-2. The health authority provides a signed message to the patient, who can then attach this signed message to the messages he send to the mailboxes of his encounters.
-3. The owner of a mailbox can check for an attached authority signature and verify it using the health authorities public key.
-
-This approach preserves the privacy of the people the patient encountered, while verifying the authenticity of the report.
-
-Problem: For this to work health authorities would have to cooperate, this is probably not always possible due to personal capacities and thats why codar also allows unverified results. *WE NEED HELP FOR THIS ONE* 
-
-
-## Sources
-1: [Contact Tracing Mobile Apps for COVID-19: Privacy Considerations and Related Trade-offs](https://arxiv.org/pdf/2003.11511.pdf)  
-2: [Mnemonic code for generating deterministic keys](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
+**Having bluetooth or any other connectivity protocols constantly enabled is a terrible idea from a security/privacy perspective.** True. German talk on this: ([35C3 ChaosWest - Track me, if you … oh.](https://www.youtube.com/watch?v=qMee_kEhLFI))
