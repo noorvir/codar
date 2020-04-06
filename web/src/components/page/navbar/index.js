@@ -1,11 +1,44 @@
 import React from 'react';
 import Link from '../../link';
+import Text from "../../text";
 
 function toggleBurgerMenu() {
 	let burgerIcon = document.getElementById('burger');
 	let dropMenu = document.getElementById('menu');
 	burgerIcon.classList.toggle('is-active');
 	dropMenu.classList.toggle('is-active');
+}
+
+function LanguageDropdown() {
+
+	return (
+		<div className="dropdown is-hoverable navbar-item">
+			<div className="dropdown-trigger">
+				<button
+					className="button"
+					aria-haspopup="true"
+					aria-controls="dropdown-menu"
+					style={{borderWidth: '0px'}}>
+
+							<span className="icon is-small">
+        						<i className="fas fa-angle-down" aria-hidden="true"></i>
+     						</span>
+				</button>
+			</div>
+			<div className="dropdown-menu" id="dropdown-menu" role="menu">
+				<div className="dropdown-content">
+					<a href="#" className="dropdown-item">
+						EN
+					</a>
+				</div>
+				<div className="dropdown-content">
+					<a href="#" className="dropdown-item">
+						DE
+					</a>
+				</div>
+			</div>
+		</div>
+	)
 }
 
 function NavbarBrand(props) {
@@ -15,13 +48,7 @@ function NavbarBrand(props) {
 				<img
 					className="navbar-logo"
 					alt='codar logo'
-					src="/images/codar.svg"
-					style={
-						{
-							WebkitFilter: 'grayscale(100%)',
-							filter: 'grayscale(100%)'
-						}
-					} />
+					src="/images/codar-text.svg" />
 			</Link>
 
 			<span className="navbar-burger burger" id='burger' onClick={toggleBurgerMenu}>
@@ -39,43 +66,15 @@ function NavbarMenu({ signedIn, signOut, ...props }) {
 		<div className="navbar-menu" id='menu'>
 			<div className="navbar-end">
 
-				{signedIn ?
-					<>
-						<span className='navbar-item'>
-							<Link className="button is-text" onClick={toggleBurgerMenu}>
-								Measurements
-							</Link>
-						</span>
-						<span className='navbar-item'>
-							<Link className="button is-text" onClick={toggleBurgerMenu}>
-								Find my size
-							</Link>
-						</span>
-						<span className='navbar-item'>
-							<Link onClick={() => {
-								signOut();
-								toggleBurgerMenu();
-							}}
-								className="button is-text" to='/'>
-								Sign out
-							</Link>
-						</span>
-					</>
-					:
-					<>
-						<span className='navbar-item'>
-							<Link className="navbar-button" to='/contact' onClick={toggleBurgerMenu}>
-								Contact us
-							</Link>
-						</span>
+				<a className='navbar-item' href='/#contact' onClick={toggleBurgerMenu}>
+					<Text h6>Contact</Text>
+				</a>
 
-						<span className='navbar-item'>
-							<Link className="navbar-button" to='/faqs' onClick={toggleBurgerMenu}>
-								FAQ
-							</Link>
-						</span>
-					</>
-				}
+				<a className='navbar-item' href='/#faq' onClick={toggleBurgerMenu}>
+					<Text h6>FAQ</Text>
+				</a>
+
+				<LanguageDropdown/>
 
 			</div>
 		</div >
@@ -87,10 +86,10 @@ function Navbar({ signedIn, signIn, signOut }) {
 	return (
 		<nav id="navbar"
 			role="navigation" aria-label="main navigation"
-			className="navbar is-white">
+			className="navbar is-white is-shadowless is-fixed-top">
 			<div className="container">
 				<NavbarBrand />
-				<NavbarMenu/>
+				<NavbarMenu />
 			</div>
 		</nav>
 	);

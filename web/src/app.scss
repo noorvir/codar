@@ -1,7 +1,7 @@
 @import '../node_modules/bulma/sass/utilities/initial-variables.sass';
 
 
-$primary: #f78080;
+$primary: #0066ff;
 $grey-darker:  hsl(0, 0%, 21%) !default;
 $grey-dark:    hsl(0, 0%, 29%) !default;
 $grey:         hsl(0, 0%, 48%) !default;
@@ -9,8 +9,9 @@ $grey-light:   hsl(0, 0%, 71%) !default;
 $grey-lighter: hsl(0, 0%, 86%) !default;
 $radius: 5px;
 $font-color: #3d4465;
-$family-primary: 'Ubuntu', Arial, sans-serif;
+$family-primary: 'Inter', sans-serif;
 $navbar-shadow: 0 2px 6px 0 rgba(0,0,0,.06);
+$card-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 $modal-background-background-color: rgba(#0000, 0.6) !default;
 
@@ -39,11 +40,13 @@ $modal-background-background-color: rgba(#0000, 0.6) !default;
 
 .navbar {
 	box-shadow: $navbar-shadow;
-	min-height: 3.75rem;
+	min-height: 5rem;
+	border-bottom:1px solid rgba(221, 221, 221, 0.46);
 }
 
-.navbar-logo {
-	height: 60em;
+.navbar-item .navbar-logo {
+	height: 100%;
+	max-height: 2rem;
 }
 
 .navbar-button {
@@ -60,13 +63,13 @@ $modal-background-background-color: rgba(#0000, 0.6) !default;
 	color: $font-color;
 }
 
-.hero {
-	min-height: 100vh;
-}
+// .hero {
+// 	min-height: 100vh;
+// }
 
-.hero-body {
-	padding: 5rem 1.5rem;
-}
+// .hero-body {
+// 	padding: 5rem 1.5rem;
+// }
 
 // Form
 .auth-form {
@@ -273,4 +276,72 @@ video {
 	padding: 5%;
 	padding-bottom: 3%;
 	padding-top:3%;
+}
+
+.has-card-shadow {
+	box-shadow: $card-shadow;
+}
+
+@keyframes elevate {
+	from {box-shadow: none}
+	to {box-shadow: $card-shadow}
+}
+
+.is-elevated-on-hover {
+	@extend .is-shadowless;
+}
+
+.is-elevated-on-hover:hover {
+	animation: elevate 0.4s linear forwards;
+	box-shadow: $card-shadow;
+}
+
+.is-aligned-start {
+	align-items: start;
+}
+
+.explain-container {
+	padding: 1rem
+}
+.explain-card {
+	height: 100% !important;
+	border-radius: 20px;
+	padding: 15px;
+}
+
+.explain-text {
+	font-size: 16px;
+	//font-weight: bold;
+	color: rgba(72, 72, 72, 0.84);
+	line-height: 2;
+}
+
+.explain-title {
+	font-size: 16px;
+	//font-weight: bold;
+	color: rgba(54, 54, 54, 0.97);
+	line-height: 2;
+}
+
+@keyframes colorize {
+	from {-webkit-filter: grayscale(100%); filter: grayscale(100%)}
+	to {-webkit-filter: grayscale(0%); filter: grayscale(0%)}
+}
+
+@keyframes fadegray {
+	from {-webkit-filter: grayscale(0%); filter: grayscale(0%)}
+	to {-webkit-filter: grayscale(100%); filter: grayscale(100%)}
+}
+
+.is-colorized-on-hover {
+	animation: fadegray .4s linear forwards;
+}
+
+.is-colorized-on-hover:hover {
+	animation: colorize .4s linear forwards;
+}
+
+.is-header-title {
+	padding-top: 2rem;
+	padding-bottom: 1rem;
 }
